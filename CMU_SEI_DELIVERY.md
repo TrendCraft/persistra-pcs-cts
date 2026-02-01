@@ -8,7 +8,7 @@
 
 ## Executive Summary
 
-This package contains the **Persistra Cognitive Standard Conformance Test Suite (PCS-CTS)**, a normative test framework for validating PCS-L1 and PCS-L2 compliance. Carnegie Mellon University's Software Engineering Institute (CMU SEI) has been selected to perform independent validation of these conformance tests.
+This package contains the **Persistra Cognitive Standard Conformance Test Suite (PCS-CTS)**, a normative test framework for validating PCS-L1 and PCS-L2 compliance. Carnegie Mellon University's Software Engineering Institute (CMU SEI) is being invited to perform independent execution of these conformance tests.
 
 **Purpose:** Provide neutral, third-party validation that persistent cognitive state can be implemented as infrastructure rather than prompt context.
 
@@ -340,20 +340,15 @@ npm run test:l1
 https://github.com/TrendCraft/persistra-pcs-cts/issues
 
 **Email Support:**
-- Validation inquiries: validation@persistra.com
-- Technical support: support@persistra.com
-- Certification program: certification@persistra.com
+- All inquiries: info@exocorticalconcepts.com
 
 ### PCS Resources
 
 **PCS Specifications:**
-https://persistra.com/standards/pcs/
+https://persistra.com/standards/pcs/ (when available)
 
-**PCS Certification Program:**
-https://persistra.com/certification/
-
-**FRAND Licensing:**
-https://persistra.com/licensing/
+**Repository Issues:**
+https://github.com/TrendCraft/persistra-pcs-cts/issues
 
 ---
 
@@ -369,39 +364,51 @@ https://persistra.com/licensing/
 
 ---
 
-## Confidentiality and Usage
+## Confidentiality / Publication Control (Evaluation Terms)
 
 ### Test Suite License
 
-**Proprietary**
+**Evaluation License**
 
-This test suite is provided for independent validation purposes. Use for PCS conformance testing does not grant patent licenses. See RFC-PCS-0007 for FRAND licensing framework.
+This test suite is provided under an evaluation license for independent validation purposes:
 
-### Validation Results
+- **Permission Granted:** Clone and execute PCS-CTS internally for evaluation and reporting to Exocortical Concepts, Inc.
+- **No Redistribution:** Modified or derivative versions of the test suite may not be redistributed
+- **No Patent License:** Execution or receipt of PCS-CTS grants no license to any patents or patent applications; licensing (if any) is by separate written agreement
+- **Patent Disclosure:** See RFC-PCS-0007 for FRAND licensing framework
 
-CMU SEI validation results may be:
-- Published by CMU SEI in academic or technical reports
-- Referenced by Persistra for certification and standards adoption
-- Shared with other validation labs for comparative analysis
+### Publication and Disclosure Terms
+
+1. **Internal Use Only.** CMU SEI may execute PCS-CTS internally for evaluation and reporting to Exocortical Concepts, Inc.
+
+2. **No Publication / No Publicity.** CMU SEI will not publish, present, or publicly reference PCS-CTS, Persistra, PCS, or validation outcomes (including on websites, papers, slides, press releases, social posts, or proposals) without prior mutual written approval of specific text.
+
+3. **Factual Report Allowed.** CMU SEI may provide Exocortical Concepts, Inc. a factual execution report (pass/fail, environment, logs, artifacts).
+
+4. **No Endorsement Implied.** Execution of PCS-CTS does not imply endorsement, certification, or adoption by CMU SEI.
+
+5. **No Patent License.** Execution or receipt of PCS-CTS grants no license to any patents or patent applications; licensing (if any) is by separate written agreement.
+
+6. **Attribution.** If a mutually approved public statement occurs, it will be limited to factual execution outcomes and will include the exact suite version tag (pcs-cts-v1.0).
 
 ### Data Handling
 
 - All test data is synthetic (no production data)
 - No sensitive information required
-- Audit artifacts may be shared with Persistra for certification
+- Audit artifacts may be shared with Exocortical Concepts, Inc. for certification purposes
 
 ---
 
 ## Acknowledgments
 
-Carnegie Mellon University's Software Engineering Institute has been selected for independent validation based on:
+Carnegie Mellon University's Software Engineering Institute is being invited to perform independent validation based on:
 
 - **Institutional Credibility:** Recognized leader in software engineering research
 - **Neutrality:** Independent third-party with no commercial stake
 - **Technical Expertise:** Deep experience in software architecture validation
 - **Standards Experience:** History of contributing to industry standards
 
-Thank you for contributing to the validation of persistent cognitive standards.
+Thank you for considering participation in the validation of persistent cognitive standards.
 
 ---
 
@@ -415,29 +422,14 @@ Thank you for contributing to the validation of persistent cognitive standards.
 
 ---
 
-## Appendix: PCS Certification Pathway
+## Note on Future Use
 
-Successful CMU SEI validation enables:
-
-1. **PCS-L1 Certification Application**
-   - Evidence: CMU SEI validation report
-   - Requirement: ≥95% decision recall accuracy
-   - Outcome: PCS-L1 Certified mark
-
-2. **PCS-L2 Certification Application**
-   - Evidence: CMU SEI validation report
-   - Requirement: 100% policy enforcement consistency
-   - Outcome: PCS-L2 Certified mark
-
-3. **Strategic Adoption**
-   - Independent validation increases enterprise credibility
-   - Supports procurement and compliance decisions
-   - Facilitates standards adoption and FRAND licensing discussions
+Validation results may be referenced in future certification processes. Any such use will be subject to the publication control terms outlined above.
 
 ---
 
 **For questions or clarification, please contact:**
 
-**Persistra Validation Team**  
-Email: validation@persistra.com  
+**Exocortical Concepts, Inc.**  
+Email: info@exocorticalconcepts.com  
 Repository: https://github.com/TrendCraft/persistra-pcs-cts
