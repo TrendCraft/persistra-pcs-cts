@@ -1,0 +1,36 @@
+[2025-06-05T02:57:52.335Z] INFO: Event bus initialized {
+  "component": "event-bus"
+}
+[2025-06-05T02:57:52.336Z] INFO: Auto-initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-05T02:57:52.336Z] INFO: Initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-05T02:57:52.382Z] WARN: Configuration file not found: /Users/stephenmansfield/Projects/Leo/lib/core/config/leo-config.json {
+  "component": "config-service"
+}
+[2025-06-05T02:57:52.385Z] INFO: Created default configuration file: /Users/stephenmansfield/Projects/Leo/lib/core/config/leo-config.json {
+  "component": "config-service"
+}
+[2025-06-05T02:57:52.386Z] INFO: Configuration loaded successfully {
+  "component": "config-service"
+}
+[2025-06-05T02:57:52.386Z] INFO: Configuration service initialized successfully {
+  "component": "config-service"
+}
+[2025-06-05T02:59:04.199Z] INFO: Event bus initialized {
+  "component": "event-bus"
+}
+[2025-06-05T02:59:04.200Z] INFO: Auto-initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-05T02:59:04.200Z] INFO: Initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-05T02:59:04.246Z] INFO: Configuration loaded successfully {
+  "component": "config-service"
+}
+[2025-06-05T02:59:04.246Z] INFO: Configuration service initialized successfully {
+  "component": "config-service"
+}

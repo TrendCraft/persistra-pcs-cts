@@ -1,0 +1,171 @@
+{
+  "timestamp": "2026-01-12T21:49:14.056Z",
+  "environment": {
+    "visionHistoryMax": "0",
+    "nodeVersion": "v22.14.0"
+  },
+  "results": [
+    {
+      "mode": "Persistra ON",
+      "passed": true,
+      "duration": 7145,
+      "failureReason": null,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "description": "Session 1 (Tuesday): User states language constraint with decision record ID and nonce",
+          "passed": true,
+          "failureReason": null
+        },
+        {
+          "stepNumber": 2,
+          "description": "Verify response acknowledges the decision",
+          "passed": true,
+          "failureReason": null
+        },
+        {
+          "stepNumber": 3,
+          "description": "Simulate 3-day gap (Tuesday → Friday)",
+          "passed": true,
+          "failureReason": null
+        },
+        {
+          "stepNumber": 4,
+          "description": "Session 2 (Friday): User asks about language choice, requesting decision record ID and nonce",
+          "passed": true,
+          "failureReason": null
+        },
+        {
+          "stepNumber": 5,
+          "description": "Response contains decision record ID DR-014 (proves retrieval)",
+          "passed": true,
+          "failureReason": null
+        },
+        {
+          "stepNumber": 6,
+          "description": "Response contains nonce Q7F3 (proves retrieval)",
+          "passed": true,
+          "failureReason": null
+        },
+        {
+          "stepNumber": 7,
+          "description": "Response indicates Java as chosen/standardized language (decision-anchored)",
+          "passed": true,
+          "failureReason": null
+        },
+        {
+          "stepNumber": 8,
+          "description": "Response does NOT suggest Python (constraint respected)",
+          "passed": true,
+          "failureReason": null
+        },
+        {
+          "stepNumber": 9,
+          "description": "Response is substantive (not just \"I don't know\")",
+          "passed": true,
+          "failureReason": null
+        }
+      ]
+    },
+    {
+      "mode": "Persistra OFF",
+      "passed": false,
+      "duration": 3909,
+      "failureReason": "Step 5 failed: Response does not contain \"DR-014\"",
+      "steps": [
+        {
+          "stepNumber": 1,
+          "description": "Session 1 (Tuesday): User states language constraint with decision record ID and nonce",
+          "passed": true,
+          "failureReason": null
+        },
+        {
+          "stepNumber": 2,
+          "description": "Verify response acknowledges the decision",
+          "passed": true,
+          "failureReason": null
+        },
+        {
+          "stepNumber": 3,
+          "description": "Simulate 3-day gap (Tuesday → Friday)",
+          "passed": true,
+          "failureReason": null
+        },
+        {
+          "stepNumber": 4,
+          "description": "Session 2 (Friday): User asks about language choice, requesting decision record ID and nonce",
+          "passed": true,
+          "failureReason": null
+        },
+        {
+          "stepNumber": 5,
+          "description": "Response contains decision record ID DR-014 (proves retrieval)",
+          "passed": false,
+          "failureReason": "Response does not contain \"DR-014\""
+        }
+      ]
+    },
+    {
+      "mode": "Paste-context",
+      "passed": true,
+      "duration": 3993,
+      "failureReason": null,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "description": "Session 1 (Tuesday): User states language constraint with decision record ID and nonce",
+          "passed": true,
+          "failureReason": null
+        },
+        {
+          "stepNumber": 2,
+          "description": "Verify response acknowledges the decision",
+          "passed": true,
+          "failureReason": null
+        },
+        {
+          "stepNumber": 3,
+          "description": "Simulate 3-day gap (Tuesday → Friday)",
+          "passed": true,
+          "failureReason": null
+        },
+        {
+          "stepNumber": 4,
+          "description": "Session 2 (Friday): User asks about language choice, requesting decision record ID and nonce",
+          "passed": true,
+          "failureReason": null
+        },
+        {
+          "stepNumber": 5,
+          "description": "Response contains decision record ID DR-014 (proves retrieval)",
+          "passed": true,
+          "failureReason": null
+        },
+        {
+          "stepNumber": 6,
+          "description": "Response contains nonce Q7F3 (proves retrieval)",
+          "passed": true,
+          "failureReason": null
+        },
+        {
+          "stepNumber": 7,
+          "description": "Response indicates Java as chosen/standardized language (decision-anchored)",
+          "passed": true,
+          "failureReason": null
+        },
+        {
+          "stepNumber": 8,
+          "description": "Response does NOT suggest Python (constraint respected)",
+          "passed": true,
+          "failureReason": null
+        },
+        {
+          "stepNumber": 9,
+          "description": "Response is substantive (not just \"I don't know\")",
+          "passed": true,
+          "failureReason": null
+        }
+      ]
+    }
+  ]
+}

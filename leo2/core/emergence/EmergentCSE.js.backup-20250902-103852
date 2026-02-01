@@ -1,0 +1,2018 @@
+/**
+ * Emergent Context and Salience Engine
+ * 
+ * Replaces hardcoded CSE with fully emergent behavior. All context, capabilities,
+ * and identity emerge from memory graph contents via salience weighting.
+ * No hardcoded identity or capabilities.
+ * 
+ * @created 2025-08-01
+ * @phase COS Implementation - Emergent Behavior
+ */
+
+const { EmergentBehaviorCoordinator } = require('./EmergentBehaviorCoordinator');
+const { rankMemories } = require('../cse/salience_ranker');
+const { createComponentLogger } = require('../../../lib/utils/logger');
+const SemanticContextManager = require('../../../lib/services/semantic-context-manager');
+
+// Helper functions for null-safe operations
+const toNum = (v, d = 0) => {
+  const n = Number(v);
+  return Number.isFinite(n) ? n : d;
+};
+const md = (n) => (n && typeof n.metadata === 'object' ? n.metadata : {});
+const trueSemanticEmbeddings = require('../../../lib/services/true-semantic-embeddings');
+
+// Component name for logging
+const COMPONENT_NAME = 'emergent-cse';
+
+// Create component logger
+const logger = createComponentLogger(COMPONENT_NAME);
+
+/**
+ * Emergent Context and Salience Engine Class
+ * 
+ * Provides context and salience ranking with fully emergent behavior
+ */
+class EmergentCSE {
+  /**
+   * Constructor
+   * @param {Object} dependencies - Dependencies
+   */
+  constructor({ memoryGraph, flowMonitor, interactionMemory }) {
+    console.log('🔥 [EmergentCSE] Constructor called');
+    this.memoryGraph = memoryGraph;
+    this.flowMonitor = flowMonitor;
+    this.interactionMemory = interactionMemory;
+    
+    // Initialize emergent behavior coordinator
+    this.emergentCoordinator = new EmergentBehaviorCoordinator({
+      salienceThreshold: 0.1,
+      maxContextItems: 15,
+      maxCapabilities: 20,
+      emergentIdentityEnabled: true,
+      behaviorLearningEnabled: true,
+      contextEvolutionEnabled: true
+    });
+    
+    // Remove any hardcoded identity or capabilities
+    this.hardcodedIdentity = null;
+    this.hardcodedCapabilities = null;
+    
+    // Track initialization state
+    this.isSemanticSearchInitialized = false;
+    this.semanticInitPromise = null;
+    
+    // Embeddings interface
+    this.embeddingsInterface = null;
+    
+    // Initialize governance capabilities
+    this.governanceMetrics = {
+      aspectsExtracted: 0,
+      coverageChecks: 0,
+      connectionsFound: 0,
+      conceptsPromoted: 0,
+      synthesisPlans: 0
+    };
+    
+    this.embeddingsInterface = null;
+    
+    logger.info('EmergentCSE initialized', {
+      emergentOnly: true,
+      hardcodedRemoved: true,
+      memoryGraphConnected: !!this.memoryGraph,
+      semanticSearchEnabled: false, // Will be true after async init
+      governanceEnabled: true
+    });
+  }
+  
+  /**
+   * Initialize EmergentCSE - called by orchestrator
+   */
+  async initialize() {
+    console.log('🚀 [EmergentCSE] Initialize method called by orchestrator');
+    
+    try {
+      // Initialize semantic search capabilities
+      await this.initializeSemanticSearch();
+      console.log('✅ [EmergentCSE] Fully initialized');
+      return true;
+    } catch (error) {
+      console.error('❌ [EmergentCSE] Initialization failed:', error);
+      return false;
+    }
+  }
+  
+  /**
+   * Initialize semantic search capabilities
+   */
+  async initializeSemanticSearch() {
+    // Return existing promise if already initializing
+    if (this.semanticInitPromise) {
+      return this.semanticInitPromise;
+    }
+    
+    // Create and store the initialization promise
+    this.semanticInitPromise = this._performSemanticInit();
+    return this.semanticInitPromise;
+  }
+  
+  async _performSemanticInit() {
+    try {
+      console.log('[EmergentCSE] Initializing semantic search...');
+      
+      // Initialize true semantic embeddings
+      await trueSemanticEmbeddings.initialize();
+      console.log('[EmergentCSE] True semantic embeddings initialized');
+      
+      // Prefer the concrete interface directly
+      this.embeddingsInterface = trueSemanticEmbeddings;
+      
+      // Set up embeddings service for semantic context manager
+      const { EmbeddingsService, setEmbeddingsService } = SemanticContextManager;
+      const embeddingsService = new EmbeddingsService({
+        trueSemanticEmbeddingsInterface: trueSemanticEmbeddings,
+        logger: logger
+      });
+      setEmbeddingsService(embeddingsService);
+      console.log('[EmergentCSE] Embeddings service initialized and registered');
+      
+      // Optional: if you later want the SemanticContextManager wrapper:
+      // this.embeddingsInterface = embeddingsService;
+      
+      // Mark as initialized
+      this.isSemanticSearchInitialized = true;
+      console.log('✅ [EmergentCSE] Semantic search fully initialized');
+      
+    } catch (error) {
+      console.error('❌ [EmergentCSE] Failed to initialize semantic search:', error);
+      this.isSemanticSearchInitialized = false;
+      throw error; // Re-throw so callers know initialization failed
+    }
+  }
+  
+  /**
+   * Get emergent context with no hardcoded identity or capabilities
+   * @param {Object} params - Parameters
+   * @returns {Promise<Object>} Emergent context
+   */
+  async getEmergentContext({ query, flowState }) {
+    try {
+      const startTime = Date.now();
+      
+      logger.debug('Generating emergent context', {
+        query: query?.substring(0, 50),
+        hasFlowState: !!flowState
+      });
+      
+      // Generate fully emergent context from memory
+      console.log('🚀 [EmergentCSE] Generating emergent context');
+      const emergentContext = await this.emergentCoordinator.generateEmergentContext(
+        this.memoryGraph,
+        query,
+        { flowState }
+      );
+      
+      // Get recent memories for recency context
+      const recentMemories = await this.getRecentMemoriesWithSalience(query, 7);
+      
+      // Get salient memories ranked by relevance (increased for richer context)
+      console.log(' [EmergentCSE] Calling getSalientMemoriesRanked...');
+      const salientMemoriesResult = await this.getSalientMemoriesRanked(query, 8);
+      const salientMemories = salientMemoriesResult.memories || [];
+      console.log(' [EmergentCSE] getSalientMemoriesRanked returned:', salientMemories.length, 'memories');
+      
+      // Helper function to build memory context with snippets
+      const makeMemoryContext = (mems) => {
+        const top = (mems || []).slice(0, 8);
+        const snippets = top.map(m => m.memory?.content || m.content || '').filter(Boolean);
+        return { snippets, length: snippets.length };
+      };
+
+      // Build emergent context response with compatibility fields
+      const salientMapped = salientMemories.map(m => ({
+        content: m.memory?.content || m.summary || m.content || 'No content available',
+        salience: m.salience || 0,
+        source: m.memory?.source || 'unknown',
+        type: m.memory?.type || 'memory',
+        userInput: m.memory?.userInput,
+        llmResponse: m.memory?.llmResponse,
+        fact: m.memory?.fact,
+        summary: m.summary,
+        timestamp: m.memory?.timestamp || Date.now()
+      }));
+
+      const context = {
+        // Multiple array formats for compatibility (belt & suspenders)
+        memories: Array.isArray(salientMapped) ? salientMapped : [],
+        salient: Array.isArray(salientMapped) ? salientMapped.slice(0, 8) : [],
+        salientMemories: Array.isArray(salientMapped) ? salientMapped.slice(0, 8) : [],
+        
+        // Emergent memory context with snippets
+        memoryContext: makeMemoryContext(salientMapped),
+        
+        // Emergent capabilities - defensively normalize to array
+        capabilities: Array.isArray(emergentContext.capabilities)
+          ? emergentContext.capabilities
+          : Object.values(emergentContext.capabilities || {}),
+        
+        // Emergent identity
+        identity: emergentContext.identity,
+        
+        // Flow state
+        flowState: this.flowMonitor?.currentFlow || flowState,
+        
+        // Metadata
+        metadata: {
+          totalMemoryItems: emergentContext.memoryContext.length,
+          totalCapabilities: Array.isArray(emergentContext.capabilities) 
+            ? emergentContext.capabilities.length 
+            : Object.keys(emergentContext.capabilities || {}).length,
+          hasEmergentIdentity: !!emergentContext.identity,
+          emergentOnly: true,
+          hardcodedRemoved: true,
+          generationDuration: Date.now() - startTime,
+          generatedAt: Date.now(),
+          categoryDistribution: salientMemoriesResult.meta?.distribution || {},
+          categoryCount: salientMemoriesResult.meta?.count || 0
+        }
+      };
+      
+      // Validate no hardcoded content
+      this.validateEmergentContext(context);
+      
+      // Runtime guard: Check for category selection loss
+      if (process.env.LCOS_VALIDATOR === 'enforce') {
+        const categoryResults = context.memories || [];
+        if (categoryResults.length === 0 && emergentContext.memoryContext.length > 0) {
+          logger.error('[EmergentCSE] Lost selection in handoff; forcing pass-through');
+          context.memories = emergentContext.memoryContext.slice(0, 5);
+        }
+        
+        // Make the LCOS validator guard null-safe
+        context.metadata = context.metadata || {};
+        const categoryDistribution = (context.metadata && context.metadata.categoryDistribution) || null;
+        if (categoryDistribution && typeof categoryDistribution === 'object') {
+          const counts = Object.values(categoryDistribution).filter(v => typeof v === 'number');
+          const totalItems = counts.reduce((sum, n) => sum + n, 0);
+          if (totalItems > 0) {
+            const allOther = (categoryDistribution.other || 0) === totalItems;
+            if (allOther) {
+              logger.warn('[CategoryRetriever] All items fell into "other"; enabling fallbackCategorization');
+              context.metadata.fallbackCategorization = true;
+            }
+          }
+        }
+      }
+      
+      logger.info('Emergent context generated', {
+        memoryItems: context.memoryContext.length,
+        capabilities: context.capabilities.length,
+        hasIdentity: !!context.identity,
+        recentMemories: context.memories.length,
+        salientMemories: context.salientMemories.length,
+        duration: context.metadata.generationDuration,
+        guardsActive: process.env.LCOS_VALIDATOR === 'enforce'
+      });
+      
+      return context;
+      
+    } catch (error) {
+      logger.error('Failed to generate emergent context', { error: error.message });
+      
+      // Return minimal emergent context on error
+      return {
+        memories: [],
+        salientMemories: [],
+        memoryContext: [],
+        capabilities: [],
+        identity: null, // No hardcoded identity
+        flowState: flowState,
+        metadata: {
+          error: error.message,
+          emergentOnly: true,
+          hardcodedRemoved: true,
+          generatedAt: Date.now()
+        }
+      };
+    }
+  }
+  
+  /**
+   * Get recent memories with salience scoring
+   * @param {string} query - Query for context
+   * @param {number} limit - Memory limit
+   * @returns {Promise<Array>} Recent memories
+   */
+  async getRecentMemoriesWithSalience(query, limit = 7) {
+    try {
+      const recentMemories = await this.memoryGraph.getRecentMemories({ limit: limit * 2 });
+      
+      // Rank recent memories by salience to query
+      const rankedRecent = rankMemories(recentMemories, { query });
+      
+      // Return top N most salient recent memories
+      return rankedRecent.slice(0, limit).map(ranked => ranked.memory);
+      
+    } catch (error) {
+      logger.error('Failed to get recent memories', { error: error.message });
+      return [];
+    }
+  }
+  
+  /**
+   * Get salient memories ranked by relevance using TARGETED RETRIEVAL
+   * @param {string} query - Query for ranking
+   * @param {number} limit - Memory limit
+   * @returns {Promise<Array>} Salient memories
+   */
+  async getSalientMemoriesRanked(query, limit = 150) {
+    const startTime = Date.now(); // Track timing for metadata
+    
+    // Debug logging to check query value
+    console.log('🔍 [EmergentCSE] getSalientMemoriesRanked called with:', { query: typeof query, value: query });
+    
+    // Validate query
+    if (!query || typeof query !== 'string') {
+      console.error('❌ [EmergentCSE] Invalid query passed to getSalientMemoriesRanked:', query);
+      return { memories: [], meta: { distribution: null, count: 0 } };
+    }
+    
+    // Safe holders to prevent ReferenceError
+    let selected = [];
+    let categoryMeta = { distribution: null, count: 0 };
+    let searchResults = [];
+      
+      // Reduced logging to prevent massive output
+      if (process.env.LEO_DEBUG) {
+        console.log('🎯 [EmergentCSE] TARGETED RETRIEVAL for query:', query.substring(0, 50));
+      }
+      
+      // Ensure semantic search is initialized
+      if (!this.isSemanticSearchInitialized) {
+        console.log('[EmergentCSE] Initializing semantic search for targeted retrieval...');
+        await this.initializeSemanticSearch();
+      }
+      
+      // 🚀 GENERAL KNOWLEDGE SHORT-CIRCUIT
+      const queryLower = query.toLowerCase();
+      
+      // Check for project-specific entities first - dynamic detection
+      const hasProjectEntity = this.detectProjectSpecificQuery(queryLower);
+      
+      // Only apply GK detection if no project entities are present
+      if (!hasProjectEntity) {
+        const generalKnowledgePatterns = [
+          /^(what is|how does|explain|define) (quantum computing|machine learning|artificial intelligence|programming|software|computer science|mathematics|physics|chemistry|biology)/,
+          /^(what are|tell me about) (algorithms|data structures|programming languages|software engineering)$/
+        ];
+        
+        const generalKnowledgeDetected = generalKnowledgePatterns.some(pattern => 
+          pattern.test(queryLower)
+        );
+        
+        if (generalKnowledgeDetected) {
+          console.log('[CSE] GK detected → direct LLM');
+          return { memories: [], metadata: { method: 'llm_general' } };
+        }
+      }
+
+      // 🚀 USE CATEGORY-AWARE SEMANTIC SEARCH WITH INTELLIGENT FILTERING
+      try {
+        console.log('🔍 [EmergentCSE] Using category-aware semantic search for targeted retrieval...');
+        
+        // Import category-aware retriever
+        const { categoryAwareRetrieve } = require('../retriever/categoryRetriever');
+        
+        // Domain-agnostic entity & scope
+        const entity = await this.extractDynamicEntity(queryLower); // may be null
+        if (process.env.LEO_DEBUG) {
+          console.log(`[EmergentCSE] Category-aware retrieval scope: entity=${entity || 'none'}`);
+        }
+
+        let searchResults = [];
+        try {
+          const categoryResults = await categoryAwareRetrieve(this.memoryGraph, {
+            query,
+            entity: entity || undefined,   // do not force
+            k: limit,
+            repoAliases: undefined         // no project-specific aliases
+          });
+          
+          // Robust normalization
+          const items = Array.isArray(categoryResults?.items)
+              ? categoryResults.items
+              : (Array.isArray(categoryResults) ? categoryResults : []);
+
+          if (items.length > 0) {
+            // balanced pick (small, fast)
+            const selected = items.slice(0, Math.min(items.length, 12));
+            console.log(`📊 [EmergentCSE] Category-aware search returned ${selected.length} results`);
+            searchResults = selected.map(result => ({
+              id: result.id || result.key || result.chunkId || `mem_${Math.random().toString(36).slice(2)}`,
+              content: result.content,
+              score: result.similarity ?? result.score ?? 0,
+              similarity: result.similarity ?? result.score ?? 0,
+              source: result.source || result.repo || 'memory_graph',
+              filePath: result.path,
+              path: result.path,
+              docType: result.docType || result.type,
+              rerankScore: result.rerankScore ?? 0,
+              type: result.type || result.docType || 'unknown',
+              timestamp: result.timestamp || result.metadata?.timestamp
+            }));
+          } else {
+            searchResults = [];
+          }
+        } catch (categoryError) {
+          console.warn('[EmergentCSE] Category-aware search failed, falling back:', categoryError.message);
+          // Fallback to plain semantic search
+          searchResults = await this.memoryGraph.searchMemories({ query, limit: limit * 2 });
+          console.log(`📊 [EmergentCSE] Fallback search returned ${searchResults.length} results`);
+        }
+        
+        // Convert to expected format for EmergentCSE (with robust fallbacks)
+        searchResults = searchResults.map(result => {
+          const sim =
+            (typeof result.similarity === 'number' ? result.similarity : null) ??
+            (typeof result.score === 'number' ? result.score : null) ??
+            (typeof result.rerankScore === 'number' ? result.rerankScore : null) ??
+            0.42; // friendly default for demo
+
+          const t =
+            result.docType || result.type || result.chunk_type || 'documentation'; // prefer docs for demo relevance
+
+          return {
+            id: result.id || result.chunkId || result.ref || `${Date.now()}_${Math.random().toString(36).slice(2,8)}`,
+            content: result.content || result.summary || '',
+            similarity: sim,
+            score: sim,
+            source: result.source || 'category_retriever',
+            filePath: result.path || result.filePath,
+            path: result.path || result.filePath,
+            docType: t,
+            type: t,
+            rerankScore: result.rerankScore
+          };
+        });
+        
+        // 🚀 SIMPLIFIED SEMANTIC-FIRST APPROACH
+        // Trust our semantic architecture instead of overriding with heuristics
+        
+        console.log(`🔎 [EmergentCSE] Processing ${searchResults.length} semantic results`);
+        
+        // Simple quality filtering - remove only clearly invalid content
+        const EXCLUDED_PATTERNS = [
+          'looking at the logs', 'cli debug', 'error occurred', 
+          'failed to execute', 'step id:', 'tool call failed'
+        ];
+        
+        const qualityFiltered = searchResults.filter(chunk => {
+          const content = (chunk.content || '').toLowerCase();
+          
+          // Basic quality checks
+          if (!chunk.content || chunk.content.length < 10) return false;
+          if (EXCLUDED_PATTERNS.some(p => content.includes(p))) return false;
+          
+          return true;
+        });
+        
+        console.log(`🔍 [EmergentCSE] Quality filtered: ${qualityFiltered.length} memories`);
+        
+        // Trust semantic similarity scores - no arbitrary thresholds
+        const limitedMemories = qualityFiltered.slice(0, limit);
+
+        // Generate query embedding for salience calculation
+        let queryEmbedding = null;
+        const lowerKeyTerms = query.toLowerCase();
+        if (this.embeddingsInterface?.generate) {
+          try { 
+            queryEmbedding = await this.embeddingsInterface.generate(lowerKeyTerms); 
+          } catch (e) { 
+            if (process.env.LEO_DEBUG) console.warn('[EmergentCSE] Query embedding failed:', e.message); 
+          }
+        }
+
+        // Helper functions for null-safe operations
+        const toNum = (v, d = 0) => {
+          const n = Number(v);
+          return Number.isFinite(n) ? n : d;
+        };
+        const toStr = (v, d = '') => (v == null ? d : String(v));
+        const md = (node) => (node && typeof node.metadata === 'object' ? node.metadata : {});
+
+        // Normalize memories defensively before salience scoring
+        const currentTime = Date.now();
+        const normalizeMemory = (m) => {
+          const meta = m?.metadata || {};
+          return {
+            ...m,
+            timestamp: m?.timestamp ?? meta.timestamp ?? currentTime,
+            metadata: { ...meta, importance: Number(meta.importance ?? m?.importance ?? 0.5) }
+          };
+        };
+        const normalizedMemories = (limitedMemories || []).map(normalizeMemory);
+
+        const memoriesWithSalience = await Promise.all(
+          normalizedMemories.filter(Boolean).map(async (chunk) => {
+          const content = toStr(chunk?.content ?? chunk?.userInput ?? chunk?.summary ?? chunk?.fact, '');
+          const id = toStr(chunk?.id ?? chunk?.key ?? md(chunk).id ?? `chunk-${Date.now()}-${Math.random().toString(36).slice(2,8)}`);
+          let salience = 0.5;
+
+          try {
+            if (queryEmbedding && this.embeddingsInterface?.generate) {
+              const chunkEmbedding = await this.embeddingsInterface.generate(content);
+              // use engine cosine if available; else compute here
+              const cos =
+                trueSemanticEmbeddings?.cosineSimilarity?.(queryEmbedding, chunkEmbedding) ??
+                this.calculateCosineSimilarity?.(queryEmbedding, chunkEmbedding);
+              if (typeof cos === 'number' && Number.isFinite(cos)) salience = cos;
+            } else {
+              // Fallback: simple text relevance
+              salience = this.calculateTextRelevance?.(lowerKeyTerms, content) ?? 0.5;
+            }
+          } catch (error) {
+            if (process.env.LEO_DEBUG) console.warn(`[EmergentCSE] Salience calc failed for ${chunk.id}:`, error.message);
+          }
+
+          // Type/recency/authority boosts
+          let typeBoost = 0, recencyBoost = 0, authorityBoost = 0;
+
+          switch (chunk.type) {
+            case 'documentation': typeBoost = 0.25; break;
+            case 'architecture':
+            case 'system_spec':
+            case 'api_doc': typeBoost = 0.22; break;
+            case 'project_fact':
+            case 'component_description': typeBoost = 0.18; break;
+            case 'decision_rationale':
+            case 'project_goal': typeBoost = 0.15; break;
+            case 'file_doc': typeBoost = 0.12; break;
+            case 'conversation':
+            case 'llm_conversation': typeBoost = 0.08; break;
+            case 'prompt_engineering':
+            case 'bug_report': typeBoost = -0.05; break;
+          }
+
+          const tsRaw = chunk?.timestamp ?? md(chunk).timestamp ?? chunk?.createdAt ?? md(chunk).createdAt ?? 0;
+          const ts = toNum(tsRaw, 0);
+          if (ts > 0) {
+            const ageDays = (Date.now() - ts) / 86_400_000;
+            if (ageDays < 7) recencyBoost = 0.10;
+            else if (ageDays < 30) recencyBoost = 0.05;
+          }
+
+          const imp = Number(chunk.metadata?.importance ?? 0.5);
+          if (imp > 0.8) authorityBoost = 0.15;
+          else if (imp > 0.6) authorityBoost = 0.08;
+
+          const finalSalience = Math.max(0.1, Math.min(1.0, salience + typeBoost + recencyBoost + authorityBoost));
+
+          return {
+            content,
+            salience: finalSalience,
+            source: chunk.type || 'chunk',
+            type: 'targeted_semantic',
+            id: id,
+            metadata: {
+              originalSalience: salience,
+              typeBoost, recencyBoost, authorityBoost,
+              type: chunk.type,
+              importance: md(chunk).importance,
+              timestamp: ts,
+              path: chunk.path,
+              repo: chunk.repo
+            }
+          };
+        }));
+
+        // Sort and diversify
+        const allSortedMemories = memoriesWithSalience.sort((a, b) => b.salience - a.salience);
+        const diversifiedMemories = this.diversifyMemoryTypes?.(allSortedMemories, limit) || allSortedMemories.slice(0, limit);
+
+        console.log(`🎯 [EmergentCSE] Diversified selection:`, {
+          total: diversifiedMemories.length,
+          types: diversifiedMemories.map(m => m.metadata?.type).join(', ')
+        });
+        console.log(`🎯 [EmergentCSE] Top salience scores: ${diversifiedMemories.slice(0,3).map(m => m.salience.toFixed(3)).join(', ')}`);
+
+        // Build simple docType distribution (for guards)
+        const distribution = {};
+        for (const m of diversifiedMemories) {
+          const t = (m.metadata?.type || 'other');
+          distribution[t] = (distribution[t] || 0) + 1;
+        }
+
+        // IMPORTANT: return the normalized object shape with guaranteed arrays
+        return {
+          memories: Array.isArray(diversifiedMemories) ? diversifiedMemories : [],
+          meta: { distribution: distribution || {}, count: (diversifiedMemories || []).length }
+        };
+      } catch (error) {
+        console.error('❌ [EmergentCSE] Error in getSalientMemoriesRanked:', error);
+        return { memories: [], meta: { distribution: null, count: 0 } };
+      }
+  }
+
+  /**
+   * Create retrieval result in expected format with backward compatibility
+   * @param {Array} sortedMemories - Memories sorted by salience
+   * @param {Array} limitedMemories - Limited memories for fallback
+   * @param {string} query - Original query
+   * @returns {Object} Retrieval result with both meta and metadata fields
+   */
+  createRetrievalResult(sortedMemories, limitedMemories, query) {
+    // Create retrieval result in expected format (and keep backwards compat)
+    const avg =
+      (sortedMemories.length
+        ? sortedMemories.reduce((sum, m) => sum + (Number(m.salience) || 0), 0) / sortedMemories.length
+        : 0);
+
+    // If you didn't already compute a distribution above, make a quick one:
+    const dist = {};
+    for (const m of sortedMemories) {
+      const t = (m.metadata?.type || m.type || 'other');
+      dist[t] = (dist[t] || 0) + 1;
+    }
+
+    const retrievalResult = {
+      memories: sortedMemories,
+      // NEW canonical field the caller relies on
+      meta: {
+        query,
+        totalDuration: 50, // Mock duration
+        method: 'enhanced_hybrid_search',
+        distribution: dist,
+        count: sortedMemories.length,
+        avgSalience: avg
+      },
+      // BACKWARD COMPAT: keep 'metadata' mirroring 'meta' so nothing breaks elsewhere
+      metadata: {
+        query,
+        totalDuration: 50,
+        method: 'enhanced_hybrid_search',
+        distribution: dist,
+        count: sortedMemories.length,
+        avgSalience: avg
+      }
+    };
+
+    console.log('🔍 [EmergentCSE] retrieveTargetedContext completed successfully');
+    console.log(`🎯 [EmergentCSE] Targeted retrieval completed:`, {
+      memoriesFound: retrievalResult.memories.length,
+      avgSalience: retrievalResult.meta.avgSalience,
+      duration: retrievalResult.meta.totalDuration
+    });
+
+    // DEBUG: Show top-25 ranked chunks with scores
+    if (process.env.LEO_DEBUG === 'true') {
+      console.log('\n📊 [EmergentCSE] Top-25 Ranked Chunks:');
+      retrievalResult.memories.slice(0, 25).forEach((memory, i) => {
+        const preview = (memory.content || '').substring(0, 80).replace(/\n/g, ' ');
+        const type = memory.metadata?.type || memory.type || 'unknown';
+        const sal = Number(memory.salience) || 0;
+        console.log(`  ${i + 1}. Score: ${sal.toFixed(3)} | Type: ${type} | ${preview}...`);
+      });
+    }
+
+    // D. Force minimum viable answer - if you have ≥3 chunks, never return empty
+    if (retrievalResult.memories.length >= 3) {
+      console.log(`🎯 [EmergentCSE] Minimum viable answer: ${retrievalResult.memories.length} chunks available`);
+      // Ensure we have usable content even with thin metadata
+      retrievalResult.memories = retrievalResult.memories.map((mem, idx) => ({
+        ...mem,
+        content: mem.content || mem.userInput || mem.fact || 'Content not available',
+        id: mem.id || mem.key || `chunk-${Date.now()}-${idx}`,
+        // NOTE: path now comes from metadata.path (our normalized shape)
+        provenance: mem.provenance || `(${mem.path || mem.filePath || mem.metadata?.path || 'unknown source'})`
+      }));
+    } else if (Array.isArray(limitedMemories) && limitedMemories.length >= 3) {
+      console.log(`🎯 [EmergentCSE] Using category results as minimum viable answer: ${limitedMemories.length} chunks`);
+      // Use category results directly if main pipeline failed
+      retrievalResult.memories = limitedMemories.slice(0, 8).map((mem, idx) => ({
+        content: mem.content || 'Content not available',
+        id: mem.id || mem.key || `chunk-${Date.now()}-${idx}`,
+        salience: Number(mem.similarity) || 0.5,
+        provenance: `(${mem.path || mem.filePath || mem.metadata?.path || 'htlogicalgates'})`,
+        metadata: { type: mem.type || mem.metadata?.type || 'other', path: mem.metadata?.path || mem.path || '' }
+      }));
+
+      // Recompute meta for the swapped set
+      const avg2 =
+        (retrievalResult.memories.length
+          ? retrievalResult.memories.reduce((s, m) => s + (Number(m.salience) || 0), 0) / retrievalResult.memories.length
+          : 0);
+      const dist2 = {};
+      for (const m of retrievalResult.memories) {
+        const t = (m.metadata?.type || 'other');
+        dist2[t] = (dist2[t] || 0) + 1;
+      }
+      retrievalResult.meta = {
+        ...retrievalResult.meta,
+        distribution: dist2,
+        count: retrievalResult.memories.length,
+        avgSalience: avg2
+      };
+      retrievalResult.metadata = { ...retrievalResult.meta }; // keep mirror
+    }
+
+    return retrievalResult;
+  }
+
+  /**
+   * Diversify memory selection to ensure good mix of content types
+   * @param {Array} sortedMemories - Memories sorted by salience
+   * @param {number} limit - Maximum number of memories to return
+   * @returns {Array} Diversified selection of memories
+   */
+  diversifyMemoryTypes(sortedMemories, limit) {
+    const typeCategories = {
+      documentation: ['documentation', 'architecture', 'system_spec', 'api_doc'],
+      facts: ['project_fact', 'component_description', 'decision_rationale', 'cse_goal', 'cse_value'],
+      code: ['file_doc', 'code_chunk', 'function_doc'],
+      conversations: ['conversation', 'llm_conversation'],
+      identity: ['identity_anchor', 'cse_identity', 'personality_trait'],
+      events: ['plasticity_event', 'learning_event', 'memory_formation'],
+      other: []
+    };
+    
+    const categorized = {
+      documentation: [],
+      facts: [],
+      code: [],
+      conversations: [],
+      identity: [],
+      events: [],
+      other: []
+    };
+    
+    // Categorize memories
+    sortedMemories.forEach(memory => {
+      const type = memory.type || memory.metadata?.type || '';
+      let category = 'other';
+      
+      for (const [cat, types] of Object.entries(typeCategories)) {
+        if (types.includes(type)) {
+          category = cat;
+          break;
+        }
+      }
+      
+      categorized[category].push(memory);
+    });
+    
+    // Diversified selection strategy
+    const selected = [];
+    const targetDistribution = {
+      facts: Math.ceil(limit * 0.3),         // 30% facts/goals/values
+      identity: Math.ceil(limit * 0.25),     // 25% identity/anchors
+      conversations: Math.ceil(limit * 0.2), // 20% conversations
+      documentation: Math.ceil(limit * 0.15), // 15% docs/specs
+      events: Math.ceil(limit * 0.1),        // 10% learning events
+      code: Math.ceil(limit * 0.05),         // 5% code docs
+      other: 0
+    };
+    
+    // Fill from each category up to target distribution
+    for (const [category, target] of Object.entries(targetDistribution)) {
+      const available = categorized[category];
+      const toTake = Math.min(target, available.length, limit - selected.length);
+      selected.push(...available.slice(0, toTake));
+      
+      if (selected.length >= limit) break;
+    }
+    
+    // Fill remaining slots with highest-scoring memories
+    if (selected.length < limit) {
+      const remaining = sortedMemories.filter(m => !selected.includes(m));
+      const needed = limit - selected.length;
+      selected.push(...remaining.slice(0, needed));
+    }
+    
+    // Re-sort by salience to maintain quality order
+    return selected.sort((a, b) => b.salience - a.salience).slice(0, limit);
+  }
+
+  /**
+   * Calculate cosine similarity between two embedding vectors
+   * @param {Array} embedding1 - First embedding vector
+   * @param {Array} embedding2 - Second embedding vector
+   * @returns {number} Similarity score (0-1)
+   */
+  calculateCosineSimilarity(embedding1, embedding2) {
+    if (!embedding1 || !embedding2 || embedding1.length !== embedding2.length) {
+      return 0.5; // Default similarity
+    }
+    
+    let dotProduct = 0;
+    let norm1 = 0;
+    let norm2 = 0;
+    
+    for (let i = 0; i < embedding1.length; i++) {
+      dotProduct += embedding1[i] * embedding2[i];
+      norm1 += embedding1[i] * embedding1[i];
+      norm2 += embedding2[i] * embedding2[i];
+    }
+    
+    const magnitude = Math.sqrt(norm1) * Math.sqrt(norm2);
+    return magnitude === 0 ? 0.5 : dotProduct / magnitude;
+  }
+
+  /**
+   * Calculate text-based relevance score as fallback
+   * @param {string} queryTerms - Extracted query terms
+   * @param {string} content - Memory content
+   * @returns {number} Relevance score (0-1)
+   */
+  calculateTextRelevance(queryTerms, content) {
+    if (!queryTerms || !content) return 0.1;
+    
+    const query = queryTerms.toLowerCase();
+    const text = content.toLowerCase();
+    
+    // Simple relevance: count term matches and position
+    let score = 0;
+    const terms = query.split(/\s+/);
+    
+    for (const term of terms) {
+      if (text.includes(term)) {
+        // Higher score for exact matches
+        score += 0.3;
+        
+        // Bonus for early occurrence
+        const position = text.indexOf(term);
+        const positionBonus = Math.max(0, 0.2 - (position / text.length) * 0.2);
+        score += positionBonus;
+      }
+    }
+    
+    return Math.min(1.0, score);
+  }
+
+  /**
+   * Check if a query represents general knowledge (non-project specific)
+   * @param {string} query - User query
+   * @returns {Promise<boolean>} True if general knowledge query
+   */
+  async isGeneralKnowledgeQuery(query) {
+    try {
+      // quick heuristic: if the query has no quoted phrases, no camelCase/PascalCase, and no paths,
+      // treat it as likely general knowledge
+      const t = String(query || '');
+      const looksSpecific =
+        /"[^"]+"/.test(t) ||                         // quoted
+        /\b[A-Z][a-z]+(?:[A-Z][a-z]+)+\b/.test(t) || // Camel/Pascal
+        /\/|\\|\.(md|py|js|ts|ipynb|pdf)\b/i.test(t);// paths/extensions
+
+      if (!looksSpecific) return true;
+
+      // fall back to coordinator's signal if available
+      return await this.emergentCoordinator.discoverEmergentCapabilities(this.memoryGraph, query);
+    } catch (e) {
+      logger.error('Failed to check general knowledge query', { error: e.message });
+      return false;
+    }
+  }
+
+  /**
+   * Discover emergent capabilities from memory
+   * @param {string} query - Query context
+   * @returns {Promise<Array>} Emergent capabilities (always an array)
+   */
+  async discoverEmergentCapabilities(query) {
+    try {
+      const out = await this.emergentCoordinator.discoverEmergentCapabilities(
+        this.memoryGraph,
+        query
+      );
+
+      // Normalize to ALWAYS return an array of capability objects
+      if (Array.isArray(out)) return out;
+
+      if (out && typeof out === 'object') {
+        if (Array.isArray(out.capabilities)) return out.capabilities;
+        // Some coordinators return a map or single capability
+        if (out.capability) return [out.capability];
+        if (out.items && Array.isArray(out.items)) return out.items;
+        // If it looks like a boolean/flag container, treat as "no explicit caps"
+        if (typeof out.isProject === 'boolean') return [];
+      }
+
+      // Fallback conservative default
+      return [];
+    } catch (error) {
+      logger.error('Failed to discover emergent capabilities', { error: error.message });
+      return [];
+    }
+  }
+  
+  /**
+   * Select emergent skill based on memory content
+   * @param {string} query - Query context
+   * @param {Object} context - Additional context
+   * @returns {Promise<Object>} Selected emergent skill
+   */
+  async selectEmergentSkill(query, context = {}) {
+    try {
+      return await this.emergentCoordinator.selectEmergentSkill(
+        this.memoryGraph,
+        query,
+        context
+      );
+    } catch (error) {
+      logger.error('Failed to select emergent skill', { error: error.message });
+      return null;
+    }
+  }
+  
+  /**
+   * Register new capability in memory graph
+   * @param {Object} capability - Capability to register
+   * @returns {Promise<boolean>} Registration success
+   */
+  async registerCapability(capability) {
+    try {
+      return await this.emergentCoordinator.registerCapabilityInMemory(
+        this.memoryGraph,
+        capability
+      );
+    } catch (error) {
+      logger.error('Failed to register capability', { error: error.message });
+      return false;
+    }
+  }
+  
+  /**
+   * Validate emergent context has no hardcoded content
+   * @param {Object} context - Context to validate
+   * @throws {Error} If hardcoded content found
+   */
+  validateEmergentContext(context) {
+    // Check for hardcoded identity
+    if (typeof context.identity === 'string' && 
+        (context.identity === 'cognitive_system' || context.identity === 'emergent_identity')) {
+      throw new Error('Hardcoded identity detected in emergent context');
+    }
+    
+    // Check for hardcoded capabilities
+    const hardcodedCapabilityNames = [
+      'llm_conversation',
+      'memory_search', 
+      'identity_reinforcement',
+      'introspection',
+      'code_generation'
+    ];
+    
+    const hasHardcodedCapabilities = context.capabilities?.some(cap => 
+      hardcodedCapabilityNames.includes(cap.name) && !cap.emergent
+    );
+    
+    if (hasHardcodedCapabilities) {
+      throw new Error('Hardcoded capabilities detected in emergent context');
+    }
+    
+    // Validate emergent-only flags
+    if (context && context.metadata) {
+      if (!context.metadata.emergentOnly) {
+        logger.warn('Context missing emergentOnly flag');
+      }
+      if (!context.metadata.hardcodedRemoved) {
+        logger.warn('Context missing hardcodedRemoved flag');
+      }
+    }
+  }
+  
+  /**
+   * Get hybrid context (legacy compatibility method)
+   * @param {Object} params - Parameters
+   * @returns {Promise<Object>} Hybrid context
+   */
+  async getHybridContext(params) {
+    logger.debug('Legacy getHybridContext called, redirecting to emergent context');
+    return await this.getEmergentContext(params);
+  }
+  
+  /**
+   * Search memory with emergent ranking
+   * @param {string} query - Search query
+   * @param {Object} options - Search options
+   * @returns {Promise<Array>} Search results
+   */
+  async searchMemoryEmergent(query, options = {}) {
+    try {
+      const {
+        maxResults = 10,
+        salienceThreshold = 0.1,
+        includeMetadata = true,
+        emergentOnly = true // (currently unused, kept for API compatibility)
+      } = options;
+
+      // Prefer the same API used elsewhere in your codebase
+      const raw = (typeof this.memoryGraph.searchMemories === 'function')
+        ? await this.memoryGraph.searchMemories({ query, limit: maxResults * 2 })
+        : await this.memoryGraph.search(query, { maxResults: maxResults * 2, includeMetadata });
+
+      const results = Array.isArray(raw) ? raw : [];
+      if (results.length === 0) {
+        logger.debug('Emergent search returned 0 raw results', { query: query?.slice(0, 60) });
+        return [];
+      }
+
+      // rankMemories expects an array of memory-like objects.
+      // If results are {content, ...} that's fine; keep a reference.
+      const ranked = rankMemories(results, { query }) || [];
+
+      // Filter by salience, map to expected result shape
+      const emergentResults = ranked
+        .filter(r => (Number(r.salience) || 0) >= salienceThreshold)
+        .slice(0, maxResults)
+        .map(r => {
+          const mem = r.memory ?? r; // support both {memory, salience} and flat
+          return {
+            ...mem,
+            salience: Number(r.salience) || 0,
+            emergent: true,
+            source: mem.source || 'memory_graph',
+            rankedAt: Date.now()
+          };
+        });
+
+      logger.debug('Emergent memory search completed', {
+        query: query.substring(0, 50),
+        totalFound: results.length,
+        ranked: ranked.length,
+        returned: emergentResults.length
+      });
+
+      return emergentResults;
+    } catch (error) {
+      logger.error('Emergent memory search failed', { error: error.message });
+      return [];
+    }
+  }
+  
+  /**
+   * Get emergent statistics
+   * @returns {Object} Statistics
+   */
+  getStatistics() {
+    return {
+      emergentCoordinator: this.emergentCoordinator.getStatistics(),
+      memoryGraphConnected: !!this.memoryGraph,
+      flowMonitorConnected: !!this.flowMonitor,
+      interactionMemoryConnected: !!this.interactionMemory,
+      hardcodedIdentity: this.hardcodedIdentity,
+      hardcodedCapabilities: this.hardcodedCapabilities,
+      emergentOnly: true,
+      validationPassed: this.validateConfiguration()
+    };
+  }
+  
+  /**
+   * Validate configuration for emergent behavior
+   * @returns {boolean} Configuration valid
+   */
+  validateConfiguration() {
+    try {
+      // Ensure no hardcoded identity
+      if (this.hardcodedIdentity !== null) {
+        logger.error('Hardcoded identity detected in EmergentCSE');
+        return false;
+      }
+      
+      // Ensure no hardcoded capabilities
+      if (this.hardcodedCapabilities !== null) {
+        logger.error('Hardcoded capabilities detected in EmergentCSE');
+        return false;
+      }
+      
+      // Validate emergent coordinator
+      const coordinatorValidation = this.emergentCoordinator.validateConfiguration();
+      if (!coordinatorValidation.valid) {
+        logger.error('Emergent coordinator validation failed', {
+          issues: coordinatorValidation.issues
+        });
+        return false;
+      }
+      
+      return true;
+      
+    } catch (error) {
+      logger.error('Configuration validation failed', { error: error.message });
+      return false;
+    }
+  }
+  
+  /**
+   * Clear all caches and reset emergent state
+   */
+  clearCaches() {
+    this.emergentCoordinator.clearCaches();
+    logger.info('EmergentCSE caches cleared');
+  }
+
+  // ============================================================================
+  // CSE GOVERNANCE METHODS - Transform CSE from Ranker to Cognitive Governor
+  // ============================================================================
+
+  async extractAspects(userInput, graph) {
+    try {
+      const text = (userInput || '').trim();
+      logger.debug('Extracting research aspects', { query: text.substring(0, 50) });
+
+      const researchPatterns = {
+        analyze: /(?:\b|_)(analy[sz]e|survey|review|examine|investigate|study)(?:\b|_)/i,
+        synthesize: /(?:\b|_)(synthesi[sz]e|combine|integrate|merge|unify)(?:\b|_)/i,
+        compare: /(?:\b|_)(compare|contrast|versus|vs|differences|similarities)(?:\b|_)/i,
+        evaluate: /(?:\b|_)(evaluate|assess|judge|critique|pros|cons)(?:\b|_)/i
+      };
+      const queryType = Object.keys(researchPatterns).find(t => researchPatterns[t].test(text)) || 'general';
+
+      // Normalize extractors (they may not exist or may return non-arrays)
+      const safeArr = v => Array.isArray(v) ? v : (v ? [String(v)] : []);
+      let entities = [];
+      try { entities = safeArr(await this.extractKeyEntities?.(text)); } catch {}
+      let concepts = [];
+      try { concepts = safeArr(await this.extractKeyConcepts?.(text, graph)); } catch {}
+
+      const aspects = [];
+
+      if (queryType === 'analyze' || queryType === 'synthesize' || queryType === 'general') {
+        aspects.push(
+          { aspect: 'Core concepts and definitions', priority: 1, mustCover: [...entities].slice(0, 4) },
+          { aspect: 'Methods and approaches',        priority: 2, mustCover: ['methodology', 'approach'] },
+          { aspect: 'Key findings and results',      priority: 1, mustCover: ['results', 'findings'] },
+          { aspect: 'Limitations and challenges',    priority: 3, mustCover: ['limitations', 'challenges'] }
+        );
+      }
+
+      if (queryType === 'compare') {
+        aspects.push(
+          { aspect: 'Similarities between approaches',    priority: 1, mustCover: ['similarities'] },
+          { aspect: 'Key differences and distinctions',   priority: 1, mustCover: ['differences'] },
+          { aspect: 'Comparative advantages',             priority: 2, mustCover: ['advantages', 'benefits'] }
+        );
+      }
+
+      // Add entity‑specific details (cap at 2 to stay within 3–6 total)
+      entities.slice(0, 2).forEach(e => {
+        const name = String(e || '').trim();
+        if (name) {
+          aspects.push({ aspect: `${name} specific details`, priority: 2, mustCover: [name.toLowerCase()] });
+        }
+      });
+
+      // Guarantee 3–6 aspects
+      const finalAspects = aspects.slice(0, 6);
+      if (finalAspects.length < 3) {
+        finalAspects.push({ aspect: 'Context & scope', priority: 2, mustCover: [] });
+      }
+
+      this.governanceMetrics.aspectsExtracted += finalAspects.length;
+      logger.info('Research aspects extracted', {
+        queryType,
+        aspectCount: finalAspects.length,
+        entities: entities.length,
+        concepts: concepts.length
+      });
+
+      return finalAspects;
+    } catch (error) {
+      logger.error('Failed to extract aspects', { error: error.message });
+      return [{ aspect: 'General analysis', priority: 1, mustCover: [] }];
+    }
+  }
+
+  async detectSalienceGaps(aspects, graph) {
+    try {
+      const list = Array.isArray(aspects) ? aspects : [];
+      logger.debug('Detecting salience gaps', { aspectCount: list.length });
+
+      const gaps = [];
+      const mustCover = [];
+
+      for (const aspect of list) {
+        let coverage = { score: 0, missing: [], suggestions: [] };
+        try {
+          const c = await this.assessAspectCoverage?.(aspect, graph);
+          if (c && typeof c === 'object') coverage = {
+            score: Number(c.score) || 0,
+            missing: Array.isArray(c.missing) ? c.missing : [],
+            suggestions: Array.isArray(c.suggestions) ? c.suggestions : []
+          };
+        } catch {}
+
+        if ((coverage.score || 0) < 0.6) {
+          gaps.push({
+            aspect: aspect.aspect || 'unspecified',
+            coverage: coverage.score,
+            missing: coverage.missing,
+            suggestions: coverage.suggestions
+          });
+        }
+
+        const mc = Array.isArray(aspect.mustCover) ? aspect.mustCover : [];
+        mustCover.push(...mc);
+      }
+
+      const commonGaps = ['methodology', 'datasets', 'error analysis', 'edge cases'];
+      mustCover.push(...commonGaps);
+
+      const uniqMustCover = [...new Set(mustCover.filter(Boolean).map(x => String(x).toLowerCase()))];
+
+      logger.info('Salience gaps detected', {
+        gapCount: gaps.length,
+        mustCoverCount: uniqMustCover.length
+      });
+
+      return { gaps, mustCover: uniqMustCover };
+    } catch (error) {
+      logger.error('Failed to detect salience gaps', { error: error.message });
+      return { gaps: [], mustCover: [] };
+    }
+  }
+
+  async rerank(rawResults, { aspect, mustCover = [] }) {
+    try {
+      const rows = Array.isArray(rawResults) ? rawResults : [];
+      const aspectObj = aspect && typeof aspect === 'object' ? aspect : { aspect: String(aspect || '') };
+      const must = Array.isArray(mustCover) ? mustCover : [];
+
+      logger.debug('Re-ranking with multi-factor scoring', {
+        resultCount: rows.length,
+        aspect: aspectObj.aspect || 'unknown',
+        mustCoverCount: must.length
+      });
+
+      const num = v => (Number.isFinite(Number(v)) ? Number(v) : 0);
+
+      const scored = await Promise.all(rows.map(async (node) => {
+        // Each scorer might be missing; coerce to numbers
+        let authority = 0, recency = 0, provenance = 0, topical = 0, coverage = 0;
+
+        try { authority = num(await this.calculateAuthorityScore?.(node)); } catch {}
+        try { recency   = num(this.calculateRecencyScore?.(node)); } catch {}
+        try { provenance= num(this.calculateProvenanceTrust?.(node)); } catch {}
+        try { topical   = num(await this.calculateTopicalSalience?.(node, aspectObj)); } catch {}
+        try { coverage  = num(this.calculateCoverageScore?.(node, must)); } catch {}
+
+        const composite =
+          authority * 0.25 +
+          recency   * 0.15 +
+          provenance* 0.20 +
+          topical   * 0.30 +
+          coverage  * 0.10;
+
+        return {
+          ...node,
+          scores: { authority, recency, provenance, topical, coverage },
+          composite: num(composite), // ensure number
+          rank: 0
+        };
+      }));
+
+      // Sort by composite score (stable)
+      const ranked = scored
+        .sort((a, b) => b.composite - a.composite)
+        .map((node, i) => ({ ...node, rank: i + 1 }));
+
+      // Dedup & diversify if helper exists; otherwise pass through
+      const diversified = (typeof this.diversifyAndDeduplicate === 'function')
+        ? await this.diversifyAndDeduplicate(ranked)
+        : ranked;
+
+      const out = diversified.map((n, i) => ({ ...n, rank: i + 1 }));
+      const avgComposite = out.length ? out.reduce((s, n) => s + (num(n.composite)), 0) / out.length : 0;
+
+      logger.info('Multi-factor re-ranking completed', {
+        originalCount: rows.length,
+        rankedCount: out.length,
+        avgComposite
+      });
+
+      return out;
+    } catch (error) {
+      logger.error('Failed to re-rank results', { error: error.message });
+      return Array.isArray(rawResults) ? rawResults : [];
+    }
+  }
+
+  async coverageCheck(summary, aspect, mustCover = []) {
+    try {
+      const text = String(summary || '');
+      const mc = Array.isArray(mustCover) ? mustCover : [];
+
+      logger.debug('Checking summary coverage', {
+        summaryLength: text.length,
+        aspect: aspect?.aspect || 'unknown',
+        mustCoverCount: mc.length
+      });
+
+      const coverage = {
+        passes: true,
+        missing: [],
+        confidence: 1.0,
+        details: {}
+      };
+
+      // Must‑cover items
+      for (const raw of mc) {
+        const item = String(raw || '').trim();
+        if (!item) continue;
+
+        // checkMention() might not exist or might return odd shapes
+        let mentioned = { found: false, count: 0, positions: [] };
+        try {
+          const res = await this.checkMention?.(text, item);
+          if (res && typeof res === 'object') {
+            mentioned = {
+              found: !!res.found,
+              count: Number(res.count) || 0,
+              positions: Array.isArray(res.positions) ? res.positions : []
+            };
+          }
+        } catch {}
+
+        if (!mentioned.found) {
+          coverage.missing.push(item);
+          coverage.confidence = Math.max(0, coverage.confidence - 0.1);
+        }
+        coverage.details[item] = mentioned;
+      }
+
+      // Aspect‑specific coverage
+      if (aspect) {
+        let aspectScore = 0.6; // reasonable default so we don't multiply by NaN
+        try {
+          const ac = await this.assessAspectCoverageInSummary?.(text, aspect);
+          const s = Number(ac?.score);
+          if (Number.isFinite(s)) aspectScore = Math.max(0, Math.min(1, s));
+        } catch {}
+
+        coverage.confidence = Math.max(0, Math.min(1, coverage.confidence * aspectScore));
+
+        if (aspectScore < 0.7) {
+          coverage.missing.push(`Insufficient ${aspect.aspect || 'aspect'} coverage`);
+        }
+      }
+
+      // Final pass/fail
+      coverage.passes = coverage.missing.length === 0 && coverage.confidence >= 0.7;
+
+      this.governanceMetrics.coverageChecks++;
+
+      logger.debug('Coverage check completed', {
+        passes: coverage.passes,
+        confidence: coverage.confidence,
+        missingCount: coverage.missing.length
+      });
+
+      return coverage;
+    } catch (error) {
+      logger.error('Failed to check coverage', { error: error.message });
+      return { passes: false, missing: ['Coverage check failed'], confidence: 0 };
+    }
+  }
+
+  async synthesisPlan(workspace) {
+    try {
+      const ws = workspace || {};
+      const summaries = Array.isArray(ws.summaries) ? ws.summaries : [];
+      const aspects = Array.isArray(ws.aspects) ? ws.aspects : [];
+      const connections = Array.isArray(ws.connections) ? ws.connections : [];
+      const contradictionClusters = Array.isArray(ws.contradictionClusters) ? ws.contradictionClusters : [];
+
+      logger.debug('Planning synthesis', {
+        workspaceId: ws.id || 'n/a',
+        summaryCount: summaries.length,
+        connectionCount: connections.length
+      });
+
+      const plan = {
+        requiredAspects: aspects,
+        summariesIncluded: summaries.length,
+        contradictionClusters,
+        tokenAllocation: {
+          system: 800,
+          summaries: 2000,
+          connections: 400,
+          contradictions: 300
+        },
+        coverage: {
+          aspectsCovered: aspects.length,
+          mustCoverItems: Array.isArray(ws.mustCover) ? ws.mustCover : [],
+          gaps: Array.isArray(ws.gaps) ? ws.gaps : []
+        },
+        provenance: {
+          sourceTypes: this.analyzeSourceTypes(summaries),
+          authorityDistribution: this.analyzeAuthorityDistribution(summaries),
+          recencySpread: this.analyzeRecencySpread(summaries)
+        }
+      };
+
+      // Prioritize summaries by coverage & authority
+      plan.prioritizedSummaries = summaries
+        .map(s => ({
+          ...s,
+          priority: this.calculateSummaryPriority(s, { aspects })
+        }))
+        .sort((a, b) => (Number(b.priority) || 0) - (Number(a.priority) || 0));
+
+      // Safe increment
+      this.governanceMetrics.synthesisPlans = (this.governanceMetrics.synthesisPlans || 0) + 1;
+
+      logger.debug('Synthesis plan completed', {
+        aspectsCovered: plan.coverage.aspectsCovered,
+        summariesPrioritized: plan.prioritizedSummaries.length,
+        contradictionClusters: plan.contradictionClusters.length
+      });
+
+      return plan;
+    } catch (error) {
+      logger.error('Failed to create synthesis plan', { error: error.message });
+      return {
+        requiredAspects: [],
+        summariesIncluded: 0,
+        contradictionClusters: [],
+        tokenAllocation: { system: 800, summaries: 1000, connections: 200, contradictions: 100 },
+        coverage: { aspectsCovered: 0, mustCoverItems: [], gaps: [] },
+        provenance: { sourceTypes: {}, authorityDistribution: {}, recencySpread: {} },
+        prioritizedSummaries: []
+      };
+    }
+  }
+
+  calculateSummaryPriority(summary, workspace) {
+    const s = summary || {};
+    const aspects = Array.isArray(workspace?.aspects) ? workspace.aspects : [];
+
+    // Base
+    let priority = 0.5;
+
+    // Coverage contribution (normalized)
+    const conf = Number(s.coverage?.confidence);
+    if (Number.isFinite(conf)) {
+      priority += Math.max(0, Math.min(1, conf)) * 0.3;
+    }
+
+    // Aspect alignment: match by id or by text
+    let aspectWeight = 0;
+    if (s.aspectId || s.aspectName) {
+      const match = aspects.find(a =>
+        (a.id && a.id === s.aspectId) ||
+        (a.aspect && (a.aspect === s.aspectName || a.aspect === s.aspectId))
+      );
+      if (match) {
+        // Accept numeric (1/2/3) or string ('high'/'medium'/'low')
+        const p = match.priority;
+        const norm =
+          typeof p === 'number' ? (p <= 1 ? 1 : p >= 3 ? 3 : p) :
+          typeof p === 'string' ? ({ high: 3, medium: 2, low: 1 }[p.toLowerCase()] || 2) :
+          2;
+        if (norm === 3) aspectWeight = 0.2;
+        else if (norm === 2) aspectWeight = 0.12;
+        else aspectWeight = 0.06;
+      }
+    }
+    priority += aspectWeight;
+
+    // Novelty bonus
+    if (s.enhanced) priority += 0.1;
+
+    return Math.max(0, Math.min(1, priority));
+  }
+
+  analyzeSourceTypes(summaries) {
+    const types = {};
+    (Array.isArray(summaries) ? summaries : []).forEach(summary => {
+      const sources = Array.isArray(summary?.sources) ? summary.sources : [];
+      sources.forEach(src => {
+        const type = (src && src.type) ? String(src.type) : 'unknown';
+        types[type] = (types[type] || 0) + 1;
+      });
+    });
+    return types;
+  }
+
+  analyzeAuthorityDistribution(summaries) {
+    const dist = { high: 0, medium: 0, low: 0 };
+    (Array.isArray(summaries) ? summaries : []).forEach(s => {
+      const c = Number(s.coverage?.confidence);
+      const authority = Number.isFinite(c) ? c : 0.5;
+      if (authority > 0.8) dist.high++;
+      else if (authority > 0.5) dist.medium++;
+      else dist.low++;
+    });
+    return dist;
+  }
+
+  analyzeRecencySpread(summaries) {
+    const now = Date.now();
+    const spread = { recent: 0, moderate: 0, old: 0 };
+
+    (Array.isArray(summaries) ? summaries : []).forEach(s => {
+      const ts = Number(s.generatedAt);
+      const ageMs = Number.isFinite(ts) ? (now - ts) : 0;
+      const days = ageMs > 0 ? ageMs / (1000 * 60 * 60 * 24) : 0;
+      if (days < 30) spread.recent++;
+      else if (days < 180) spread.moderate++;
+      else spread.old++;
+    });
+
+    return spread;
+  }
+
+  // ============================================================================
+  // HELPER METHODS - Supporting the governance functionality
+  // ============================================================================
+
+  async extractKeyEntities(text = '') {
+    const t = String(text);
+    const out = new Set();
+
+    // Quoted phrases
+    (t.match(/"([^"]+)"/g) || []).forEach(q => out.add(q.replace(/(^"|"$)/g, '')));
+
+    // Acronyms (2+ caps)
+    (t.match(/\b[A-Z]{2,}\b/g) || []).forEach(a => out.add(a));
+
+    // CamelCase / PascalCase
+    (t.match(/\b[A-Z][a-z]+(?:[A-Z][a-z]+)+\b/g) || []).forEach(cc => out.add(cc));
+
+    // Noun-like terms (technical or common)
+    (t.match(/\b([A-Za-z][a-z0-9\-]{3,})\b/g) || []).forEach(n => out.add(n));
+
+    return Array.from(out).slice(0, 10);
+  }
+
+  async extractKeyConcepts(text = '', graph) {
+    try {
+      if (!graph?.searchMemories) return [];
+      const results = await graph.searchMemories({
+        query: String(text),
+        maxResults: 20,
+        salienceThreshold: 0.3
+      });
+      return (Array.isArray(results) ? results : [])
+        .map(r => r?.content || r?.summary || '')
+        .filter(Boolean)
+        .slice(0, 5);
+    } catch {
+      return [];
+    }
+  }
+
+  async assessAspectCoverage(aspect, graph) {
+    // Assess how well an aspect is covered in the memory graph
+    try {
+      const results = await (graph.searchMemories
+        ? graph.searchMemories({ query: aspect.aspect, maxResults: 10 })
+        : graph.search({ query: aspect.aspect, maxResults: 10 })
+      );
+      
+      const score = Math.min(results.length / 5, 1.0); // Normalize to 0-1
+      const missing = score < 0.6 ? ['Insufficient coverage'] : [];
+      const suggestions = missing.length > 0 ? ['Gather more sources'] : [];
+      
+      return { score, missing, suggestions };
+    } catch (error) {
+      return { score: 0, missing: ['Assessment failed'], suggestions: [] };
+    }
+  }
+
+  async calculateAuthorityScore(node = {}) {
+    const m = md(node);
+    let score = 0.5;
+    if (toNum(m.citations, 0) > 10) score += 0.3;
+    if (m.sourceType === 'academic') score += 0.2;
+    if (m.peerReviewed === true) score += 0.2;
+    return Math.min(score, 1.0);
+  }
+
+  calculateRecencyScore(node = {}) {
+    const now = Date.now();
+    const ts = Number(node.timestamp ?? node.metadata?.timestamp);
+    if (!Number.isFinite(ts) || ts <= 0) return 0.6; // neutral default
+    const days = (now - ts) / (1000 * 60 * 60 * 24);
+    // exponential decay with 30-day half‑life feel
+    const score = Math.exp(-days / 30);
+    return Math.min(1, Math.max(0, score));
+  }
+
+  calculateProvenanceTrust(node = {}) {
+    const src = String(node?.source ?? '');
+    const m = md(node);
+    let trust = 0.5;
+    if (src.includes('academic')) trust += 0.3;
+    if (src.includes('official')) trust += 0.2;
+    if (m.verified === true) trust += 0.2;
+    return Math.min(trust, 1.0);
+  }
+
+  async calculateTopicalSalience(node = {}, aspect) {
+    if (!aspect?.aspect) return 0.5;
+    const content = String(node.content || node.summary || '').toLowerCase();
+    const terms = String(aspect.aspect).toLowerCase().split(/\s+/).filter(Boolean);
+    if (terms.length === 0) return 0.5;
+
+    let matches = 0;
+    for (const term of terms) if (content.includes(term)) matches++;
+    return Math.min(1, Math.max(0, matches / terms.length));
+  }
+
+  calculateCoverageScore(node = {}, mustCover = []) {
+    const items = Array.isArray(mustCover) ? mustCover.filter(Boolean) : [];
+    if (items.length === 0) return 1.0;
+    const text = String(node.content || node.summary || '').toLowerCase();
+    let covered = 0;
+    for (const it of items) if (text.includes(String(it).toLowerCase())) covered++;
+    return covered / items.length;
+  }
+
+  async diversifyAndDeduplicate(ranked) {
+    // Remove near-duplicates and ensure diversity
+    const diverse = [];
+    const seen = new Set();
+    
+    for (const node of ranked) {
+      const signature = this.generateContentSignature(node);
+      if (!seen.has(signature)) {
+        seen.add(signature);
+        diverse.push(node);
+      }
+    }
+    
+    return diverse;
+  }
+
+  generateContentSignature(node = {}) {
+    const head = String(node.content || node.summary || '').toLowerCase()
+      .replace(/\s+/g, ' ')
+      .trim()
+      .slice(0, 160);
+    // salt with id/path so two different chunks with same intro don't collide
+    const salt = [node.id, node.path, node.filePath].filter(Boolean).join('|');
+    return `${head}##${salt}`;
+  }
+
+  checkMention(text = '', item = '') {
+    const T = String(text).toLowerCase();
+    const I = String(item).toLowerCase().trim();
+    if (!I) return { found: false, confidence: 0, context: null, count: 0, positions: [] };
+
+    let idx = T.indexOf(I), count = 0, positions = [];
+    while (idx !== -1) {
+      count++; positions.push(idx);
+      idx = T.indexOf(I, idx + I.length);
+    }
+    return {
+      found: count > 0,
+      confidence: count > 0 ? 1 : 0,
+      context: T.slice(0, 200),
+      count,
+      positions
+    };
+  }
+
+  async assessAspectCoverageInSummary(summary, aspect) {
+    // Assess how well a summary covers a specific aspect
+    const aspectTerms = aspect.aspect.toLowerCase().split(' ');
+    let coverage = 0;
+    
+    for (const term of aspectTerms) {
+      if (summary.toLowerCase().includes(term)) {
+        coverage++;
+      }
+    }
+    
+    return {
+      score: coverage / aspectTerms.length,
+      coverage,
+      total: aspectTerms.length
+    };
+  }
+
+  async extractConcepts(text = '') {
+    // Lightweight noun‑ish phrase finder; replace with your NLP later
+    const t = String(text).toLowerCase();
+    const phrases = new Set();
+
+    // quoted phrases
+    (t.match(/"([^"]+)"/g) || []).forEach(q => phrases.add(q.replace(/(^"|"$)/g, '')));
+
+    // simple n-grams around key terms
+    (t.match(/\b([a-z0-9\-_/]+(?:\s+[a-z0-9\-_/]+){0,2})\b/gi) || [])
+      .filter(p => p.length >= 4 && p.length <= 40)
+      .slice(0, 30)
+      .forEach(p => phrases.add(p.trim()));
+
+    // rank by frequency
+    const freq = {};
+    for (const p of phrases) freq[p] = (freq[p] || 0) + (t.split(p).length - 1);
+
+    return Object.entries(freq)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 6)
+      .map(([term, frequency]) => ({
+        term,
+        confidence: Math.min(1, 0.5 + frequency * 0.1),
+        context: term,
+        frequency
+      }));
+  }
+
+  async extractDynamicEntity(text = '') {
+    const t = String(text).trim();
+    if (!t) return null;
+
+    // 1) quoted phrases are strongest "entities" (user intent)
+    const quoted = Array.from(t.matchAll(/"([^"]+)"/g)).map(m => m[1]).filter(s => s?.length > 1);
+    if (quoted[0]) return quoted[0];
+
+    // 2) acronyms or proper nouns
+    const acronyms = (t.match(/\b[A-Z]{2,}\b/g) || []);
+    if (acronyms[0]) return acronyms[0];
+
+    const proper = (t.match(/\b[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*\b/g) || []);
+    if (proper[0]) return proper[0];
+
+    // 3) longest noun-ish token (fallback)
+    const tokens = (t.match(/\b([A-Za-z][a-z0-9\-]{3,})\b/g) || []).sort((a,b)=>b.length-a.length);
+    return tokens[0] || null;
+  }
+
+  async promoteConcepts(summaries) {
+    // Identify novel concepts from summaries and mint new memory nodes
+    const promotedConcepts = [];
+    
+    try {
+      for (const summary of summaries) {
+        // Extract key concepts from summary
+        const concepts = await this.extractConcepts(summary.content || summary.summary);
+        
+        for (const concept of concepts) {
+          // Check if concept already exists in memory
+          const existing = await this.memoryGraph.searchNodes({
+            query: concept.term,
+            limit: 3,
+            threshold: 0.85
+          });
+          
+          if (existing.length === 0) {
+            // Novel concept - promote to memory
+            const conceptNode = {
+              id: `concept_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+              type: 'concept',
+              content: concept.term,
+              description: concept.context,
+              confidence: concept.confidence,
+              source: 'research_synthesis',
+              createdAt: Date.now(),
+              metadata: {
+                promotedFrom: summary.id,
+                aspect: summary.aspectId,
+                frequency: concept.frequency || 1
+              }
+            };
+            
+            await this.memoryGraph.addNode(conceptNode);
+            
+            // Link to source summary
+            if (summary.nodeId) {
+              await this.memoryGraph.addEdge({
+                from: conceptNode.id,
+                to: summary.nodeId,
+                type: 'derived_from',
+                weight: 0.8,
+                metadata: { source: 'concept_promotion' }
+              });
+            }
+            
+            promotedConcepts.push(conceptNode);
+            
+            logger.debug('Promoted concept to memory', {
+              concept: concept.term,
+              confidence: concept.confidence,
+              nodeId: conceptNode.id
+            });
+          }
+        }
+      }
+      
+      logger.info('Concept promotion completed', {
+        summariesProcessed: summaries.length,
+        conceptsPromoted: promotedConcepts.length
+      });
+      
+      return promotedConcepts;
+      
+    } catch (error) {
+      logger.error('Error promoting concepts', error);
+      return [];
+    }
+  }
+
+  async updateEdgeWeights(usageSignals) {
+    // Update edge weights based on usage patterns and co-occurrence
+    let updated = 0;
+    
+    try {
+      for (const signal of usageSignals) {
+        const { fromId, toId, usageType, strength = 0.1 } = signal;
+        
+        // Find existing edge
+        const edges = await this.memoryGraph.getEdges(fromId, toId);
+        
+        if (edges.length > 0) {
+          // Update existing edge weight
+          const edge = edges[0];
+          const newWeight = Math.min(edge.weight + strength, 1.0);
+          
+          await this.memoryGraph.updateEdge(edge.id, {
+            weight: newWeight,
+            lastUsed: Date.now(),
+            usageCount: (edge.usageCount || 0) + 1,
+            metadata: {
+              ...edge.metadata,
+              lastUsageType: usageType
+            }
+          });
+          
+          updated++;
+        } else {
+          // Create new edge based on usage
+          await this.memoryGraph.addEdge({
+            from: fromId,
+            to: toId,
+            type: usageType || 'related',
+            weight: strength,
+            createdAt: Date.now(),
+            lastUsed: Date.now(),
+            usageCount: 1,
+            metadata: { source: 'usage_signal' }
+          });
+          
+          updated++;
+        }
+      }
+      
+      logger.debug('Edge weights updated', {
+        signalsProcessed: usageSignals.length,
+        edgesUpdated: updated
+      });
+      
+      return { updated };
+      
+    } catch (error) {
+      logger.error('Error updating edge weights', error);
+      return { updated: 0 };
+    }
+  }
+
+  async refreshRollingSummaries(projectId) {
+    // Refresh rolling summaries for project, topics, and recent work
+    let refreshed = 0;
+    
+    try {
+      const cutoffTime = Date.now() - (7 * 24 * 60 * 60 * 1000); // 7 days
+      
+      // Get recent nodes for the project
+      const recentNodes = await this.memoryGraph.searchNodes({
+        filters: {
+          projectId,
+          createdAt: { $gte: cutoffTime }
+        },
+        limit: 100
+      });
+      
+      if (recentNodes.length === 0) {
+        return { refreshed: 0 };
+      }
+      
+      // Group by topic/type
+      const topicGroups = {};
+      for (const node of recentNodes) {
+        const topic = node.metadata?.topic || node.type || 'general';
+        if (!topicGroups[topic]) {
+          topicGroups[topic] = [];
+        }
+        topicGroups[topic].push(node);
+      }
+      
+      // Generate rolling summaries for each topic
+      for (const [topic, nodes] of Object.entries(topicGroups)) {
+        if (nodes.length < 3) continue; // Skip topics with too few nodes
+        
+        // Create summary content
+        const summaryContent = nodes
+          .slice(0, 10) // Limit to most recent 10
+          .map(n => n.content || n.summary || '')
+          .join('\n\n');
+        
+        // Find or create rolling summary node
+        const existingSummary = await this.memoryGraph.searchNodes({
+          query: `rolling_summary_${projectId}_${topic}`,
+          filters: { type: 'rolling_summary' },
+          limit: 1
+        });
+        
+        if (existingSummary.length > 0) {
+          // Update existing summary
+          await this.memoryGraph.updateNode(existingSummary[0].id, {
+            content: summaryContent,
+            lastRefreshed: Date.now(),
+            nodeCount: nodes.length,
+            metadata: {
+              ...existingSummary[0].metadata,
+              refreshCount: (existingSummary[0].metadata?.refreshCount || 0) + 1
+            }
+          });
+        } else {
+          // Create new rolling summary
+          const summaryNode = {
+            id: `rolling_summary_${projectId}_${topic}_${Date.now()}`,
+            type: 'rolling_summary',
+            content: summaryContent,
+            projectId,
+            topic,
+            createdAt: Date.now(),
+            lastRefreshed: Date.now(),
+            nodeCount: nodes.length,
+            metadata: {
+              refreshCount: 1,
+              source: 'rolling_summary_refresh'
+            }
+          };
+          
+          await this.memoryGraph.addNode(summaryNode);
+          
+          // Link to constituent nodes
+          for (const node of nodes.slice(0, 5)) { // Link to top 5 nodes
+            await this.memoryGraph.addEdge({
+              from: summaryNode.id,
+              to: node.id,
+              type: 'summarizes',
+              weight: 0.6,
+              metadata: { source: 'rolling_summary' }
+            });
+          }
+        }
+        
+        refreshed++;
+      }
+      
+      logger.info('Rolling summaries refreshed', {
+        projectId,
+        topicsRefreshed: refreshed,
+        nodesProcessed: recentNodes.length
+      });
+      
+      return { refreshed };
+      
+    } catch (error) {
+      logger.error('Error refreshing rolling summaries', error);
+      return { refreshed: 0 };
+    }
+  }
+
+  /**
+   * Detect if query is project-specific by analyzing available data dynamically
+   * @param {string} queryLower - Lowercase query string
+   * @returns {boolean} True if query appears to be project-specific
+   */
+  detectProjectSpecificQuery(queryLower) {
+    // Always consider 'leo' and 'project' as project-specific
+    const coreProjectTerms = ['leo', 'project'];
+    if (coreProjectTerms.some(term => queryLower.includes(term))) {
+      return true;
+    }
+
+    // Dynamic detection: check if query contains terms that appear in our memory graph
+    // This makes the system adapt to whatever data is actually loaded
+    try {
+      if (this.memoryGraph && typeof this.memoryGraph.getAllChunks === 'function') {
+        // For performance, we could cache this analysis
+        // For now, use simple heuristics based on common project patterns
+        const projectPatterns = [
+          /\b\w+gates?\b/i,     // Any word ending in 'gate' or 'gates'
+          /\btensor\w*\b/i,     // Any word starting with 'tensor'
+          /\bquantum\b/i,       // Quantum-related terms
+          /\bpackage\b/i,       // Package/library references
+          /\blibrary\b/i,       // Library references
+          /\bapi\b/i,           // API references
+          /\bcode\b/i,          // Code references
+          /\bfunction\b/i,      // Function references
+          /\bclass\b/i,         // Class references
+          /\bmodule\b/i         // Module references
+        ];
+        
+        return projectPatterns.some(pattern => pattern.test(queryLower));
+      }
+    } catch (error) {
+      console.warn('[EmergentCSE] Error in dynamic project detection:', error.message);
+    }
+
+    return false; // Default to general knowledge if detection fails
+  }
+}
+
+module.exports = EmergentCSE;

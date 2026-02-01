@@ -1,0 +1,7 @@
+// Backup of original true-semantic-embeddings.js
+// Backed up on 2025-08-06T10:13:12-04:00
+
+const fs = require('fs');
+const path = require('path');
+
+module.exports = require('./true-semantic-embeddings.js');

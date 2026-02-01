@@ -1,0 +1,177 @@
+{
+  "timestamp": "2026-01-12T21:49:10.060Z",
+  "results": [
+    {
+      "id": "AVS-1R",
+      "name": "Cross-Session Recall",
+      "description": "Validates semantic recall of policy decisions across sessions with paraphrased queries",
+      "startTime": 1768254546151,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "description": "Session 1 (Tuesday): User states language constraint with decision record ID and nonce",
+          "type": "request",
+          "passed": true,
+          "failureReason": null,
+          "startTime": 1768254546151,
+          "response": {
+            "success": true,
+            "response": "Understood. Based on the decision record provided, the key points are:\n\n1. The project has decided to use Java only, and rejected the use of Python [#1].\n2. This decision (DR-014) is final and should not be re-opened [#2].\n\nI will not paste any raw memory blocks or labels, and will only cite evidence using the provided reference numbers.",
+            "fullResult": {
+              "input": "Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.",
+              "userContext": {
+                "sessionId": "avs1r_tuesday_session",
+                "timestamp": 1768254539004,
+                "dayOfWeek": "Tuesday",
+                "disableRetrieval": true,
+                "disableMemoryGraph": true
+              },
+              "phases": {
+                "observe": {
+                  "input": "Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.",
+                  "inputAnalysis": {
+                    "intent": "general"
+                  }
+                },
+                "reflect": {
+                  "strategy": "general_knowledge",
+                  "contextUsed": []
+                },
+                "plan": {
+                  "selectedSkill": "llm_conversation"
+                },
+                "act": {
+                  "llmResponse": "Understood. Based on the decision record provided, the key points are:\n\n1. The project has decided to use Java only, and rejected the use of Python [#1].\n2. This decision (DR-014) is final and should not be re-opened [#2].\n\nI will not paste any raw memory blocks or labels, and will only cite evidence using the provided reference numbers."
+                },
+                "update": null
+              },
+              "llmResponse": "Understood. Based on the decision record provided, the key points are:\n\n1. The project has decided to use Java only, and rejected the use of Python [#1].\n2. This decision (DR-014) is final and should not be re-opened [#2].\n\nI will not paste any raw memory blocks or labels, and will only cite evidence using the provided reference numbers.",
+              "metadata": {
+                "baselineMode": "persistra_off",
+                "retrievalEnabled": false
+              }
+            },
+            "sessionId": "avs1r_tuesday_session",
+            "retrievalEvidence": {
+              "memoryUsedCount": 0,
+              "avgSalience": 0,
+              "retrievedMemories": [],
+              "memoryWeight": 0,
+              "generalWeight": 0,
+              "routingHint": "unknown",
+              "mode": "persistra_off",
+              "retrievalEnabled": false
+            }
+          },
+          "endTime": 1768254548013,
+          "duration": 1862
+        },
+        {
+          "stepNumber": 2,
+          "description": "Verify response acknowledges the decision",
+          "type": "assert",
+          "passed": true,
+          "failureReason": null,
+          "startTime": 1768254548013,
+          "details": {
+            "length": 339,
+            "minLength": 10
+          },
+          "endTime": 1768254548013,
+          "duration": 0
+        },
+        {
+          "stepNumber": 3,
+          "description": "Simulate 3-day gap (Tuesday → Friday)",
+          "type": "wait",
+          "passed": true,
+          "failureReason": null,
+          "startTime": 1768254548013,
+          "endTime": 1768254548113,
+          "duration": 100
+        },
+        {
+          "stepNumber": 4,
+          "description": "Session 2 (Friday): User asks about language choice, requesting decision record ID and nonce",
+          "type": "request",
+          "passed": true,
+          "failureReason": null,
+          "startTime": 1768254548113,
+          "response": {
+            "success": true,
+            "response": "Based on the information provided, I do not have access to any project memory or decision records. I do not have enough context to determine what programming language was standardized for the integration project you mentioned. Without access to the relevant project documentation, I cannot provide a specific answer. I apologize that I cannot be more helpful in this case without additional details. [#1]",
+            "fullResult": {
+              "input": "What programming language did we standardize on for the integration project? Please include the decision record ID and nonce.",
+              "userContext": {
+                "sessionId": "avs1r_friday_session",
+                "timestamp": 1768513739004,
+                "dayOfWeek": "Friday",
+                "disableRetrieval": true,
+                "disableMemoryGraph": true
+              },
+              "phases": {
+                "observe": {
+                  "input": "What programming language did we standardize on for the integration project? Please include the decision record ID and nonce.",
+                  "inputAnalysis": {
+                    "intent": "general"
+                  }
+                },
+                "reflect": {
+                  "strategy": "general_knowledge",
+                  "contextUsed": []
+                },
+                "plan": {
+                  "selectedSkill": "llm_conversation"
+                },
+                "act": {
+                  "llmResponse": "Based on the information provided, I do not have access to any project memory or decision records. I do not have enough context to determine what programming language was standardized for the integration project you mentioned. Without access to the relevant project documentation, I cannot provide a specific answer. I apologize that I cannot be more helpful in this case without additional details. [#1]"
+                },
+                "update": null
+              },
+              "llmResponse": "Based on the information provided, I do not have access to any project memory or decision records. I do not have enough context to determine what programming language was standardized for the integration project you mentioned. Without access to the relevant project documentation, I cannot provide a specific answer. I apologize that I cannot be more helpful in this case without additional details. [#1]",
+              "metadata": {
+                "baselineMode": "persistra_off",
+                "retrievalEnabled": false
+              }
+            },
+            "sessionId": "avs1r_friday_session",
+            "retrievalEvidence": {
+              "memoryUsedCount": 0,
+              "avgSalience": 0,
+              "retrievedMemories": [],
+              "memoryWeight": 0,
+              "generalWeight": 0,
+              "routingHint": "unknown",
+              "mode": "persistra_off",
+              "retrievalEnabled": false
+            }
+          },
+          "endTime": 1768254550060,
+          "duration": 1947
+        },
+        {
+          "stepNumber": 5,
+          "description": "Response contains decision record ID DR-014 (proves retrieval)",
+          "type": "assert",
+          "passed": false,
+          "failureReason": "Response does not contain \"DR-014\"",
+          "startTime": 1768254550060,
+          "details": {
+            "response": "Based on the information provided, I do not have access to any project memory or decision records. I do not have enough context to determine what programming language was standardized for the integrat"
+          },
+          "endTime": 1768254550060,
+          "duration": 0
+        }
+      ],
+      "passed": false,
+      "failureReason": "Step 5 failed: Response does not contain \"DR-014\"",
+      "endTime": 1768254550060,
+      "duration": 3909
+    }
+  ],
+  "summary": {
+    "total": 1,
+    "passed": 0,
+    "failed": 1
+  }
+}

@@ -1,0 +1,1006 @@
+{
+  "timestamp": "2026-01-10T21:23:08.959Z",
+  "results": [
+    {
+      "id": "AVS-1R",
+      "name": "Cross-Session Recall",
+      "description": "Validates semantic recall of policy decisions across sessions with paraphrased queries",
+      "startTime": 1768080182237,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "description": "Session 1 (Tuesday): User states language constraint with decision record ID and nonce",
+          "type": "request",
+          "passed": true,
+          "failureReason": null,
+          "startTime": 1768080182237,
+          "response": {
+            "success": true,
+            "response": "Grounded in project memory (10 snippets).\n\nOkay, got it. Here are the key points: 1. The project team has decided to use Java only for the integration layer, and rejected the use of Python. [#1] 2. This decision to use Java exclusively and reject Python for the integration layer is final and should not be re-opened. [#1] The implications of this decision are that the integration layer of the project will be implemented using Java, which is a widely-used, general-purpose programming language well-suited for enterprise-level applications. The team has made a firm commitment to Java for this part of the project and will not be reconsidering the use of Python.",
+            "fullResult": {
+              "input": "Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.",
+              "userContext": {},
+              "phases": {
+                "observe": {
+                  "input": "Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.",
+                  "userContext": {},
+                  "inputAnalysis": {
+                    "isSpecialCommand": false,
+                    "commandType": null,
+                    "intent": "knowledge_query",
+                    "complexity": "simple",
+                    "requiresMemory": true,
+                    "requiresReflection": false,
+                    "scope": "session",
+                    "intentConfidence": 0.55,
+                    "topicQuery": null,
+                    "cleanedQuery": "Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.",
+                    "recallPhrasesStripped": []
+                  },
+                  "cseContext": {
+                    "fusion": {
+                      "memoryCards": [
+                        {
+                          "label": "msg_1768079755437",
+                          "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\n\nDecision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Based on the provided decision record, the key points are:\n\n1. The project team has rejected the use of Python for this integration project [#1].\n2. The team has decided that Java must be the only programming language used for this project [#2].\n3. The decision has been finalized, and the team has explicitly stated that this decision should not be re-opened [#2].",
+                          "tokens": 169,
+                          "salience": 0.7999938995796363,
+                          "sourceId": "msg_1768079755437",
+                          "lowConfidence": false
+                        },
+                        {
+                          "label": "msg_1768079753400",
+                          "content": "[Flow:general] User: What programming language did we standardize on for the integration project? Please include the decision record ID and nonce.\nAssistant: Based on the information provided, it appears you are referring to a decision made as part of an integration project. However, without access to the specific project details or decision records, I cannot provide the programming language that was standardized on. I do not have access to any project memory or decision records. I can only respond based on the information you have directly provided in your query. If you are able to share the relevant decision record ID and nonce, I would be happy to review that information and provide a more detailed response. [#1]",
+                          "tokens": 182,
+                          "salience": 0.7999938705284667,
+                          "sourceId": "msg_1768079753400",
+                          "lowConfidence": false
+                        },
+                        {
+                          "label": "msg_1768079751078",
+                          "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Based on the provided Decision Record DR-014, the key points are:\n\n1. The project team has decided to use Java only for the integration project, and rejected the use of Python [#1].\n2. The decision to use Java exclusively has been finalized, and the team has been instructed not to re-open this decision [#2].",
+                          "tokens": 120,
+                          "salience": 0.7999938374127069,
+                          "sourceId": "msg_1768079751078",
+                          "lowConfidence": false
+                        },
+                        {
+                          "label": "msg_1768079749320",
+                          "content": "[Flow:general] User: What programming language did we standardize on for the integration project? Please include the decision record ID and nonce.\nAssistant: Grounded in project memory (8 snippets).\n\nBased on the information provided in the decision record: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. The key points are: 1. The project includes a Java-only implementation for the integration layer. [#1] 2. The team previously decided to reject Python for the integration layer. [#1] 3. Java is a widely-used, general-purpose programming language that is well-suited for enterprise-level applications. [GK] The implication is that the team has standardized on using Java exclusively for the integration layer of this project.",
+                          "tokens": 192,
+                          "salience": 0.7999938123405729,
+                          "sourceId": "msg_1768079749320",
+                          "lowConfidence": false
+                        },
+                        {
+                          "label": "msg_1768079745883",
+                          "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Grounded in project memory (10 snippets).\n\nUnderstood. Here are the key points: 1. The project includes a Java-only implementation for the integration layer. [#1]\n2. The project also includes a Solidity smart contract and a Python simulator. [#1] 3. The team previously decided to reject Python for the integration layer. [#1]\n4. Java is a widely-used, general-purpose programming language that is well-suited for enterprise-level applications. Implications: The team has made the decision to use Java exclusively for the integration layer of this project, rather than Python. This suggests Java was chosen for its enterprise-level capabilities, scalability, and widespread adoption compared to Python. Since you've instructed me not to re-open this decision, I will not provide any further explanation or discussion around it. Please let me know if you have any other questions I can assist with.",
+                          "tokens": 267,
+                          "salience": 0.7999937633229934,
+                          "sourceId": "msg_1768079745883",
+                          "lowConfidence": false
+                        },
+                        {
+                          "label": "msg_1768079083047",
+                          "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Grounded in project memory (10 snippets).\n\nOkay, got it. Here are the key points:\n- The project includes a Java-only implementation for the integration layer [#1]\n- The project also includes a Solidity smart contract and a Python simulator [#1]\n- The team previously decided to reject Python for the integration layer [#1]\n- Java is a widely-used, general-purpose programming language that is well-suited for enterprise-level applications [GK] IMPLICATIONS:\n- The team has made the decision to use Java exclusively for the integration layer of this project, rejecting the use of Python.\n- This decision was likely made due to Java's strengths as an enterprise-level language, such as its portability, scalability, and strong type-safety.\n- Sticking to Java-only for the integration layer will provide consistency and simplify the overall architecture of the project. Do not re-open this decision.",
+                          "tokens": 267,
+                          "salience": 0.7999843104130426,
+                          "sourceId": "msg_1768079083047",
+                          "lowConfidence": false
+                        },
+                        {
+                          "label": "msg_1768078154372",
+                          "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Grounded in project memory (10 snippets).\n\n• The project includes a Java-only implementation for the integration layer [#1]\n• A Solidity smart contract and a Python simulator are also part of the project [#1]\n• The team previously decided to reject Python for the integration layer [#1]\n• Java is a widely-used, general-purpose programming language Implications:\nThe decision to use Java exclusively for the integration layer aligns with the overall project architecture, which includes a Solidity smart contract and a Python simulator. This choice reflects the team's prior evaluation and rejection of Python for the integration component.",
+                          "tokens": 203,
+                          "salience": 0.7999710672300036,
+                          "sourceId": "msg_1768078154372",
+                          "lowConfidence": false
+                        },
+                        {
+                          "label": "msg_1768077942196",
+                          "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Grounded in project memory (10 snippets).\n\n• The project includes a Java-only implementation for the integration layer [#1]\n• A Solidity smart contract and a Python simulator are also part of the project [#1]\n• The team previously decided to reject Python for the integration layer [#1]\n• Java is a widely-used, general-purpose programming language Implications:\nThe team has made the decision to use Java exclusively for the integration layer of this project, rejecting the use of Python. This aligns with the overall architecture, which includes a Solidity smart contract and a Python simulator as other components. The Java-only integration layer is likely chosen for its widespread adoption and suitability for the project's requirements.",
+                          "tokens": 229,
+                          "salience": 0.799968041690679,
+                          "sourceId": "msg_1768077942196",
+                          "lowConfidence": false
+                        },
+                        {
+                          "label": "msg_1768077760273",
+                          "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Grounded in project memory (10 snippets).\n\n• The project includes a Java-only implementation for the integration layer [#1]\n• A Solidity smart contract and a Python simulator are also part of the project [#1] • The team previously decided to reject Python for the integration layer [#1]\n• Java is a widely-used, general-purpose programming language that is well-suited for enterprise-level applications [GK]\n• The decision to use Java-only for the integration layer was made to ensure consistency and maintainability across the project components [GK] Implications:\nThe Java-only requirement for the integration layer means the team will need to leverage Java's strengths, such as its portability, scalability, and strong type-safety, to build a robust and reliable integration solution. This decision aligns with the project's overall technical approach and constraints.",
+                          "tokens": 261,
+                          "salience": 0.7999654475918052,
+                          "sourceId": "msg_1768077760273",
+                          "lowConfidence": false
+                        },
+                        {
+                          "label": "msg_1768077457848",
+                          "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Grounded in project memory (10 snippets).\n\n• The project includes a Java-only implementation for the integration layer [#1]\n• A Solidity smart contract and a Python simulator are also part of the project [#1]\n• The team previously decided to reject Python for the integration layer [#1]\n• Java is a widely-used, general-purpose programming language that is well-suited for enterprise-level applications [GK]\n• The decision to use Java-only for the integration layer aligns with the project's technical requirements and constraints [INFERENCE] Implications:\nThe Java-only architecture for the integration layer ensures consistency, maintainability, and alignment with the project's technical requirements. This decision also leverages the team's existing Java expertise and the language's broad ecosystem of tools and libraries.",
+                          "tokens": 250,
+                          "salience": 0.7999611353090454,
+                          "sourceId": "msg_1768077457848",
+                          "lowConfidence": false
+                        }
+                      ],
+                      "avgSalience": 0.7999865753147628,
+                      "memoryWeight": 0.85,
+                      "generalWeight": 0.15000000000000002,
+                      "rationale": "Strong project matches; prioritizing memory-backed reasoning.",
+                      "routingHint": "memory-first",
+                      "hadCandidates": true,
+                      "dynamicGate": 0,
+                      "lowConfidenceCount": 0
+                    },
+                    "memories": [],
+                    "salient": [],
+                    "salientMemories": []
+                  },
+                  "memoryContext": null,
+                  "specialCommands": null,
+                  "timestamp": 1768080182238,
+                  "topicQuery": null,
+                  "cleanedQuery": "Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision."
+                },
+                "reflect": null,
+                "plan": {
+                  "selectedSkill": {
+                    "name": "fusion_response",
+                    "type": "llm"
+                  },
+                  "skillParameters": {},
+                  "duration": 0
+                },
+                "act": {
+                  "response": "Grounded in project memory (10 snippets).\n\nOkay, got it. Here are the key points: 1. The project team has decided to use Java only for the integration layer, and rejected the use of Python. [#1] 2. This decision to use Java exclusively and reject Python for the integration layer is final and should not be re-opened. [#1] The implications of this decision are that the integration layer of the project will be implemented using Java, which is a widely-used, general-purpose programming language well-suited for enterprise-level applications. The team has made a firm commitment to Java for this part of the project and will not be reconsidering the use of Python.",
+                  "skillResult": {
+                    "response": "Grounded in project memory (10 snippets).\n\nOkay, got it. Here are the key points: 1. The project team has decided to use Java only for the integration layer, and rejected the use of Python. [#1] 2. This decision to use Java exclusively and reject Python for the integration layer is final and should not be re-opened. [#1] The implications of this decision are that the integration layer of the project will be implemented using Java, which is a widely-used, general-purpose programming language well-suited for enterprise-level applications. The team has made a firm commitment to Java for this part of the project and will not be reconsidering the use of Python.",
+                    "type": "fusion_response",
+                    "routing": {
+                      "avgSalience": 0.7999865753147628,
+                      "memoryWeight": 0.85,
+                      "generalWeight": 0.15000000000000002,
+                      "memoryCards": 10,
+                      "adaptiveTokens": 4000
+                    }
+                  },
+                  "type": "fusion_response",
+                  "prompt": null,
+                  "skillExecuted": "fusion_response",
+                  "metadata": {
+                    "contextUsed": true,
+                    "skillType": "llm",
+                    "skillParameters": {},
+                    "fusion": {
+                      "memoryCards": [
+                        {
+                          "label": "msg_1768079755437",
+                          "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\n\nDecision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Based on the provided decision record, the key points are:\n\n1. The project team has rejected the use of Python for this integration project [#1].\n2. The team has decided that Java must be the only programming language used for this project [#2].\n3. The decision has been finalized, and the team has explicitly stated that this decision should not be re-opened [#2].",
+                          "tokens": 169,
+                          "salience": 0.7999938995796363,
+                          "sourceId": "msg_1768079755437",
+                          "lowConfidence": false
+                        },
+                        {
+                          "label": "msg_1768079753400",
+                          "content": "[Flow:general] User: What programming language did we standardize on for the integration project? Please include the decision record ID and nonce.\nAssistant: Based on the information provided, it appears you are referring to a decision made as part of an integration project. However, without access to the specific project details or decision records, I cannot provide the programming language that was standardized on. I do not have access to any project memory or decision records. I can only respond based on the information you have directly provided in your query. If you are able to share the relevant decision record ID and nonce, I would be happy to review that information and provide a more detailed response. [#1]",
+                          "tokens": 182,
+                          "salience": 0.7999938705284667,
+                          "sourceId": "msg_1768079753400",
+                          "lowConfidence": false
+                        },
+                        {
+                          "label": "msg_1768079751078",
+                          "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Based on the provided Decision Record DR-014, the key points are:\n\n1. The project team has decided to use Java only for the integration project, and rejected the use of Python [#1].\n2. The decision to use Java exclusively has been finalized, and the team has been instructed not to re-open this decision [#2].",
+                          "tokens": 120,
+                          "salience": 0.7999938374127069,
+                          "sourceId": "msg_1768079751078",
+                          "lowConfidence": false
+                        },
+                        {
+                          "label": "msg_1768079749320",
+                          "content": "[Flow:general] User: What programming language did we standardize on for the integration project? Please include the decision record ID and nonce.\nAssistant: Grounded in project memory (8 snippets).\n\nBased on the information provided in the decision record: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. The key points are: 1. The project includes a Java-only implementation for the integration layer. [#1] 2. The team previously decided to reject Python for the integration layer. [#1] 3. Java is a widely-used, general-purpose programming language that is well-suited for enterprise-level applications. [GK] The implication is that the team has standardized on using Java exclusively for the integration layer of this project.",
+                          "tokens": 192,
+                          "salience": 0.7999938123405729,
+                          "sourceId": "msg_1768079749320",
+                          "lowConfidence": false
+                        },
+                        {
+                          "label": "msg_1768079745883",
+                          "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Grounded in project memory (10 snippets).\n\nUnderstood. Here are the key points: 1. The project includes a Java-only implementation for the integration layer. [#1]\n2. The project also includes a Solidity smart contract and a Python simulator. [#1] 3. The team previously decided to reject Python for the integration layer. [#1]\n4. Java is a widely-used, general-purpose programming language that is well-suited for enterprise-level applications. Implications: The team has made the decision to use Java exclusively for the integration layer of this project, rather than Python. This suggests Java was chosen for its enterprise-level capabilities, scalability, and widespread adoption compared to Python. Since you've instructed me not to re-open this decision, I will not provide any further explanation or discussion around it. Please let me know if you have any other questions I can assist with.",
+                          "tokens": 267,
+                          "salience": 0.7999937633229934,
+                          "sourceId": "msg_1768079745883",
+                          "lowConfidence": false
+                        },
+                        {
+                          "label": "msg_1768079083047",
+                          "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Grounded in project memory (10 snippets).\n\nOkay, got it. Here are the key points:\n- The project includes a Java-only implementation for the integration layer [#1]\n- The project also includes a Solidity smart contract and a Python simulator [#1]\n- The team previously decided to reject Python for the integration layer [#1]\n- Java is a widely-used, general-purpose programming language that is well-suited for enterprise-level applications [GK] IMPLICATIONS:\n- The team has made the decision to use Java exclusively for the integration layer of this project, rejecting the use of Python.\n- This decision was likely made due to Java's strengths as an enterprise-level language, such as its portability, scalability, and strong type-safety.\n- Sticking to Java-only for the integration layer will provide consistency and simplify the overall architecture of the project. Do not re-open this decision.",
+                          "tokens": 267,
+                          "salience": 0.7999843104130426,
+                          "sourceId": "msg_1768079083047",
+                          "lowConfidence": false
+                        },
+                        {
+                          "label": "msg_1768078154372",
+                          "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Grounded in project memory (10 snippets).\n\n• The project includes a Java-only implementation for the integration layer [#1]\n• A Solidity smart contract and a Python simulator are also part of the project [#1]\n• The team previously decided to reject Python for the integration layer [#1]\n• Java is a widely-used, general-purpose programming language Implications:\nThe decision to use Java exclusively for the integration layer aligns with the overall project architecture, which includes a Solidity smart contract and a Python simulator. This choice reflects the team's prior evaluation and rejection of Python for the integration component.",
+                          "tokens": 203,
+                          "salience": 0.7999710672300036,
+                          "sourceId": "msg_1768078154372",
+                          "lowConfidence": false
+                        },
+                        {
+                          "label": "msg_1768077942196",
+                          "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Grounded in project memory (10 snippets).\n\n• The project includes a Java-only implementation for the integration layer [#1]\n• A Solidity smart contract and a Python simulator are also part of the project [#1]\n• The team previously decided to reject Python for the integration layer [#1]\n• Java is a widely-used, general-purpose programming language Implications:\nThe team has made the decision to use Java exclusively for the integration layer of this project, rejecting the use of Python. This aligns with the overall architecture, which includes a Solidity smart contract and a Python simulator as other components. The Java-only integration layer is likely chosen for its widespread adoption and suitability for the project's requirements.",
+                          "tokens": 229,
+                          "salience": 0.799968041690679,
+                          "sourceId": "msg_1768077942196",
+                          "lowConfidence": false
+                        },
+                        {
+                          "label": "msg_1768077760273",
+                          "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Grounded in project memory (10 snippets).\n\n• The project includes a Java-only implementation for the integration layer [#1]\n• A Solidity smart contract and a Python simulator are also part of the project [#1] • The team previously decided to reject Python for the integration layer [#1]\n• Java is a widely-used, general-purpose programming language that is well-suited for enterprise-level applications [GK]\n• The decision to use Java-only for the integration layer was made to ensure consistency and maintainability across the project components [GK] Implications:\nThe Java-only requirement for the integration layer means the team will need to leverage Java's strengths, such as its portability, scalability, and strong type-safety, to build a robust and reliable integration solution. This decision aligns with the project's overall technical approach and constraints.",
+                          "tokens": 261,
+                          "salience": 0.7999654475918052,
+                          "sourceId": "msg_1768077760273",
+                          "lowConfidence": false
+                        },
+                        {
+                          "label": "msg_1768077457848",
+                          "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Grounded in project memory (10 snippets).\n\n• The project includes a Java-only implementation for the integration layer [#1]\n• A Solidity smart contract and a Python simulator are also part of the project [#1]\n• The team previously decided to reject Python for the integration layer [#1]\n• Java is a widely-used, general-purpose programming language that is well-suited for enterprise-level applications [GK]\n• The decision to use Java-only for the integration layer aligns with the project's technical requirements and constraints [INFERENCE] Implications:\nThe Java-only architecture for the integration layer ensures consistency, maintainability, and alignment with the project's technical requirements. This decision also leverages the team's existing Java expertise and the language's broad ecosystem of tools and libraries.",
+                          "tokens": 250,
+                          "salience": 0.7999611353090454,
+                          "sourceId": "msg_1768077457848",
+                          "lowConfidence": false
+                        }
+                      ],
+                      "avgSalience": 0.7999865753147628,
+                      "memoryWeight": 0.85,
+                      "generalWeight": 0.15000000000000002,
+                      "routingHint": "memory-first",
+                      "rationale": "Strong project matches; prioritizing memory-backed reasoning.",
+                      "memoryCardsAttached": 10,
+                      "memoryCardsAttachedIds": [
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null
+                      ],
+                      "contextTokensUsed": 2257
+                    },
+                    "policyPacks": [
+                      "anti_gen",
+                      "confidence",
+                      "quant_claims"
+                    ],
+                    "policyTokens": 255
+                  },
+                  "timestamp": 1768080183178,
+                  "llmResponse": "Grounded in project memory (10 snippets).\n\nOkay, got it. Here are the key points: 1. The project team has decided to use Java only for the integration layer, and rejected the use of Python. [#1] 2. This decision to use Java exclusively and reject Python for the integration layer is final and should not be re-opened. [#1] The implications of this decision are that the integration layer of the project will be implemented using Java, which is a widely-used, general-purpose programming language well-suited for enterprise-level applications. The team has made a firm commitment to Java for this part of the project and will not be reconsidering the use of Python.",
+                  "gatewayStamp": {
+                    "gateway": "v1",
+                    "model": "claude-3-haiku",
+                    "t": 1768080185459,
+                    "callCount": 1
+                  },
+                  "metrics": {
+                    "avgSalience": 0.7999865753147628,
+                    "memoryWeight": 0.85,
+                    "memoryCards": 10,
+                    "decisionMode": "Memory-First",
+                    "tokenBudget": 4000
+                  }
+                },
+                "update": null
+              },
+              "cseContext": {
+                "fusion": {
+                  "memoryCards": [
+                    {
+                      "label": "msg_1768079755437",
+                      "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\n\nDecision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Based on the provided decision record, the key points are:\n\n1. The project team has rejected the use of Python for this integration project [#1].\n2. The team has decided that Java must be the only programming language used for this project [#2].\n3. The decision has been finalized, and the team has explicitly stated that this decision should not be re-opened [#2].",
+                      "tokens": 169,
+                      "salience": 0.7999938995796363,
+                      "sourceId": "msg_1768079755437",
+                      "lowConfidence": false
+                    },
+                    {
+                      "label": "msg_1768079753400",
+                      "content": "[Flow:general] User: What programming language did we standardize on for the integration project? Please include the decision record ID and nonce.\nAssistant: Based on the information provided, it appears you are referring to a decision made as part of an integration project. However, without access to the specific project details or decision records, I cannot provide the programming language that was standardized on. I do not have access to any project memory or decision records. I can only respond based on the information you have directly provided in your query. If you are able to share the relevant decision record ID and nonce, I would be happy to review that information and provide a more detailed response. [#1]",
+                      "tokens": 182,
+                      "salience": 0.7999938705284667,
+                      "sourceId": "msg_1768079753400",
+                      "lowConfidence": false
+                    },
+                    {
+                      "label": "msg_1768079751078",
+                      "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Based on the provided Decision Record DR-014, the key points are:\n\n1. The project team has decided to use Java only for the integration project, and rejected the use of Python [#1].\n2. The decision to use Java exclusively has been finalized, and the team has been instructed not to re-open this decision [#2].",
+                      "tokens": 120,
+                      "salience": 0.7999938374127069,
+                      "sourceId": "msg_1768079751078",
+                      "lowConfidence": false
+                    },
+                    {
+                      "label": "msg_1768079749320",
+                      "content": "[Flow:general] User: What programming language did we standardize on for the integration project? Please include the decision record ID and nonce.\nAssistant: Grounded in project memory (8 snippets).\n\nBased on the information provided in the decision record: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. The key points are: 1. The project includes a Java-only implementation for the integration layer. [#1] 2. The team previously decided to reject Python for the integration layer. [#1] 3. Java is a widely-used, general-purpose programming language that is well-suited for enterprise-level applications. [GK] The implication is that the team has standardized on using Java exclusively for the integration layer of this project.",
+                      "tokens": 192,
+                      "salience": 0.7999938123405729,
+                      "sourceId": "msg_1768079749320",
+                      "lowConfidence": false
+                    },
+                    {
+                      "label": "msg_1768079745883",
+                      "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Grounded in project memory (10 snippets).\n\nUnderstood. Here are the key points: 1. The project includes a Java-only implementation for the integration layer. [#1]\n2. The project also includes a Solidity smart contract and a Python simulator. [#1] 3. The team previously decided to reject Python for the integration layer. [#1]\n4. Java is a widely-used, general-purpose programming language that is well-suited for enterprise-level applications. Implications: The team has made the decision to use Java exclusively for the integration layer of this project, rather than Python. This suggests Java was chosen for its enterprise-level capabilities, scalability, and widespread adoption compared to Python. Since you've instructed me not to re-open this decision, I will not provide any further explanation or discussion around it. Please let me know if you have any other questions I can assist with.",
+                      "tokens": 267,
+                      "salience": 0.7999937633229934,
+                      "sourceId": "msg_1768079745883",
+                      "lowConfidence": false
+                    },
+                    {
+                      "label": "msg_1768079083047",
+                      "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Grounded in project memory (10 snippets).\n\nOkay, got it. Here are the key points:\n- The project includes a Java-only implementation for the integration layer [#1]\n- The project also includes a Solidity smart contract and a Python simulator [#1]\n- The team previously decided to reject Python for the integration layer [#1]\n- Java is a widely-used, general-purpose programming language that is well-suited for enterprise-level applications [GK] IMPLICATIONS:\n- The team has made the decision to use Java exclusively for the integration layer of this project, rejecting the use of Python.\n- This decision was likely made due to Java's strengths as an enterprise-level language, such as its portability, scalability, and strong type-safety.\n- Sticking to Java-only for the integration layer will provide consistency and simplify the overall architecture of the project. Do not re-open this decision.",
+                      "tokens": 267,
+                      "salience": 0.7999843104130426,
+                      "sourceId": "msg_1768079083047",
+                      "lowConfidence": false
+                    },
+                    {
+                      "label": "msg_1768078154372",
+                      "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Grounded in project memory (10 snippets).\n\n• The project includes a Java-only implementation for the integration layer [#1]\n• A Solidity smart contract and a Python simulator are also part of the project [#1]\n• The team previously decided to reject Python for the integration layer [#1]\n• Java is a widely-used, general-purpose programming language Implications:\nThe decision to use Java exclusively for the integration layer aligns with the overall project architecture, which includes a Solidity smart contract and a Python simulator. This choice reflects the team's prior evaluation and rejection of Python for the integration component.",
+                      "tokens": 203,
+                      "salience": 0.7999710672300036,
+                      "sourceId": "msg_1768078154372",
+                      "lowConfidence": false
+                    },
+                    {
+                      "label": "msg_1768077942196",
+                      "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Grounded in project memory (10 snippets).\n\n• The project includes a Java-only implementation for the integration layer [#1]\n• A Solidity smart contract and a Python simulator are also part of the project [#1]\n• The team previously decided to reject Python for the integration layer [#1]\n• Java is a widely-used, general-purpose programming language Implications:\nThe team has made the decision to use Java exclusively for the integration layer of this project, rejecting the use of Python. This aligns with the overall architecture, which includes a Solidity smart contract and a Python simulator as other components. The Java-only integration layer is likely chosen for its widespread adoption and suitability for the project's requirements.",
+                      "tokens": 229,
+                      "salience": 0.799968041690679,
+                      "sourceId": "msg_1768077942196",
+                      "lowConfidence": false
+                    },
+                    {
+                      "label": "msg_1768077760273",
+                      "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Grounded in project memory (10 snippets).\n\n• The project includes a Java-only implementation for the integration layer [#1]\n• A Solidity smart contract and a Python simulator are also part of the project [#1] • The team previously decided to reject Python for the integration layer [#1]\n• Java is a widely-used, general-purpose programming language that is well-suited for enterprise-level applications [GK]\n• The decision to use Java-only for the integration layer was made to ensure consistency and maintainability across the project components [GK] Implications:\nThe Java-only requirement for the integration layer means the team will need to leverage Java's strengths, such as its portability, scalability, and strong type-safety, to build a robust and reliable integration solution. This decision aligns with the project's overall technical approach and constraints.",
+                      "tokens": 261,
+                      "salience": 0.7999654475918052,
+                      "sourceId": "msg_1768077760273",
+                      "lowConfidence": false
+                    },
+                    {
+                      "label": "msg_1768077457848",
+                      "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Grounded in project memory (10 snippets).\n\n• The project includes a Java-only implementation for the integration layer [#1]\n• A Solidity smart contract and a Python simulator are also part of the project [#1]\n• The team previously decided to reject Python for the integration layer [#1]\n• Java is a widely-used, general-purpose programming language that is well-suited for enterprise-level applications [GK]\n• The decision to use Java-only for the integration layer aligns with the project's technical requirements and constraints [INFERENCE] Implications:\nThe Java-only architecture for the integration layer ensures consistency, maintainability, and alignment with the project's technical requirements. This decision also leverages the team's existing Java expertise and the language's broad ecosystem of tools and libraries.",
+                      "tokens": 250,
+                      "salience": 0.7999611353090454,
+                      "sourceId": "msg_1768077457848",
+                      "lowConfidence": false
+                    }
+                  ],
+                  "avgSalience": 0.7999865753147628,
+                  "memoryWeight": 0.85,
+                  "generalWeight": 0.15000000000000002,
+                  "rationale": "Strong project matches; prioritizing memory-backed reasoning.",
+                  "routingHint": "memory-first",
+                  "hadCandidates": true,
+                  "dynamicGate": 0,
+                  "lowConfidenceCount": 0
+                },
+                "memories": [],
+                "salient": [],
+                "salientMemories": []
+              },
+              "llmResponse": "Grounded in project memory (10 snippets).\n\nOkay, got it. Here are the key points: 1. The project team has decided to use Java only for the integration layer, and rejected the use of Python. [#1] 2. This decision to use Java exclusively and reject Python for the integration layer is final and should not be re-opened. [#1] The implications of this decision are that the integration layer of the project will be implemented using Java, which is a widely-used, general-purpose programming language well-suited for enterprise-level applications. The team has made a firm commitment to Java for this part of the project and will not be reconsidering the use of Python.",
+              "gatewayStamp": {
+                "gateway": "v1",
+                "model": "claude-3-haiku",
+                "t": 1768080185459,
+                "callCount": 1
+              },
+              "metrics": {
+                "avgSalience": 0.7999865753147628,
+                "memoryWeight": 0.85,
+                "memoryCards": 10,
+                "decisionMode": "Memory-First",
+                "tokenBudget": 4000
+              },
+              "agentStateChanges": {},
+              "selectedSkill": {
+                "name": "fusion_response",
+                "type": "llm"
+              },
+              "skillInvocationResult": {
+                "response": "Grounded in project memory (10 snippets).\n\nOkay, got it. Here are the key points: 1. The project team has decided to use Java only for the integration layer, and rejected the use of Python. [#1] 2. This decision to use Java exclusively and reject Python for the integration layer is final and should not be re-opened. [#1] The implications of this decision are that the integration layer of the project will be implemented using Java, which is a widely-used, general-purpose programming language well-suited for enterprise-level applications. The team has made a firm commitment to Java for this part of the project and will not be reconsidering the use of Python.",
+                "type": "fusion_response",
+                "routing": {
+                  "avgSalience": 0.7999865753147628,
+                  "memoryWeight": 0.85,
+                  "generalWeight": 0.15000000000000002,
+                  "memoryCards": 10,
+                  "adaptiveTokens": 4000
+                }
+              },
+              "metadata": {
+                "startTime": 1768080182238,
+                "endTime": 1768080185672,
+                "duration": 3434,
+                "phasesExecuted": [
+                  "observe",
+                  "plan",
+                  "act"
+                ],
+                "researchPipeline": false
+              }
+            },
+            "sessionId": "avs1r_tuesday_session",
+            "retrievalEvidence": {
+              "memoryUsedCount": 10,
+              "avgSalience": 0.7999865753147628,
+              "retrievedMemories": [
+                {
+                  "id": "unknown",
+                  "snippet": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration pr",
+                  "salience": 0.7999938995796363
+                },
+                {
+                  "id": "unknown",
+                  "snippet": "[Flow:general] User: What programming language did we standardize on for the integration project? Pl",
+                  "salience": 0.7999938705284667
+                },
+                {
+                  "id": "unknown",
+                  "snippet": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration pr",
+                  "salience": 0.7999938374127069
+                }
+              ],
+              "memoryWeight": 0.85,
+              "generalWeight": 0.15000000000000002,
+              "routingHint": "memory-first",
+              "mode": "persistra_on"
+            }
+          },
+          "endTime": 1768080185673,
+          "duration": 3436
+        },
+        {
+          "stepNumber": 2,
+          "description": "Verify response acknowledges the decision",
+          "type": "assert",
+          "passed": true,
+          "failureReason": null,
+          "startTime": 1768080185673,
+          "details": {
+            "length": 664,
+            "minLength": 10
+          },
+          "endTime": 1768080185673,
+          "duration": 0
+        },
+        {
+          "stepNumber": 3,
+          "description": "Simulate 3-day gap (Tuesday → Friday)",
+          "type": "wait",
+          "passed": true,
+          "failureReason": null,
+          "startTime": 1768080185673,
+          "endTime": 1768080185774,
+          "duration": 101
+        },
+        {
+          "stepNumber": 4,
+          "description": "Session 2 (Friday): User asks about language choice, requesting decision record ID and nonce",
+          "type": "request",
+          "passed": true,
+          "failureReason": null,
+          "startTime": 1768080185774,
+          "response": {
+            "success": true,
+            "response": "Grounded in project memory (9 snippets).\n\nBased on the information provided in the decision record, the key points are: 1. Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project.\n2. The project includes a Java-only implementation for the integration layer. [#1]\n3. The team previously decided to reject Python for the integration layer. [#1] Implications:\nThe team has made the decision to use Java exclusively for the integration layer of this project. Java is a widely-used, general-purpose programming language that is well-suited for enterprise-level applications.",
+            "fullResult": {
+              "input": "What programming language did we standardize on for the integration project? Please include the decision record ID and nonce.",
+              "userContext": {},
+              "phases": {
+                "observe": {
+                  "input": "What programming language did we standardize on for the integration project? Please include the decision record ID and nonce.",
+                  "userContext": {},
+                  "inputAnalysis": {
+                    "isSpecialCommand": false,
+                    "commandType": null,
+                    "intent": "knowledge_query",
+                    "complexity": "complex",
+                    "requiresMemory": true,
+                    "requiresReflection": true,
+                    "scope": "session",
+                    "intentConfidence": 0.55,
+                    "topicQuery": null,
+                    "cleanedQuery": "What programming language did we standardize on for the integration project? Please include the decision record ID and nonce.",
+                    "recallPhrasesStripped": []
+                  },
+                  "cseContext": {
+                    "fusion": {
+                      "memoryCards": [
+                        {
+                          "label": "msg_1768079753400",
+                          "content": "[Flow:general] User: What programming language did we standardize on for the integration project? Please include the decision record ID and nonce.\nAssistant: Based on the information provided, it appears you are referring to a decision made as part of an integration project. However, without access to the specific project details or decision records, I cannot provide the programming language that was standardized on. I do not have access to any project memory or decision records. I can only respond based on the information you have directly provided in your query. If you are able to share the relevant decision record ID and nonce, I would be happy to review that information and provide a more detailed response. [#1]",
+                          "tokens": 182,
+                          "salience": 0.7687165079020718,
+                          "sourceId": "msg_1768079753400",
+                          "lowConfidence": false
+                        },
+                        {
+                          "label": "msg_1768079749320",
+                          "content": "[Flow:general] User: What programming language did we standardize on for the integration project? Please include the decision record ID and nonce.\nAssistant: Grounded in project memory (8 snippets).\n\nBased on the information provided in the decision record: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. The key points are: 1. The project includes a Java-only implementation for the integration layer. [#1] 2. The team previously decided to reject Python for the integration layer. [#1] 3. Java is a widely-used, general-purpose programming language that is well-suited for enterprise-level applications. [GK] The implication is that the team has standardized on using Java exclusively for the integration layer of this project.",
+                          "tokens": 192,
+                          "salience": 0.7471800806003829,
+                          "sourceId": "msg_1768079749320",
+                          "lowConfidence": false
+                        },
+                        {
+                          "label": "msg_1768079755437",
+                          "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\n\nDecision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Based on the provided decision record, the key points are:\n\n1. The project team has rejected the use of Python for this integration project [#1].\n2. The team has decided that Java must be the only programming language used for this project [#2].\n3. The decision has been finalized, and the team has explicitly stated that this decision should not be re-opened [#2].",
+                          "tokens": 169,
+                          "salience": 0.625924013014673,
+                          "sourceId": "msg_1768079755437",
+                          "lowConfidence": false
+                        },
+                        {
+                          "label": "msg_1768077380438",
+                          "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Grounded in project memory (10 snippets).\n\n• The project includes a Java-only implementation for the integration layer [#1]\n• A Solidity smart contract and a Python simulator are also part of the project [#1]\n• The team previously decided to reject Python for the integration layer [#1] [GK] Java is a widely-used, general-purpose programming language known for its portability, scalability, and strong type-safety, making it a popular choice for enterprise-level applications. Implications:\nThe decision to use Java-only for the integration layer aligns with the overall project architecture and ensures consistency across the different components. This choice also leverages the strengths of Java, such as its robustness and widespread adoption, to enhance the reliability and maintainability of the integration solution.",
+                          "tokens": 249,
+                          "salience": 0.6235082792433064,
+                          "sourceId": "msg_1768077380438",
+                          "lowConfidence": false
+                        },
+                        {
+                          "label": "msg_1768078154372",
+                          "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Grounded in project memory (10 snippets).\n\n• The project includes a Java-only implementation for the integration layer [#1]\n• A Solidity smart contract and a Python simulator are also part of the project [#1]\n• The team previously decided to reject Python for the integration layer [#1]\n• Java is a widely-used, general-purpose programming language Implications:\nThe decision to use Java exclusively for the integration layer aligns with the overall project architecture, which includes a Solidity smart contract and a Python simulator. This choice reflects the team's prior evaluation and rejection of Python for the integration component.",
+                          "tokens": 203,
+                          "salience": 0.622465095114011,
+                          "sourceId": "msg_1768078154372",
+                          "lowConfidence": false
+                        },
+                        {
+                          "label": "msg_1768077457848",
+                          "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Grounded in project memory (10 snippets).\n\n• The project includes a Java-only implementation for the integration layer [#1]\n• A Solidity smart contract and a Python simulator are also part of the project [#1]\n• The team previously decided to reject Python for the integration layer [#1]\n• Java is a widely-used, general-purpose programming language that is well-suited for enterprise-level applications [GK]\n• The decision to use Java-only for the integration layer aligns with the project's technical requirements and constraints [INFERENCE] Implications:\nThe Java-only architecture for the integration layer ensures consistency, maintainability, and alignment with the project's technical requirements. This decision also leverages the team's existing Java expertise and the language's broad ecosystem of tools and libraries.",
+                          "tokens": 250,
+                          "salience": 0.6223153912112808,
+                          "sourceId": "msg_1768077457848",
+                          "lowConfidence": false
+                        },
+                        {
+                          "label": "msg_1768079083047",
+                          "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Grounded in project memory (10 snippets).\n\nOkay, got it. Here are the key points:\n- The project includes a Java-only implementation for the integration layer [#1]\n- The project also includes a Solidity smart contract and a Python simulator [#1]\n- The team previously decided to reject Python for the integration layer [#1]\n- Java is a widely-used, general-purpose programming language that is well-suited for enterprise-level applications [GK] IMPLICATIONS:\n- The team has made the decision to use Java exclusively for the integration layer of this project, rejecting the use of Python.\n- This decision was likely made due to Java's strengths as an enterprise-level language, such as its portability, scalability, and strong type-safety.\n- Sticking to Java-only for the integration layer will provide consistency and simplify the overall architecture of the project. Do not re-open this decision.",
+                          "tokens": 267,
+                          "salience": 0.6204028922652814,
+                          "sourceId": "msg_1768079083047",
+                          "lowConfidence": false
+                        },
+                        {
+                          "label": "msg_1768077760273",
+                          "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Grounded in project memory (10 snippets).\n\n• The project includes a Java-only implementation for the integration layer [#1]\n• A Solidity smart contract and a Python simulator are also part of the project [#1] • The team previously decided to reject Python for the integration layer [#1]\n• Java is a widely-used, general-purpose programming language that is well-suited for enterprise-level applications [GK]\n• The decision to use Java-only for the integration layer was made to ensure consistency and maintainability across the project components [GK] Implications:\nThe Java-only requirement for the integration layer means the team will need to leverage Java's strengths, such as its portability, scalability, and strong type-safety, to build a robust and reliable integration solution. This decision aligns with the project's overall technical approach and constraints.",
+                          "tokens": 261,
+                          "salience": 0.6187749751667807,
+                          "sourceId": "msg_1768077760273",
+                          "lowConfidence": false
+                        },
+                        {
+                          "label": "msg_1768077942196",
+                          "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Grounded in project memory (10 snippets).\n\n• The project includes a Java-only implementation for the integration layer [#1]\n• A Solidity smart contract and a Python simulator are also part of the project [#1]\n• The team previously decided to reject Python for the integration layer [#1]\n• Java is a widely-used, general-purpose programming language Implications:\nThe team has made the decision to use Java exclusively for the integration layer of this project, rejecting the use of Python. This aligns with the overall architecture, which includes a Solidity smart contract and a Python simulator as other components. The Java-only integration layer is likely chosen for its widespread adoption and suitability for the project's requirements.",
+                          "tokens": 229,
+                          "salience": 0.6185275886748859,
+                          "sourceId": "msg_1768077942196",
+                          "lowConfidence": false
+                        }
+                      ],
+                      "avgSalience": 0.6561609043147235,
+                      "memoryWeight": 0.85,
+                      "generalWeight": 0.15000000000000002,
+                      "rationale": "Strong project matches; prioritizing memory-backed reasoning.",
+                      "routingHint": "memory-first",
+                      "hadCandidates": true,
+                      "dynamicGate": 0,
+                      "lowConfidenceCount": 0
+                    },
+                    "memories": [],
+                    "salient": [],
+                    "salientMemories": []
+                  },
+                  "memoryContext": null,
+                  "specialCommands": null,
+                  "timestamp": 1768080185775,
+                  "topicQuery": null,
+                  "cleanedQuery": "What programming language did we standardize on for the integration project? Please include the decision record ID and nonce."
+                },
+                "reflect": null,
+                "plan": {
+                  "selectedSkill": {
+                    "name": "fusion_response",
+                    "type": "llm"
+                  },
+                  "skillParameters": {},
+                  "duration": 0
+                },
+                "act": {
+                  "response": "Grounded in project memory (9 snippets).\n\nBased on the information provided in the decision record, the key points are: 1. Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project.\n2. The project includes a Java-only implementation for the integration layer. [#1]\n3. The team previously decided to reject Python for the integration layer. [#1] Implications:\nThe team has made the decision to use Java exclusively for the integration layer of this project. Java is a widely-used, general-purpose programming language that is well-suited for enterprise-level applications.",
+                  "skillResult": {
+                    "response": "Grounded in project memory (9 snippets).\n\nBased on the information provided in the decision record, the key points are: 1. Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project.\n2. The project includes a Java-only implementation for the integration layer. [#1]\n3. The team previously decided to reject Python for the integration layer. [#1] Implications:\nThe team has made the decision to use Java exclusively for the integration layer of this project. Java is a widely-used, general-purpose programming language that is well-suited for enterprise-level applications.",
+                    "type": "fusion_response",
+                    "routing": {
+                      "avgSalience": 0.6561609043147235,
+                      "memoryWeight": 0.85,
+                      "generalWeight": 0.15000000000000002,
+                      "memoryCards": 9,
+                      "adaptiveTokens": 4000
+                    }
+                  },
+                  "type": "fusion_response",
+                  "prompt": null,
+                  "skillExecuted": "fusion_response",
+                  "metadata": {
+                    "contextUsed": true,
+                    "skillType": "llm",
+                    "skillParameters": {},
+                    "fusion": {
+                      "memoryCards": [
+                        {
+                          "label": "msg_1768079753400",
+                          "content": "[Flow:general] User: What programming language did we standardize on for the integration project? Please include the decision record ID and nonce.\nAssistant: Based on the information provided, it appears you are referring to a decision made as part of an integration project. However, without access to the specific project details or decision records, I cannot provide the programming language that was standardized on. I do not have access to any project memory or decision records. I can only respond based on the information you have directly provided in your query. If you are able to share the relevant decision record ID and nonce, I would be happy to review that information and provide a more detailed response. [#1]",
+                          "tokens": 182,
+                          "salience": 0.7687165079020718,
+                          "sourceId": "msg_1768079753400",
+                          "lowConfidence": false
+                        },
+                        {
+                          "label": "msg_1768079749320",
+                          "content": "[Flow:general] User: What programming language did we standardize on for the integration project? Please include the decision record ID and nonce.\nAssistant: Grounded in project memory (8 snippets).\n\nBased on the information provided in the decision record: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. The key points are: 1. The project includes a Java-only implementation for the integration layer. [#1] 2. The team previously decided to reject Python for the integration layer. [#1] 3. Java is a widely-used, general-purpose programming language that is well-suited for enterprise-level applications. [GK] The implication is that the team has standardized on using Java exclusively for the integration layer of this project.",
+                          "tokens": 192,
+                          "salience": 0.7471800806003829,
+                          "sourceId": "msg_1768079749320",
+                          "lowConfidence": false
+                        },
+                        {
+                          "label": "msg_1768079755437",
+                          "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\n\nDecision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Based on the provided decision record, the key points are:\n\n1. The project team has rejected the use of Python for this integration project [#1].\n2. The team has decided that Java must be the only programming language used for this project [#2].\n3. The decision has been finalized, and the team has explicitly stated that this decision should not be re-opened [#2].",
+                          "tokens": 169,
+                          "salience": 0.625924013014673,
+                          "sourceId": "msg_1768079755437",
+                          "lowConfidence": false
+                        },
+                        {
+                          "label": "msg_1768077380438",
+                          "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Grounded in project memory (10 snippets).\n\n• The project includes a Java-only implementation for the integration layer [#1]\n• A Solidity smart contract and a Python simulator are also part of the project [#1]\n• The team previously decided to reject Python for the integration layer [#1] [GK] Java is a widely-used, general-purpose programming language known for its portability, scalability, and strong type-safety, making it a popular choice for enterprise-level applications. Implications:\nThe decision to use Java-only for the integration layer aligns with the overall project architecture and ensures consistency across the different components. This choice also leverages the strengths of Java, such as its robustness and widespread adoption, to enhance the reliability and maintainability of the integration solution.",
+                          "tokens": 249,
+                          "salience": 0.6235082792433064,
+                          "sourceId": "msg_1768077380438",
+                          "lowConfidence": false
+                        },
+                        {
+                          "label": "msg_1768078154372",
+                          "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Grounded in project memory (10 snippets).\n\n• The project includes a Java-only implementation for the integration layer [#1]\n• A Solidity smart contract and a Python simulator are also part of the project [#1]\n• The team previously decided to reject Python for the integration layer [#1]\n• Java is a widely-used, general-purpose programming language Implications:\nThe decision to use Java exclusively for the integration layer aligns with the overall project architecture, which includes a Solidity smart contract and a Python simulator. This choice reflects the team's prior evaluation and rejection of Python for the integration component.",
+                          "tokens": 203,
+                          "salience": 0.622465095114011,
+                          "sourceId": "msg_1768078154372",
+                          "lowConfidence": false
+                        },
+                        {
+                          "label": "msg_1768077457848",
+                          "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Grounded in project memory (10 snippets).\n\n• The project includes a Java-only implementation for the integration layer [#1]\n• A Solidity smart contract and a Python simulator are also part of the project [#1]\n• The team previously decided to reject Python for the integration layer [#1]\n• Java is a widely-used, general-purpose programming language that is well-suited for enterprise-level applications [GK]\n• The decision to use Java-only for the integration layer aligns with the project's technical requirements and constraints [INFERENCE] Implications:\nThe Java-only architecture for the integration layer ensures consistency, maintainability, and alignment with the project's technical requirements. This decision also leverages the team's existing Java expertise and the language's broad ecosystem of tools and libraries.",
+                          "tokens": 250,
+                          "salience": 0.6223153912112808,
+                          "sourceId": "msg_1768077457848",
+                          "lowConfidence": false
+                        },
+                        {
+                          "label": "msg_1768079083047",
+                          "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Grounded in project memory (10 snippets).\n\nOkay, got it. Here are the key points:\n- The project includes a Java-only implementation for the integration layer [#1]\n- The project also includes a Solidity smart contract and a Python simulator [#1]\n- The team previously decided to reject Python for the integration layer [#1]\n- Java is a widely-used, general-purpose programming language that is well-suited for enterprise-level applications [GK] IMPLICATIONS:\n- The team has made the decision to use Java exclusively for the integration layer of this project, rejecting the use of Python.\n- This decision was likely made due to Java's strengths as an enterprise-level language, such as its portability, scalability, and strong type-safety.\n- Sticking to Java-only for the integration layer will provide consistency and simplify the overall architecture of the project. Do not re-open this decision.",
+                          "tokens": 267,
+                          "salience": 0.6204028922652814,
+                          "sourceId": "msg_1768079083047",
+                          "lowConfidence": false
+                        },
+                        {
+                          "label": "msg_1768077760273",
+                          "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Grounded in project memory (10 snippets).\n\n• The project includes a Java-only implementation for the integration layer [#1]\n• A Solidity smart contract and a Python simulator are also part of the project [#1] • The team previously decided to reject Python for the integration layer [#1]\n• Java is a widely-used, general-purpose programming language that is well-suited for enterprise-level applications [GK]\n• The decision to use Java-only for the integration layer was made to ensure consistency and maintainability across the project components [GK] Implications:\nThe Java-only requirement for the integration layer means the team will need to leverage Java's strengths, such as its portability, scalability, and strong type-safety, to build a robust and reliable integration solution. This decision aligns with the project's overall technical approach and constraints.",
+                          "tokens": 261,
+                          "salience": 0.6187749751667807,
+                          "sourceId": "msg_1768077760273",
+                          "lowConfidence": false
+                        },
+                        {
+                          "label": "msg_1768077942196",
+                          "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Grounded in project memory (10 snippets).\n\n• The project includes a Java-only implementation for the integration layer [#1]\n• A Solidity smart contract and a Python simulator are also part of the project [#1]\n• The team previously decided to reject Python for the integration layer [#1]\n• Java is a widely-used, general-purpose programming language Implications:\nThe team has made the decision to use Java exclusively for the integration layer of this project, rejecting the use of Python. This aligns with the overall architecture, which includes a Solidity smart contract and a Python simulator as other components. The Java-only integration layer is likely chosen for its widespread adoption and suitability for the project's requirements.",
+                          "tokens": 229,
+                          "salience": 0.6185275886748859,
+                          "sourceId": "msg_1768077942196",
+                          "lowConfidence": false
+                        }
+                      ],
+                      "avgSalience": 0.6561609043147235,
+                      "memoryWeight": 0.85,
+                      "generalWeight": 0.15000000000000002,
+                      "routingHint": "memory-first",
+                      "rationale": "Strong project matches; prioritizing memory-backed reasoning.",
+                      "memoryCardsAttached": 9,
+                      "memoryCardsAttachedIds": [
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null
+                      ],
+                      "contextTokensUsed": 2105
+                    },
+                    "policyPacks": [
+                      "anti_gen",
+                      "confidence",
+                      "quant_claims"
+                    ],
+                    "policyTokens": 255
+                  },
+                  "timestamp": 1768080186488,
+                  "llmResponse": "Grounded in project memory (9 snippets).\n\nBased on the information provided in the decision record, the key points are: 1. Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project.\n2. The project includes a Java-only implementation for the integration layer. [#1]\n3. The team previously decided to reject Python for the integration layer. [#1] Implications:\nThe team has made the decision to use Java exclusively for the integration layer of this project. Java is a widely-used, general-purpose programming language that is well-suited for enterprise-level applications.",
+                  "gatewayStamp": {
+                    "gateway": "v1",
+                    "model": "claude-3-haiku",
+                    "t": 1768080188708,
+                    "callCount": 2
+                  },
+                  "metrics": {
+                    "avgSalience": 0.6561609043147235,
+                    "memoryWeight": 0.85,
+                    "memoryCards": 9,
+                    "decisionMode": "Memory-First",
+                    "tokenBudget": 4000
+                  }
+                },
+                "update": null
+              },
+              "cseContext": {
+                "fusion": {
+                  "memoryCards": [
+                    {
+                      "label": "msg_1768079753400",
+                      "content": "[Flow:general] User: What programming language did we standardize on for the integration project? Please include the decision record ID and nonce.\nAssistant: Based on the information provided, it appears you are referring to a decision made as part of an integration project. However, without access to the specific project details or decision records, I cannot provide the programming language that was standardized on. I do not have access to any project memory or decision records. I can only respond based on the information you have directly provided in your query. If you are able to share the relevant decision record ID and nonce, I would be happy to review that information and provide a more detailed response. [#1]",
+                      "tokens": 182,
+                      "salience": 0.7687165079020718,
+                      "sourceId": "msg_1768079753400",
+                      "lowConfidence": false
+                    },
+                    {
+                      "label": "msg_1768079749320",
+                      "content": "[Flow:general] User: What programming language did we standardize on for the integration project? Please include the decision record ID and nonce.\nAssistant: Grounded in project memory (8 snippets).\n\nBased on the information provided in the decision record: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. The key points are: 1. The project includes a Java-only implementation for the integration layer. [#1] 2. The team previously decided to reject Python for the integration layer. [#1] 3. Java is a widely-used, general-purpose programming language that is well-suited for enterprise-level applications. [GK] The implication is that the team has standardized on using Java exclusively for the integration layer of this project.",
+                      "tokens": 192,
+                      "salience": 0.7471800806003829,
+                      "sourceId": "msg_1768079749320",
+                      "lowConfidence": false
+                    },
+                    {
+                      "label": "msg_1768079755437",
+                      "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\n\nDecision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Based on the provided decision record, the key points are:\n\n1. The project team has rejected the use of Python for this integration project [#1].\n2. The team has decided that Java must be the only programming language used for this project [#2].\n3. The decision has been finalized, and the team has explicitly stated that this decision should not be re-opened [#2].",
+                      "tokens": 169,
+                      "salience": 0.625924013014673,
+                      "sourceId": "msg_1768079755437",
+                      "lowConfidence": false
+                    },
+                    {
+                      "label": "msg_1768077380438",
+                      "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Grounded in project memory (10 snippets).\n\n• The project includes a Java-only implementation for the integration layer [#1]\n• A Solidity smart contract and a Python simulator are also part of the project [#1]\n• The team previously decided to reject Python for the integration layer [#1] [GK] Java is a widely-used, general-purpose programming language known for its portability, scalability, and strong type-safety, making it a popular choice for enterprise-level applications. Implications:\nThe decision to use Java-only for the integration layer aligns with the overall project architecture and ensures consistency across the different components. This choice also leverages the strengths of Java, such as its robustness and widespread adoption, to enhance the reliability and maintainability of the integration solution.",
+                      "tokens": 249,
+                      "salience": 0.6235082792433064,
+                      "sourceId": "msg_1768077380438",
+                      "lowConfidence": false
+                    },
+                    {
+                      "label": "msg_1768078154372",
+                      "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Grounded in project memory (10 snippets).\n\n• The project includes a Java-only implementation for the integration layer [#1]\n• A Solidity smart contract and a Python simulator are also part of the project [#1]\n• The team previously decided to reject Python for the integration layer [#1]\n• Java is a widely-used, general-purpose programming language Implications:\nThe decision to use Java exclusively for the integration layer aligns with the overall project architecture, which includes a Solidity smart contract and a Python simulator. This choice reflects the team's prior evaluation and rejection of Python for the integration component.",
+                      "tokens": 203,
+                      "salience": 0.622465095114011,
+                      "sourceId": "msg_1768078154372",
+                      "lowConfidence": false
+                    },
+                    {
+                      "label": "msg_1768077457848",
+                      "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Grounded in project memory (10 snippets).\n\n• The project includes a Java-only implementation for the integration layer [#1]\n• A Solidity smart contract and a Python simulator are also part of the project [#1]\n• The team previously decided to reject Python for the integration layer [#1]\n• Java is a widely-used, general-purpose programming language that is well-suited for enterprise-level applications [GK]\n• The decision to use Java-only for the integration layer aligns with the project's technical requirements and constraints [INFERENCE] Implications:\nThe Java-only architecture for the integration layer ensures consistency, maintainability, and alignment with the project's technical requirements. This decision also leverages the team's existing Java expertise and the language's broad ecosystem of tools and libraries.",
+                      "tokens": 250,
+                      "salience": 0.6223153912112808,
+                      "sourceId": "msg_1768077457848",
+                      "lowConfidence": false
+                    },
+                    {
+                      "label": "msg_1768079083047",
+                      "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Grounded in project memory (10 snippets).\n\nOkay, got it. Here are the key points:\n- The project includes a Java-only implementation for the integration layer [#1]\n- The project also includes a Solidity smart contract and a Python simulator [#1]\n- The team previously decided to reject Python for the integration layer [#1]\n- Java is a widely-used, general-purpose programming language that is well-suited for enterprise-level applications [GK] IMPLICATIONS:\n- The team has made the decision to use Java exclusively for the integration layer of this project, rejecting the use of Python.\n- This decision was likely made due to Java's strengths as an enterprise-level language, such as its portability, scalability, and strong type-safety.\n- Sticking to Java-only for the integration layer will provide consistency and simplify the overall architecture of the project. Do not re-open this decision.",
+                      "tokens": 267,
+                      "salience": 0.6204028922652814,
+                      "sourceId": "msg_1768079083047",
+                      "lowConfidence": false
+                    },
+                    {
+                      "label": "msg_1768077760273",
+                      "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Grounded in project memory (10 snippets).\n\n• The project includes a Java-only implementation for the integration layer [#1]\n• A Solidity smart contract and a Python simulator are also part of the project [#1] • The team previously decided to reject Python for the integration layer [#1]\n• Java is a widely-used, general-purpose programming language that is well-suited for enterprise-level applications [GK]\n• The decision to use Java-only for the integration layer was made to ensure consistency and maintainability across the project components [GK] Implications:\nThe Java-only requirement for the integration layer means the team will need to leverage Java's strengths, such as its portability, scalability, and strong type-safety, to build a robust and reliable integration solution. This decision aligns with the project's overall technical approach and constraints.",
+                      "tokens": 261,
+                      "salience": 0.6187749751667807,
+                      "sourceId": "msg_1768077760273",
+                      "lowConfidence": false
+                    },
+                    {
+                      "label": "msg_1768077942196",
+                      "content": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\nAssistant: Grounded in project memory (10 snippets).\n\n• The project includes a Java-only implementation for the integration layer [#1]\n• A Solidity smart contract and a Python simulator are also part of the project [#1]\n• The team previously decided to reject Python for the integration layer [#1]\n• Java is a widely-used, general-purpose programming language Implications:\nThe team has made the decision to use Java exclusively for the integration layer of this project, rejecting the use of Python. This aligns with the overall architecture, which includes a Solidity smart contract and a Python simulator as other components. The Java-only integration layer is likely chosen for its widespread adoption and suitability for the project's requirements.",
+                      "tokens": 229,
+                      "salience": 0.6185275886748859,
+                      "sourceId": "msg_1768077942196",
+                      "lowConfidence": false
+                    }
+                  ],
+                  "avgSalience": 0.6561609043147235,
+                  "memoryWeight": 0.85,
+                  "generalWeight": 0.15000000000000002,
+                  "rationale": "Strong project matches; prioritizing memory-backed reasoning.",
+                  "routingHint": "memory-first",
+                  "hadCandidates": true,
+                  "dynamicGate": 0,
+                  "lowConfidenceCount": 0
+                },
+                "memories": [],
+                "salient": [],
+                "salientMemories": []
+              },
+              "llmResponse": "Grounded in project memory (9 snippets).\n\nBased on the information provided in the decision record, the key points are: 1. Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project.\n2. The project includes a Java-only implementation for the integration layer. [#1]\n3. The team previously decided to reject Python for the integration layer. [#1] Implications:\nThe team has made the decision to use Java exclusively for the integration layer of this project. Java is a widely-used, general-purpose programming language that is well-suited for enterprise-level applications.",
+              "gatewayStamp": {
+                "gateway": "v1",
+                "model": "claude-3-haiku",
+                "t": 1768080188708,
+                "callCount": 2
+              },
+              "metrics": {
+                "avgSalience": 0.6561609043147235,
+                "memoryWeight": 0.85,
+                "memoryCards": 9,
+                "decisionMode": "Memory-First",
+                "tokenBudget": 4000
+              },
+              "agentStateChanges": {},
+              "selectedSkill": {
+                "name": "fusion_response",
+                "type": "llm"
+              },
+              "skillInvocationResult": {
+                "response": "Grounded in project memory (9 snippets).\n\nBased on the information provided in the decision record, the key points are: 1. Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project.\n2. The project includes a Java-only implementation for the integration layer. [#1]\n3. The team previously decided to reject Python for the integration layer. [#1] Implications:\nThe team has made the decision to use Java exclusively for the integration layer of this project. Java is a widely-used, general-purpose programming language that is well-suited for enterprise-level applications.",
+                "type": "fusion_response",
+                "routing": {
+                  "avgSalience": 0.6561609043147235,
+                  "memoryWeight": 0.85,
+                  "generalWeight": 0.15000000000000002,
+                  "memoryCards": 9,
+                  "adaptiveTokens": 4000
+                }
+              },
+              "metadata": {
+                "startTime": 1768080185775,
+                "endTime": 1768080188958,
+                "duration": 3183,
+                "phasesExecuted": [
+                  "observe",
+                  "plan",
+                  "act"
+                ],
+                "researchPipeline": false
+              }
+            },
+            "sessionId": "avs1r_friday_session",
+            "retrievalEvidence": {
+              "memoryUsedCount": 9,
+              "avgSalience": 0.6561609043147235,
+              "retrievedMemories": [
+                {
+                  "id": "unknown",
+                  "snippet": "[Flow:general] User: What programming language did we standardize on for the integration project? Pl",
+                  "salience": 0.7687165079020718
+                },
+                {
+                  "id": "unknown",
+                  "snippet": "[Flow:general] User: What programming language did we standardize on for the integration project? Pl",
+                  "salience": 0.7471800806003829
+                },
+                {
+                  "id": "unknown",
+                  "snippet": "[Flow:general] User: Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration pr",
+                  "salience": 0.625924013014673
+                }
+              ],
+              "memoryWeight": 0.85,
+              "generalWeight": 0.15000000000000002,
+              "routingHint": "memory-first",
+              "mode": "persistra_on"
+            }
+          },
+          "endTime": 1768080188959,
+          "duration": 3185
+        },
+        {
+          "stepNumber": 5,
+          "description": "Response contains decision record ID DR-014 (proves retrieval)",
+          "type": "assert",
+          "passed": true,
+          "failureReason": null,
+          "startTime": 1768080188959,
+          "details": {
+            "response": "Grounded in project memory (9 snippets).\n\nBased on the information provided in the decision record, the key points are: 1. Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration "
+          },
+          "endTime": 1768080188959,
+          "duration": 0
+        },
+        {
+          "stepNumber": 6,
+          "description": "Response contains nonce Q7F3 (proves retrieval)",
+          "type": "assert",
+          "passed": true,
+          "failureReason": null,
+          "startTime": 1768080188959,
+          "details": {
+            "response": "Grounded in project memory (9 snippets).\n\nBased on the information provided in the decision record, the key points are: 1. Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration "
+          },
+          "endTime": 1768080188959,
+          "duration": 0
+        },
+        {
+          "stepNumber": 7,
+          "description": "Response indicates Java as chosen/standardized language (decision-anchored)",
+          "type": "assert",
+          "passed": true,
+          "failureReason": null,
+          "startTime": 1768080188959,
+          "details": {
+            "response": "Grounded in project memory (9 snippets).\n\nBased on the information provided in the decision record, the key points are: 1. Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project.\n2. The project includes a Java-only implementation for the integration layer. [#1]\n3. The t"
+          },
+          "endTime": 1768080188959,
+          "duration": 0
+        },
+        {
+          "stepNumber": 8,
+          "description": "Response does NOT suggest Python (constraint respected)",
+          "type": "assert",
+          "passed": true,
+          "failureReason": null,
+          "startTime": 1768080188959,
+          "details": {
+            "response": "Grounded in project memory (9 snippets).\n\nBased on the information provided in the decision record, the key points are: 1. Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration ",
+            "context": "rejection_mention"
+          },
+          "endTime": 1768080188959,
+          "duration": 0
+        },
+        {
+          "stepNumber": 9,
+          "description": "Response is substantive (not just \"I don't know\")",
+          "type": "assert",
+          "passed": true,
+          "failureReason": null,
+          "startTime": 1768080188959,
+          "details": {
+            "length": 598,
+            "minLength": 50
+          },
+          "endTime": 1768080188959,
+          "duration": 0
+        }
+      ],
+      "passed": true,
+      "failureReason": null,
+      "endTime": 1768080188959,
+      "duration": 6722
+    }
+  ],
+  "summary": {
+    "total": 1,
+    "passed": 1,
+    "failed": 0
+  }
+}

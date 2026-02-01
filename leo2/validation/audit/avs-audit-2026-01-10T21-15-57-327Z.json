@@ -1,0 +1,232 @@
+{
+  "timestamp": "2026-01-10T21:15:57.327Z",
+  "results": [
+    {
+      "id": "AVS-1R",
+      "name": "Cross-Session Recall",
+      "description": "Validates semantic recall of policy decisions across sessions with paraphrased queries",
+      "startTime": 1768079753402,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "description": "Session 1 (Tuesday): User states language constraint with decision record ID and nonce",
+          "type": "request",
+          "passed": true,
+          "failureReason": null,
+          "startTime": 1768079753402,
+          "response": {
+            "success": true,
+            "response": "Based on the provided decision record, the key points are:\n\n1. The project team has rejected the use of Python for this integration project [#1].\n2. The team has decided that Java must be the only programming language used for this project [#2].\n3. The decision has been finalized, and the team has explicitly stated that this decision should not be re-opened [#2].",
+            "fullResult": {
+              "input": "Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\n\nDecision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.",
+              "userContext": {
+                "sessionId": "avs1r_tuesday_session",
+                "timestamp": 1768079741283,
+                "dayOfWeek": "Tuesday",
+                "disableRetrieval": true,
+                "disableMemoryGraph": true,
+                "pastedChars": 138
+              },
+              "phases": {
+                "observe": {
+                  "input": "Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\n\nDecision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.",
+                  "inputAnalysis": {
+                    "intent": "general"
+                  }
+                },
+                "reflect": {
+                  "strategy": "general_knowledge",
+                  "contextUsed": []
+                },
+                "plan": {
+                  "selectedSkill": "llm_conversation"
+                },
+                "act": {
+                  "llmResponse": "Based on the provided decision record, the key points are:\n\n1. The project team has rejected the use of Python for this integration project [#1].\n2. The team has decided that Java must be the only programming language used for this project [#2].\n3. The decision has been finalized, and the team has explicitly stated that this decision should not be re-opened [#2]."
+                },
+                "update": null
+              },
+              "llmResponse": "Based on the provided decision record, the key points are:\n\n1. The project team has rejected the use of Python for this integration project [#1].\n2. The team has decided that Java must be the only programming language used for this project [#2].\n3. The decision has been finalized, and the team has explicitly stated that this decision should not be re-opened [#2].",
+              "metadata": {
+                "baselineMode": "persistra_off",
+                "retrievalEnabled": false
+              }
+            },
+            "sessionId": "avs1r_tuesday_session",
+            "retrievalEvidence": {
+              "memoryUsedCount": 0,
+              "avgSalience": 0,
+              "retrievedMemories": [],
+              "memoryWeight": 0,
+              "generalWeight": 0,
+              "routingHint": "unknown",
+              "mode": "paste_context",
+              "pastedChars": 138
+            }
+          },
+          "endTime": 1768079755438,
+          "duration": 2036
+        },
+        {
+          "stepNumber": 2,
+          "description": "Verify response acknowledges the decision",
+          "type": "assert",
+          "passed": true,
+          "failureReason": null,
+          "startTime": 1768079755438,
+          "details": {
+            "length": 365,
+            "minLength": 10
+          },
+          "endTime": 1768079755438,
+          "duration": 0
+        },
+        {
+          "stepNumber": 3,
+          "description": "Simulate 3-day gap (Tuesday → Friday)",
+          "type": "wait",
+          "passed": true,
+          "failureReason": null,
+          "startTime": 1768079755438,
+          "endTime": 1768079755539,
+          "duration": 101
+        },
+        {
+          "stepNumber": 4,
+          "description": "Session 2 (Friday): User asks about language choice, requesting decision record ID and nonce",
+          "type": "request",
+          "passed": true,
+          "failureReason": null,
+          "startTime": 1768079755539,
+          "response": {
+            "success": true,
+            "response": "According to the decision record provided, the programming language standardized for the integration project is Java. This is evidenced by the statement \"We rejected Python for this integration project. We must use Java only.\" [#1]\n\nThe decision record ID is DR-014 and the nonce is Q7F3. [#1]",
+            "fullResult": {
+              "input": "Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\n\nWhat programming language did we standardize on for the integration project? Please include the decision record ID and nonce.",
+              "userContext": {
+                "sessionId": "avs1r_friday_session",
+                "timestamp": 1768338941283,
+                "dayOfWeek": "Friday",
+                "disableRetrieval": true,
+                "disableMemoryGraph": true,
+                "pastedChars": 138
+              },
+              "phases": {
+                "observe": {
+                  "input": "Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\n\nWhat programming language did we standardize on for the integration project? Please include the decision record ID and nonce.",
+                  "inputAnalysis": {
+                    "intent": "general"
+                  }
+                },
+                "reflect": {
+                  "strategy": "general_knowledge",
+                  "contextUsed": []
+                },
+                "plan": {
+                  "selectedSkill": "llm_conversation"
+                },
+                "act": {
+                  "llmResponse": "According to the decision record provided, the programming language standardized for the integration project is Java. This is evidenced by the statement \"We rejected Python for this integration project. We must use Java only.\" [#1]\n\nThe decision record ID is DR-014 and the nonce is Q7F3. [#1]"
+                },
+                "update": null
+              },
+              "llmResponse": "According to the decision record provided, the programming language standardized for the integration project is Java. This is evidenced by the statement \"We rejected Python for this integration project. We must use Java only.\" [#1]\n\nThe decision record ID is DR-014 and the nonce is Q7F3. [#1]",
+              "metadata": {
+                "baselineMode": "persistra_off",
+                "retrievalEnabled": false
+              }
+            },
+            "sessionId": "avs1r_friday_session",
+            "retrievalEvidence": {
+              "memoryUsedCount": 0,
+              "avgSalience": 0,
+              "retrievedMemories": [],
+              "memoryWeight": 0,
+              "generalWeight": 0,
+              "routingHint": "unknown",
+              "mode": "paste_context",
+              "pastedChars": 138
+            }
+          },
+          "endTime": 1768079757326,
+          "duration": 1787
+        },
+        {
+          "stepNumber": 5,
+          "description": "Response contains decision record ID DR-014 (proves retrieval)",
+          "type": "assert",
+          "passed": true,
+          "failureReason": null,
+          "startTime": 1768079757326,
+          "details": {
+            "response": "According to the decision record provided, the programming language standardized for the integration project is Java. This is evidenced by the statement \"We rejected Python for this integration projec"
+          },
+          "endTime": 1768079757326,
+          "duration": 0
+        },
+        {
+          "stepNumber": 6,
+          "description": "Response contains nonce Q7F3 (proves retrieval)",
+          "type": "assert",
+          "passed": true,
+          "failureReason": null,
+          "startTime": 1768079757326,
+          "details": {
+            "response": "According to the decision record provided, the programming language standardized for the integration project is Java. This is evidenced by the statement \"We rejected Python for this integration projec"
+          },
+          "endTime": 1768079757326,
+          "duration": 0
+        },
+        {
+          "stepNumber": 7,
+          "description": "Response suggests Java (semantic recall worked)",
+          "type": "assert",
+          "passed": true,
+          "failureReason": null,
+          "startTime": 1768079757326,
+          "details": {
+            "response": "According to the decision record provided, the programming language standardized for the integration project is Java. This is evidenced by the statement \"We rejected Python for this integration projec"
+          },
+          "endTime": 1768079757326,
+          "duration": 0
+        },
+        {
+          "stepNumber": 8,
+          "description": "Response does NOT suggest Python (constraint respected)",
+          "type": "assert",
+          "passed": true,
+          "failureReason": null,
+          "startTime": 1768079757326,
+          "details": {
+            "response": "According to the decision record provided, the programming language standardized for the integration project is Java. This is evidenced by the statement \"We rejected Python for this integration projec"
+          },
+          "endTime": 1768079757327,
+          "duration": 1
+        },
+        {
+          "stepNumber": 9,
+          "description": "Response is substantive (not just \"I don't know\")",
+          "type": "assert",
+          "passed": true,
+          "failureReason": null,
+          "startTime": 1768079757327,
+          "details": {
+            "length": 293,
+            "minLength": 50
+          },
+          "endTime": 1768079757327,
+          "duration": 0
+        }
+      ],
+      "passed": true,
+      "failureReason": null,
+      "endTime": 1768079757327,
+      "duration": 3925
+    }
+  ],
+  "summary": {
+    "total": 1,
+    "passed": 1,
+    "failed": 0
+  }
+}

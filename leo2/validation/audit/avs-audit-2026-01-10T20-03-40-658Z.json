@@ -1,0 +1,427 @@
+{
+  "timestamp": "2026-01-10T20:03:40.658Z",
+  "results": [
+    {
+      "id": "AVS-1R",
+      "name": "Cross-Session Recall",
+      "description": "Validates semantic recall of policy decisions across sessions with paraphrased queries",
+      "startTime": 1768075413711,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "description": "Session 1 (Tuesday): User states language constraint with decision record ID and nonce",
+          "type": "request",
+          "passed": true,
+          "failureReason": null,
+          "startTime": 1768075413711,
+          "response": {
+            "success": true,
+            "response": "[#1] The project team decided to use Java instead of Python for this integration project.\n[#2] The decision to use Java only and reject Python was recorded in Decision Record DR-014.\n[#3] The decision to use Java was final and the team was instructed not to re-open this decision. [GK] Java is a widely-used, object-oriented programming language known for its portability, security, and scalability. It is commonly used in enterprise-level applications, mobile development, and scientific computing.\n[GK] Java follows a strict syntax and type-checking, which can make it more verbose than dynamic languages like Python, but also more reliable and maintainable for large-scale projects.\n[GK] The Java Virtual Machine (JVM) provides a platform-independent runtime environment, allowing Java programs to run on various operating systems without recompilation.",
+            "fullResult": {
+              "input": "Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.",
+              "userContext": {},
+              "phases": {
+                "observe": {
+                  "input": "Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.",
+                  "userContext": {},
+                  "inputAnalysis": {
+                    "isSpecialCommand": false,
+                    "commandType": null,
+                    "intent": "knowledge_query",
+                    "complexity": "simple",
+                    "requiresMemory": true,
+                    "requiresReflection": false,
+                    "scope": "session",
+                    "intentConfidence": 0.55,
+                    "topicQuery": null,
+                    "cleanedQuery": "Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.",
+                    "recallPhrasesStripped": []
+                  },
+                  "cseContext": {
+                    "fusion": {
+                      "memoryCards": [],
+                      "avgSalience": 0,
+                      "memoryWeight": 0.15,
+                      "generalWeight": 0.85,
+                      "rationale": "Low-confidence project matches; favoring general knowledge with light memory seasoning.",
+                      "routingHint": "general-first",
+                      "hadCandidates": false,
+                      "dynamicGate": 0,
+                      "lowConfidenceCount": 0
+                    },
+                    "memories": [],
+                    "salient": [],
+                    "salientMemories": []
+                  },
+                  "memoryContext": null,
+                  "specialCommands": null,
+                  "timestamp": 1768075413712,
+                  "topicQuery": null,
+                  "cleanedQuery": "Decision Record DR-014 (Nonce Q7F3): We rejected Python for this integration project. We must use Java only. Do not re-open this decision."
+                },
+                "reflect": null,
+                "plan": {
+                  "selectedSkill": {
+                    "name": "fusion_response",
+                    "type": "llm"
+                  },
+                  "skillParameters": {},
+                  "duration": 0
+                },
+                "act": {
+                  "response": "[#1] The project team decided to use Java instead of Python for this integration project.\n[#2] The decision to use Java only and reject Python was recorded in Decision Record DR-014.\n[#3] The decision to use Java was final and the team was instructed not to re-open this decision. [GK] Java is a widely-used, object-oriented programming language known for its portability, security, and scalability. It is commonly used in enterprise-level applications, mobile development, and scientific computing.\n[GK] Java follows a strict syntax and type-checking, which can make it more verbose than dynamic languages like Python, but also more reliable and maintainable for large-scale projects.\n[GK] The Java Virtual Machine (JVM) provides a platform-independent runtime environment, allowing Java programs to run on various operating systems without recompilation.",
+                  "skillResult": {
+                    "response": "[#1] The project team decided to use Java instead of Python for this integration project.\n[#2] The decision to use Java only and reject Python was recorded in Decision Record DR-014.\n[#3] The decision to use Java was final and the team was instructed not to re-open this decision. [GK] Java is a widely-used, object-oriented programming language known for its portability, security, and scalability. It is commonly used in enterprise-level applications, mobile development, and scientific computing.\n[GK] Java follows a strict syntax and type-checking, which can make it more verbose than dynamic languages like Python, but also more reliable and maintainable for large-scale projects.\n[GK] The Java Virtual Machine (JVM) provides a platform-independent runtime environment, allowing Java programs to run on various operating systems without recompilation.",
+                    "type": "fusion_response",
+                    "routing": {
+                      "avgSalience": 0,
+                      "memoryWeight": 0.15,
+                      "generalWeight": 0.85,
+                      "memoryCards": 0,
+                      "adaptiveTokens": 4000
+                    }
+                  },
+                  "type": "fusion_response",
+                  "prompt": null,
+                  "skillExecuted": "fusion_response",
+                  "metadata": {
+                    "contextUsed": true,
+                    "skillType": "llm",
+                    "skillParameters": {},
+                    "fusion": {
+                      "memoryCards": [],
+                      "avgSalience": 0,
+                      "memoryWeight": 0.15,
+                      "generalWeight": 0.85,
+                      "routingHint": "general-first",
+                      "rationale": "Low-confidence project matches; favoring general knowledge with light memory seasoning.",
+                      "memoryCardsAttached": 0,
+                      "memoryCardsAttachedIds": [],
+                      "contextTokensUsed": 0
+                    },
+                    "policyPacks": [
+                      "conservative"
+                    ],
+                    "policyTokens": 70
+                  },
+                  "timestamp": 1768075413715,
+                  "llmResponse": "[#1] The project team decided to use Java instead of Python for this integration project.\n[#2] The decision to use Java only and reject Python was recorded in Decision Record DR-014.\n[#3] The decision to use Java was final and the team was instructed not to re-open this decision. [GK] Java is a widely-used, object-oriented programming language known for its portability, security, and scalability. It is commonly used in enterprise-level applications, mobile development, and scientific computing.\n[GK] Java follows a strict syntax and type-checking, which can make it more verbose than dynamic languages like Python, but also more reliable and maintainable for large-scale projects.\n[GK] The Java Virtual Machine (JVM) provides a platform-independent runtime environment, allowing Java programs to run on various operating systems without recompilation.",
+                  "gatewayStamp": {
+                    "gateway": "orchestrator-phase1",
+                    "callCount": 1,
+                    "timestamp": 1768075416685
+                  },
+                  "metrics": {
+                    "avgSalience": 0,
+                    "memoryWeight": 0.15,
+                    "memoryCards": 0,
+                    "decisionMode": "Blend",
+                    "tokenBudget": 4000
+                  }
+                },
+                "update": null
+              },
+              "cseContext": {
+                "fusion": {
+                  "memoryCards": [],
+                  "avgSalience": 0,
+                  "memoryWeight": 0.15,
+                  "generalWeight": 0.85,
+                  "rationale": "Low-confidence project matches; favoring general knowledge with light memory seasoning.",
+                  "routingHint": "general-first",
+                  "hadCandidates": false,
+                  "dynamicGate": 0,
+                  "lowConfidenceCount": 0
+                },
+                "memories": [],
+                "salient": [],
+                "salientMemories": []
+              },
+              "llmResponse": "[#1] The project team decided to use Java instead of Python for this integration project.\n[#2] The decision to use Java only and reject Python was recorded in Decision Record DR-014.\n[#3] The decision to use Java was final and the team was instructed not to re-open this decision. [GK] Java is a widely-used, object-oriented programming language known for its portability, security, and scalability. It is commonly used in enterprise-level applications, mobile development, and scientific computing.\n[GK] Java follows a strict syntax and type-checking, which can make it more verbose than dynamic languages like Python, but also more reliable and maintainable for large-scale projects.\n[GK] The Java Virtual Machine (JVM) provides a platform-independent runtime environment, allowing Java programs to run on various operating systems without recompilation.",
+              "gatewayStamp": {
+                "gateway": "orchestrator-phase1",
+                "callCount": 1,
+                "timestamp": 1768075416685
+              },
+              "metrics": {
+                "avgSalience": 0,
+                "memoryWeight": 0.15,
+                "memoryCards": 0,
+                "decisionMode": "Blend",
+                "tokenBudget": 4000
+              },
+              "agentStateChanges": {},
+              "selectedSkill": {
+                "name": "fusion_response",
+                "type": "llm"
+              },
+              "skillInvocationResult": {
+                "response": "[#1] The project team decided to use Java instead of Python for this integration project.\n[#2] The decision to use Java only and reject Python was recorded in Decision Record DR-014.\n[#3] The decision to use Java was final and the team was instructed not to re-open this decision. [GK] Java is a widely-used, object-oriented programming language known for its portability, security, and scalability. It is commonly used in enterprise-level applications, mobile development, and scientific computing.\n[GK] Java follows a strict syntax and type-checking, which can make it more verbose than dynamic languages like Python, but also more reliable and maintainable for large-scale projects.\n[GK] The Java Virtual Machine (JVM) provides a platform-independent runtime environment, allowing Java programs to run on various operating systems without recompilation.",
+                "type": "fusion_response",
+                "routing": {
+                  "avgSalience": 0,
+                  "memoryWeight": 0.15,
+                  "generalWeight": 0.85,
+                  "memoryCards": 0,
+                  "adaptiveTokens": 4000
+                }
+              },
+              "metadata": {
+                "startTime": 1768075413712,
+                "endTime": 1768075417076,
+                "duration": 3364,
+                "phasesExecuted": [
+                  "observe",
+                  "plan",
+                  "act"
+                ],
+                "researchPipeline": false
+              }
+            },
+            "sessionId": "avs1r_tuesday_session",
+            "retrievalEvidence": {
+              "memoryUsedCount": 0,
+              "avgSalience": 0,
+              "retrievedMemories": [],
+              "memoryWeight": 0.15,
+              "generalWeight": 0.85,
+              "routingHint": "general-first"
+            }
+          },
+          "endTime": 1768075417076,
+          "duration": 3365
+        },
+        {
+          "stepNumber": 2,
+          "description": "Verify response acknowledges the decision",
+          "type": "assert",
+          "passed": true,
+          "failureReason": null,
+          "startTime": 1768075417076,
+          "details": {
+            "length": 856,
+            "minLength": 10
+          },
+          "endTime": 1768075417076,
+          "duration": 0
+        },
+        {
+          "stepNumber": 3,
+          "description": "Simulate 3-day gap (Tuesday → Friday)",
+          "type": "wait",
+          "passed": true,
+          "failureReason": null,
+          "startTime": 1768075417076,
+          "endTime": 1768075417177,
+          "duration": 101
+        },
+        {
+          "stepNumber": 4,
+          "description": "Session 2 (Friday): User asks about language choice, requesting decision record ID and nonce",
+          "type": "request",
+          "passed": true,
+          "failureReason": null,
+          "startTime": 1768075417178,
+          "response": {
+            "success": true,
+            "response": "The integration project standardized on Python version 3.9.7 as the programming language. This decision is documented in Decision Record #2021-04-17 with nonce 0x1234abcd. [GK] Python is a high-level, general-purpose programming language known for its simplicity, readability, and ease of use. It is widely used in a variety of applications, including web development, data analysis, machine learning, and scientific computing. [GK] Python's standard library provides a wide range of built-in modules and functions, which can be used to perform a variety of tasks, from file I/O to network programming. [GK] Python is often praised for its strong emphasis on code readability and maintainability, with features like indentation-based syntax and a large, active community that contributes to its extensive ecosystem of libraries and tools.",
+            "fullResult": {
+              "input": "What programming language did we standardize on for the integration project? Please include the decision record ID and nonce.",
+              "userContext": {},
+              "phases": {
+                "observe": {
+                  "input": "What programming language did we standardize on for the integration project? Please include the decision record ID and nonce.",
+                  "userContext": {},
+                  "inputAnalysis": {
+                    "isSpecialCommand": false,
+                    "commandType": null,
+                    "intent": "knowledge_query",
+                    "complexity": "complex",
+                    "requiresMemory": true,
+                    "requiresReflection": true,
+                    "scope": "session",
+                    "intentConfidence": 0.55,
+                    "topicQuery": null,
+                    "cleanedQuery": "What programming language did we standardize on for the integration project? Please include the decision record ID and nonce.",
+                    "recallPhrasesStripped": []
+                  },
+                  "cseContext": {
+                    "fusion": {
+                      "memoryCards": [],
+                      "avgSalience": 0,
+                      "memoryWeight": 0.15,
+                      "generalWeight": 0.85,
+                      "rationale": "Low-confidence project matches; favoring general knowledge with light memory seasoning.",
+                      "routingHint": "general-first",
+                      "hadCandidates": false,
+                      "dynamicGate": 0,
+                      "lowConfidenceCount": 0
+                    },
+                    "memories": [],
+                    "salient": [],
+                    "salientMemories": []
+                  },
+                  "memoryContext": null,
+                  "specialCommands": null,
+                  "timestamp": 1768075417178,
+                  "topicQuery": null,
+                  "cleanedQuery": "What programming language did we standardize on for the integration project? Please include the decision record ID and nonce."
+                },
+                "reflect": null,
+                "plan": {
+                  "selectedSkill": {
+                    "name": "fusion_response",
+                    "type": "llm"
+                  },
+                  "skillParameters": {},
+                  "duration": 0
+                },
+                "act": {
+                  "response": "The integration project standardized on Python version 3.9.7 as the programming language. This decision is documented in Decision Record #2021-04-17 with nonce 0x1234abcd. [GK] Python is a high-level, general-purpose programming language known for its simplicity, readability, and ease of use. It is widely used in a variety of applications, including web development, data analysis, machine learning, and scientific computing. [GK] Python's standard library provides a wide range of built-in modules and functions, which can be used to perform a variety of tasks, from file I/O to network programming. [GK] Python is often praised for its strong emphasis on code readability and maintainability, with features like indentation-based syntax and a large, active community that contributes to its extensive ecosystem of libraries and tools.",
+                  "skillResult": {
+                    "response": "The integration project standardized on Python version 3.9.7 as the programming language. This decision is documented in Decision Record #2021-04-17 with nonce 0x1234abcd. [GK] Python is a high-level, general-purpose programming language known for its simplicity, readability, and ease of use. It is widely used in a variety of applications, including web development, data analysis, machine learning, and scientific computing. [GK] Python's standard library provides a wide range of built-in modules and functions, which can be used to perform a variety of tasks, from file I/O to network programming. [GK] Python is often praised for its strong emphasis on code readability and maintainability, with features like indentation-based syntax and a large, active community that contributes to its extensive ecosystem of libraries and tools.",
+                    "type": "fusion_response",
+                    "routing": {
+                      "avgSalience": 0,
+                      "memoryWeight": 0.15,
+                      "generalWeight": 0.85,
+                      "memoryCards": 0,
+                      "adaptiveTokens": 4000
+                    }
+                  },
+                  "type": "fusion_response",
+                  "prompt": null,
+                  "skillExecuted": "fusion_response",
+                  "metadata": {
+                    "contextUsed": true,
+                    "skillType": "llm",
+                    "skillParameters": {},
+                    "fusion": {
+                      "memoryCards": [],
+                      "avgSalience": 0,
+                      "memoryWeight": 0.15,
+                      "generalWeight": 0.85,
+                      "routingHint": "general-first",
+                      "rationale": "Low-confidence project matches; favoring general knowledge with light memory seasoning.",
+                      "memoryCardsAttached": 0,
+                      "memoryCardsAttachedIds": [],
+                      "contextTokensUsed": 0
+                    },
+                    "policyPacks": [
+                      "conservative"
+                    ],
+                    "policyTokens": 70
+                  },
+                  "timestamp": 1768075417180,
+                  "llmResponse": "The integration project standardized on Python version 3.9.7 as the programming language. This decision is documented in Decision Record #2021-04-17 with nonce 0x1234abcd. [GK] Python is a high-level, general-purpose programming language known for its simplicity, readability, and ease of use. It is widely used in a variety of applications, including web development, data analysis, machine learning, and scientific computing. [GK] Python's standard library provides a wide range of built-in modules and functions, which can be used to perform a variety of tasks, from file I/O to network programming. [GK] Python is often praised for its strong emphasis on code readability and maintainability, with features like indentation-based syntax and a large, active community that contributes to its extensive ecosystem of libraries and tools.",
+                  "gatewayStamp": {
+                    "gateway": "orchestrator-phase1",
+                    "callCount": 1,
+                    "timestamp": 1768075420216
+                  },
+                  "metrics": {
+                    "avgSalience": 0,
+                    "memoryWeight": 0.15,
+                    "memoryCards": 0,
+                    "decisionMode": "Blend",
+                    "tokenBudget": 4000
+                  }
+                },
+                "update": null
+              },
+              "cseContext": {
+                "fusion": {
+                  "memoryCards": [],
+                  "avgSalience": 0,
+                  "memoryWeight": 0.15,
+                  "generalWeight": 0.85,
+                  "rationale": "Low-confidence project matches; favoring general knowledge with light memory seasoning.",
+                  "routingHint": "general-first",
+                  "hadCandidates": false,
+                  "dynamicGate": 0,
+                  "lowConfidenceCount": 0
+                },
+                "memories": [],
+                "salient": [],
+                "salientMemories": []
+              },
+              "llmResponse": "The integration project standardized on Python version 3.9.7 as the programming language. This decision is documented in Decision Record #2021-04-17 with nonce 0x1234abcd. [GK] Python is a high-level, general-purpose programming language known for its simplicity, readability, and ease of use. It is widely used in a variety of applications, including web development, data analysis, machine learning, and scientific computing. [GK] Python's standard library provides a wide range of built-in modules and functions, which can be used to perform a variety of tasks, from file I/O to network programming. [GK] Python is often praised for its strong emphasis on code readability and maintainability, with features like indentation-based syntax and a large, active community that contributes to its extensive ecosystem of libraries and tools.",
+              "gatewayStamp": {
+                "gateway": "orchestrator-phase1",
+                "callCount": 1,
+                "timestamp": 1768075420216
+              },
+              "metrics": {
+                "avgSalience": 0,
+                "memoryWeight": 0.15,
+                "memoryCards": 0,
+                "decisionMode": "Blend",
+                "tokenBudget": 4000
+              },
+              "agentStateChanges": {},
+              "selectedSkill": {
+                "name": "fusion_response",
+                "type": "llm"
+              },
+              "skillInvocationResult": {
+                "response": "The integration project standardized on Python version 3.9.7 as the programming language. This decision is documented in Decision Record #2021-04-17 with nonce 0x1234abcd. [GK] Python is a high-level, general-purpose programming language known for its simplicity, readability, and ease of use. It is widely used in a variety of applications, including web development, data analysis, machine learning, and scientific computing. [GK] Python's standard library provides a wide range of built-in modules and functions, which can be used to perform a variety of tasks, from file I/O to network programming. [GK] Python is often praised for its strong emphasis on code readability and maintainability, with features like indentation-based syntax and a large, active community that contributes to its extensive ecosystem of libraries and tools.",
+                "type": "fusion_response",
+                "routing": {
+                  "avgSalience": 0,
+                  "memoryWeight": 0.15,
+                  "generalWeight": 0.85,
+                  "memoryCards": 0,
+                  "adaptiveTokens": 4000
+                }
+              },
+              "metadata": {
+                "startTime": 1768075417178,
+                "endTime": 1768075420657,
+                "duration": 3479,
+                "phasesExecuted": [
+                  "observe",
+                  "plan",
+                  "act"
+                ],
+                "researchPipeline": false
+              }
+            },
+            "sessionId": "avs1r_friday_session",
+            "retrievalEvidence": {
+              "memoryUsedCount": 0,
+              "avgSalience": 0,
+              "retrievedMemories": [],
+              "memoryWeight": 0.15,
+              "generalWeight": 0.85,
+              "routingHint": "general-first"
+            }
+          },
+          "endTime": 1768075420657,
+          "duration": 3479
+        },
+        {
+          "stepNumber": 5,
+          "description": "Response contains decision record ID DR-014 (proves retrieval)",
+          "type": "assert",
+          "passed": false,
+          "failureReason": "Response does not contain \"DR-014\"",
+          "startTime": 1768075420657,
+          "details": {
+            "response": "The integration project standardized on Python version 3.9.7 as the programming language. This decision is documented in Decision Record #2021-04-17 with nonce 0x1234abcd. [GK] Python is a high-level,"
+          },
+          "endTime": 1768075420657,
+          "duration": 0
+        }
+      ],
+      "passed": false,
+      "failureReason": "Step 5 failed: Response does not contain \"DR-014\"",
+      "endTime": 1768075420657,
+      "duration": 6946
+    }
+  ],
+  "summary": {
+    "total": 1,
+    "passed": 0,
+    "failed": 1
+  }
+}

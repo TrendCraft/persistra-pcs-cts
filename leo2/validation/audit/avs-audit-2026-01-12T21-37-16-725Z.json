@@ -1,0 +1,179 @@
+{
+  "timestamp": "2026-01-12T21:37:16.725Z",
+  "results": [
+    {
+      "id": "AVS-1R",
+      "name": "Cross-Session Recall",
+      "description": "Validates semantic recall of policy decisions across sessions with paraphrased queries",
+      "startTime": 1768253831583,
+      "steps": [
+        {
+          "stepNumber": 1,
+          "description": "Session 1 (Tuesday): User states language constraint with decision record ID and nonce",
+          "type": "request",
+          "passed": true,
+          "failureReason": null,
+          "startTime": 1768253831583,
+          "response": {
+            "success": true,
+            "response": "Based on the provided decision record [#1], the key points are:\n\n1. The project team has decided to use Java only and rejected the use of Python for this integration project.\n2. This decision is final and should not be re-opened.\n\nThe decision to use Java exclusively and exclude Python was likely made based on specific requirements or constraints of the project that necessitated the use of Java. The decision record indicates this is a firm decision that should not be reconsidered.",
+            "fullResult": {
+              "input": "Decision Record ARCH-22B (Nonce N-19C8): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\n\nDecision Record ARCH-22B (Nonce N-19C8): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.",
+              "userContext": {
+                "sessionId": "avs1r_tuesday_session",
+                "timestamp": 1768253819208,
+                "dayOfWeek": "Tuesday",
+                "disableRetrieval": true,
+                "disableMemoryGraph": true,
+                "pastedChars": 142
+              },
+              "phases": {
+                "observe": {
+                  "input": "Decision Record ARCH-22B (Nonce N-19C8): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\n\nDecision Record ARCH-22B (Nonce N-19C8): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.",
+                  "inputAnalysis": {
+                    "intent": "general"
+                  }
+                },
+                "reflect": {
+                  "strategy": "general_knowledge",
+                  "contextUsed": []
+                },
+                "plan": {
+                  "selectedSkill": "llm_conversation"
+                },
+                "act": {
+                  "llmResponse": "Based on the provided decision record [#1], the key points are:\n\n1. The project team has decided to use Java only and rejected the use of Python for this integration project.\n2. This decision is final and should not be re-opened.\n\nThe decision to use Java exclusively and exclude Python was likely made based on specific requirements or constraints of the project that necessitated the use of Java. The decision record indicates this is a firm decision that should not be reconsidered."
+                },
+                "update": null
+              },
+              "llmResponse": "Based on the provided decision record [#1], the key points are:\n\n1. The project team has decided to use Java only and rejected the use of Python for this integration project.\n2. This decision is final and should not be re-opened.\n\nThe decision to use Java exclusively and exclude Python was likely made based on specific requirements or constraints of the project that necessitated the use of Java. The decision record indicates this is a firm decision that should not be reconsidered.",
+              "metadata": {
+                "baselineMode": "persistra_off",
+                "retrievalEnabled": false
+              }
+            },
+            "sessionId": "avs1r_tuesday_session",
+            "retrievalEvidence": {
+              "memoryUsedCount": 0,
+              "avgSalience": 0,
+              "retrievedMemories": [],
+              "memoryWeight": 0,
+              "generalWeight": 0,
+              "routingHint": "unknown",
+              "mode": "paste_context",
+              "pastedChars": 142
+            }
+          },
+          "endTime": 1768253834809,
+          "duration": 3226
+        },
+        {
+          "stepNumber": 2,
+          "description": "Verify response acknowledges the decision",
+          "type": "assert",
+          "passed": true,
+          "failureReason": null,
+          "startTime": 1768253834809,
+          "details": {
+            "length": 485,
+            "minLength": 10
+          },
+          "endTime": 1768253834809,
+          "duration": 0
+        },
+        {
+          "stepNumber": 3,
+          "description": "Simulate 3-day gap (Tuesday → Friday)",
+          "type": "wait",
+          "passed": true,
+          "failureReason": null,
+          "startTime": 1768253834809,
+          "endTime": 1768253834911,
+          "duration": 102
+        },
+        {
+          "stepNumber": 4,
+          "description": "Session 2 (Friday): User asks about language choice, requesting decision record ID and nonce",
+          "type": "request",
+          "passed": true,
+          "failureReason": null,
+          "startTime": 1768253834911,
+          "response": {
+            "success": true,
+            "response": "The decision record states that \"We rejected Python for this integration project. We must use Java only.\" [#1]",
+            "fullResult": {
+              "input": "Decision Record ARCH-22B (Nonce N-19C8): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\n\nWhat programming language did we standardize on for the integration project? Please include the decision record ID and nonce.",
+              "userContext": {
+                "sessionId": "avs1r_friday_session",
+                "timestamp": 1768513019208,
+                "dayOfWeek": "Friday",
+                "disableRetrieval": true,
+                "disableMemoryGraph": true,
+                "pastedChars": 142
+              },
+              "phases": {
+                "observe": {
+                  "input": "Decision Record ARCH-22B (Nonce N-19C8): We rejected Python for this integration project. We must use Java only. Do not re-open this decision.\n\nWhat programming language did we standardize on for the integration project? Please include the decision record ID and nonce.",
+                  "inputAnalysis": {
+                    "intent": "general"
+                  }
+                },
+                "reflect": {
+                  "strategy": "general_knowledge",
+                  "contextUsed": []
+                },
+                "plan": {
+                  "selectedSkill": "llm_conversation"
+                },
+                "act": {
+                  "llmResponse": "The decision record states that \"We rejected Python for this integration project. We must use Java only.\" [#1]"
+                },
+                "update": null
+              },
+              "llmResponse": "The decision record states that \"We rejected Python for this integration project. We must use Java only.\" [#1]",
+              "metadata": {
+                "baselineMode": "persistra_off",
+                "retrievalEnabled": false
+              }
+            },
+            "sessionId": "avs1r_friday_session",
+            "retrievalEvidence": {
+              "memoryUsedCount": 0,
+              "avgSalience": 0,
+              "retrievedMemories": [],
+              "memoryWeight": 0,
+              "generalWeight": 0,
+              "routingHint": "unknown",
+              "mode": "paste_context",
+              "pastedChars": 142
+            }
+          },
+          "endTime": 1768253836724,
+          "duration": 1813
+        },
+        {
+          "stepNumber": 5,
+          "description": "Response contains decision record ID ARCH-22B (proves retrieval)",
+          "type": "assert",
+          "passed": false,
+          "failureReason": "Response does not contain \"ARCH-22B\"",
+          "startTime": 1768253836724,
+          "details": {
+            "response": "The decision record states that \"We rejected Python for this integration project. We must use Java only.\" [#1]"
+          },
+          "endTime": 1768253836724,
+          "duration": 0
+        }
+      ],
+      "passed": false,
+      "failureReason": "Step 5 failed: Response does not contain \"ARCH-22B\"",
+      "endTime": 1768253836724,
+      "duration": 5141
+    }
+  ],
+  "summary": {
+    "total": 1,
+    "passed": 0,
+    "failed": 1
+  }
+}

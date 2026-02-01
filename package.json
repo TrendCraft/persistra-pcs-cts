@@ -1,0 +1,34 @@
+{
+  "name": "persistra-pcs-cts",
+  "version": "1.0.0",
+  "description": "Persistra Cognitive Standard - Conformance Test Suite (PCS-CTS)",
+  "private": true,
+  "main": "leo2/validation/run-avs-1r.js",
+  "scripts": {
+    "test:l1": "node leo2/validation/run-avs-1r.js",
+    "test:l2": "node leo2/validation/run-avs-2e.js",
+    "test:comparison": "node leo2/validation/avs-1r-comparison.js",
+    "test": "npm run test:l1 && npm run test:l2",
+    "test:all": "npm run test:l1 && npm run test:l2"
+  },
+  "keywords": [
+    "persistra",
+    "pcs",
+    "pcs-cts",
+    "conformance",
+    "certification",
+    "cognitive-continuity",
+    "standards"
+  ],
+  "author": "Persistra",
+  "license": "PROPRIETARY",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.27.3",
+    "dotenv": "^16.4.5",
+    "fs-extra": "^11.2.0",
+    "uuid": "^10.0.0"
+  }
+}

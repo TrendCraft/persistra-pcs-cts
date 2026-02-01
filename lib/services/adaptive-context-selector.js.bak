@@ -1,0 +1,1396 @@
+/**
+ * AdaptiveContextSelector Class
+ * 
+ * This class selects and organizes context based on query analysis.
+ * It works with the QueryAnalyzer to provide adaptive context selection
+ * for the Enhanced Prompting System.
+ */
+
+const { createComponentLogger } = require('../utils/logger');
+const configService = require('../config/config');
+const semanticContextManager = require('./semantic-context-manager');
+const conversationMemoryManager = require('./conversation-memory-manager');
+const narrativeUnderstandingService = require('./narrative-understanding-service');
+const QueryAnalyzer = require('./query-analyzer');
+const path = require('path');
+const fs = require('fs').promises;
+const crypto = require('crypto');
+
+// Component name for logging and events
+const COMPONENT_NAME = 'adaptive-context-selector';
+
+// Create component logger
+const logger = createComponentLogger(COMPONENT_NAME);
+
+/**
+ * AdaptiveContextSelector class for selecting context based on query analysis
+ */
+class AdaptiveContextSelector {
+  /**
+   * Create a new AdaptiveContextSelector instance
+   * @param {Object} options - Configuration options
+   */
+  constructor(options = {}) {
+    // Default configuration
+    this.config = {
+      // Cache settings
+      CACHE_DIR: process.env.LEO_CONTEXT_CACHE_DIR || path.join(process.cwd(), 'data', 'cache', 'context'),
+      CACHE_EXPIRATION_MS: 30 * 60 * 1000, // 30 minutes
+      
+      // Context limits
+      MAX_CODE_CONTEXT_ITEMS: 10,
+      MAX_CONVERSATION_CONTEXT_ITEMS: 5,
+      MAX_NARRATIVE_CONTEXT_ITEMS: 3,
+      
+      // Default similarity threshold
+      DEFAULT_SIMILARITY_THRESHOLD: 0.65,
+      
+      // Deduplication settings
+      ENABLE_DEDUPLICATION: true,
+      SIMILARITY_THRESHOLD_FOR_DEDUPLICATION: 0.85,
+      
+      // Content diversity settings
+      ENABLE_DIVERSITY: true,
+      DIVERSITY_PENALTY_FACTOR: 0.15
+    };
+    
+    // Override defaults with provided options
+    Object.assign(this.config, options);
+    
+    // Try to get configuration from central config service
+    try {
+      const config = configService.getConfig();
+      if (config.adaptiveContextSelector) {
+        Object.assign(this.config, config.adaptiveContextSelector);
+      }
+    } catch (configError) {
+      logger.warn(`Could not load configuration from config service: ${configError.message}`);
+    }
+    
+    // Initialize query analyzer
+    this.queryAnalyzer = new QueryAnalyzer();
+    
+    // Initialize context cache
+    this.contextCache = new Map();
+    
+    // Create cache directory
+    fs.mkdir(this.config.CACHE_DIR, { recursive: true })
+      .then(() => logger.info(`Cache directory created: ${this.config.CACHE_DIR}`))
+      .catch(err => logger.error(`Failed to create cache directory: ${err.message}`));
+    
+    logger.info('AdaptiveContextSelector initialized with configuration', this.config);
+  }
+  
+  /**
+   * Select context for a query based on analysis
+   * @param {string} query - The query text
+   * @param {Object} options - Additional options
+   * @returns {Promise<Object>} Selected context and metadata
+   */
+  async selectContext(query, options = {}) {
+    try {
+      // Start a timer for the entire context selection process
+      const startTime = Date.now();
+      
+      // Parse options with standardized defaults
+      const {
+        useCache = true,
+        similarityThreshold = this.config.DEFAULT_SIMILARITY_THRESHOLD,
+        contextLimits = null,
+        maxCodeItems = this.config.MAX_CODE_CONTEXT_ITEMS,
+        maxConversationItems = this.config.MAX_CONVERSATION_CONTEXT_ITEMS,
+        maxNarrativeItems = this.config.MAX_NARRATIVE_CONTEXT_ITEMS,
+        includeCodeContext = true,
+        includeConversationContext = true,
+        includeNarrativeContext = true,
+        signal = null // For abort control
+      } = options;
+      
+      // Check for abort signal before starting
+      if (signal && signal.aborted) {
+        const abortError = new Error('Context selection aborted');
+        abortError.name = 'AbortError';
+        throw abortError;
+      }
+      
+      // Log selection attempt with detailed information
+      logger.info(`Selecting context for query: "${query}" with options:`, {
+        similarityThreshold,
+        maxCodeItems: contextLimits?.codeItems || maxCodeItems,
+        maxConversationItems: contextLimits?.conversationItems || maxConversationItems,
+        maxNarrativeItems: contextLimits?.narrativeItems || maxNarrativeItems,
+        includeCodeContext,
+        includeConversationContext,
+        includeNarrativeContext
+      });
+      
+      // Generate cache key
+      const cacheKey = this._generateCacheKey(query, options);
+      
+      // Check cache
+      if (useCache && this.contextCache.has(cacheKey)) {
+        const cachedResult = this.contextCache.get(cacheKey);
+        
+        if (Date.now() - cachedResult.timestamp < this.config.CACHE_EXPIRATION_MS) {
+          logger.info(`Retrieved context from cache for query: ${query}`);
+          return cachedResult.context;
+        }
+      }
+      
+      // Check for abort signal after cache check
+      if (signal && signal.aborted) {
+        const abortError = new Error('Context selection aborted after cache check');
+        abortError.name = 'AbortError';
+        throw abortError;
+      }
+      
+      // Analyze query with error handling
+      let analysis;
+      try {
+        analysis = this.queryAnalyzer.analyzeQuery(query);
+        logger.info(`Query analysis completed: code=${analysis.codeRelevance.toFixed(2)}, conversation=${analysis.conversationRelevance.toFixed(2)}, narrative=${analysis.narrativeRelevance.toFixed(2)}, complexity=${analysis.complexity}, type=${analysis.queryType}`);
+      } catch (analysisError) {
+        logger.error(`Error analyzing query: ${analysisError.message}`);
+        // Create a default analysis with balanced weights if analysis fails
+        analysis = {
+          query,
+          codeRelevance: 0.5,
+          conversationRelevance: 0.3,
+          narrativeRelevance: 0.2,
+          complexity: 'medium',
+          queryType: 'general',
+          recommendations: {
+            contextSize: {
+              codeItems: 5,
+              conversationItems: 3,
+              narrativeItems: 2
+            }
+          }
+        };
+      }
+      
+      // Check for abort signal after analysis
+      if (signal && signal.aborted) {
+        const abortError = new Error('Context selection aborted after analysis');
+        abortError.name = 'AbortError';
+        throw abortError;
+      }
+      
+      // Adjust context limits based on analysis and provided options
+      const effectiveContextLimits = contextLimits || this._calculateContextLimits(analysis);
+      
+      // Use provided limits if available, otherwise use calculated ones
+      const finalContextLimits = {
+        codeItems: contextLimits?.codeItems || effectiveContextLimits.codeItems || maxCodeItems,
+        conversationItems: contextLimits?.conversationItems || effectiveContextLimits.conversationItems || maxConversationItems,
+        narrativeItems: contextLimits?.narrativeItems || effectiveContextLimits.narrativeItems || maxNarrativeItems
+      };
+      
+      // Adjust similarity threshold based on analysis
+      const adjustedSimilarityThreshold = this._adjustSimilarityThreshold(
+        similarityThreshold,
+        analysis.complexity,
+        analysis.queryType
+      );
+      
+      // Create abort controller for internal timeouts if no signal provided
+      const internalController = !signal ? new AbortController() : null;
+      const effectiveSignal = signal || (internalController ? internalController.signal : null);
+      
+      // Set timeout for the entire context retrieval process if using internal controller
+      let timeoutId;
+      if (internalController) {
+        timeoutId = setTimeout(() => {
+          internalController.abort('Context retrieval timeout');
+          logger.warn('Aborting context retrieval after timeout');
+        }, 25000); // 25 second timeout for the entire process
+      }
+      
+      try {
+        // Retrieve contexts in parallel with error handling for each
+        const contextPromises = [];
+        
+        // Only add promises for context types that are requested
+        if (includeCodeContext) {
+          contextPromises.push(
+            this._retrieveCodeContext(
+              query,
+              finalContextLimits.codeItems,
+              adjustedSimilarityThreshold,
+              analysis,
+              effectiveSignal
+            ).catch(error => {
+              if (error.name === 'AbortError') throw error;
+              logger.error(`Error in code context retrieval: ${error.message}`);
+              return '';
+            })
+          );
+        } else {
+          contextPromises.push(Promise.resolve(''));
+        }
+        
+        if (includeConversationContext) {
+          contextPromises.push(
+            this._retrieveConversationContext(
+              query,
+              finalContextLimits.conversationItems,
+              adjustedSimilarityThreshold,
+              analysis,
+              effectiveSignal
+            ).catch(error => {
+              if (error.name === 'AbortError') throw error;
+              logger.error(`Error in conversation context retrieval: ${error.message}`);
+              return '';
+            })
+          );
+        } else {
+          contextPromises.push(Promise.resolve(''));
+        }
+        
+        if (includeNarrativeContext) {
+          contextPromises.push(
+            this._retrieveNarrativeContext(
+              query,
+              finalContextLimits.narrativeItems,
+              adjustedSimilarityThreshold,
+              analysis,
+              effectiveSignal
+            ).catch(error => {
+              if (error.name === 'AbortError') throw error;
+              logger.error(`Error in narrative context retrieval: ${error.message}`);
+              return '';
+            })
+          );
+        } else {
+          contextPromises.push(Promise.resolve(''));
+        }
+        
+        // Execute all context retrieval promises in parallel
+        const [codeContext, conversationContext, narrativeContext] = await Promise.all(contextPromises);
+        
+        // Clear the timeout if we're using an internal controller
+        if (timeoutId) {
+          clearTimeout(timeoutId);
+        }
+        
+        // Check for abort signal after retrieving contexts
+        if (effectiveSignal && effectiveSignal.aborted) {
+          const abortError = new Error('Context selection aborted after retrieving contexts');
+          abortError.name = 'AbortError';
+          throw abortError;
+        }
+        
+        // Measure context sizes before deduplication for metrics
+        const originalSizes = {
+          codeContextSize: codeContext.length,
+          conversationContextSize: conversationContext.length,
+          narrativeContextSize: narrativeContext.length
+        };
+        
+        // Start a timer for deduplication
+        const deduplicationStartTime = Date.now();
+        
+        // Deduplicate context across different sources
+        const deduplicated = this._deduplicateContext(
+          codeContext,
+          conversationContext,
+          narrativeContext
+        );
+        
+        // Log deduplication performance
+        const deduplicationTime = Date.now() - deduplicationStartTime;
+        logger.info(`Deduplication completed in ${deduplicationTime}ms, removed ${deduplicated.duplicatesRemoved} duplicates`);
+        
+        // Check for abort signal after deduplication
+        if (effectiveSignal && effectiveSignal.aborted) {
+          const abortError = new Error('Context selection aborted after deduplication');
+          abortError.name = 'AbortError';
+          throw abortError;
+        }
+        
+        // Start a timer for context combination
+        const combinationStartTime = Date.now();
+        
+        // Combine context based on analysis
+        const combinedContext = this._combineContext(
+          deduplicated.codeContext,
+          deduplicated.conversationContext,
+          deduplicated.narrativeContext,
+          analysis
+        );
+        
+        // Log combination performance
+        const combinationTime = Date.now() - combinationStartTime;
+        logger.info(`Context combination completed in ${combinationTime}ms`);
+        
+        // Create result object with detailed metadata for monitoring
+        const result = {
+          enhancedContext: combinedContext,
+          codeContext: deduplicated.codeContext,
+          conversationContext: deduplicated.conversationContext,
+          narrativeContext: deduplicated.narrativeContext,
+          metadata: {
+            query,
+            analysis: {
+              codeRelevance: analysis.codeRelevance,
+              conversationRelevance: analysis.conversationRelevance,
+              narrativeRelevance: analysis.narrativeRelevance,
+              complexity: analysis.complexity,
+              queryType: analysis.queryType
+            },
+            originalSizes,
+            codeContextSize: deduplicated.codeContext.length,
+            conversationContextSize: deduplicated.conversationContext.length,
+            narrativeContextSize: deduplicated.narrativeContext.length,
+            similarityThreshold: adjustedSimilarityThreshold,
+            deduplicationPerformed: this.config.ENABLE_DEDUPLICATION,
+            duplicatesRemoved: deduplicated.duplicatesRemoved,
+            processingTimes: {
+              deduplication: deduplicationTime,
+              combination: combinationTime,
+              total: Date.now() - startTime
+            }
+          }
+        };
+        
+        // Store in cache
+        if (useCache) {
+          this.contextCache.set(cacheKey, {
+            context: result,
+            timestamp: Date.now()
+          });
+        }
+        
+        // Log completion
+        logger.info(`Context selection completed for query: "${query}"`);
+        logger.info(`Adaptive context selection metadata:`, {
+          codeContextSize: deduplicated.codeContext.length,
+          conversationContextSize: deduplicated.conversationContext.length,
+          narrativeContextSize: deduplicated.narrativeContext.length,
+          similarityThreshold: adjustedSimilarityThreshold,
+          deduplicationPerformed: this.config.ENABLE_DEDUPLICATION,
+          duplicatesRemoved: deduplicated.duplicatesRemoved
+        });
+        
+        return result;
+      } catch (contextError) {
+        // Clear the timeout if we're using an internal controller
+        if (timeoutId) {
+          clearTimeout(timeoutId);
+        }
+        
+        // Rethrow abort errors
+        if (contextError.name === 'AbortError') {
+          throw contextError;
+        }
+        
+        // Log and handle other errors
+        logger.error(`Error during context retrieval: ${contextError.message}`);
+        throw contextError; // Let the outer catch handle it
+      }
+    } catch (error) {
+      // Special handling for abort errors
+      if (error.name === 'AbortError') {
+        logger.warn(`Context selection aborted: ${error.message}`);
+        return {
+          enhancedContext: `# Context Selection Aborted\nThe context selection process was aborted: ${error.message}\n\n## Query\n${query}`,
+          codeContext: '',
+          conversationContext: '',
+          narrativeContext: '',
+          metadata: {
+            error: error.message,
+            errorType: 'AbortError'
+          }
+        };
+      }
+      
+      // General error handling
+      logger.error(`Error selecting context: ${error.message}`);
+      // Return minimal context in case of error
+      return {
+        enhancedContext: `# Error Retrieving Context\nThere was an error retrieving context: ${error.message}\n\n## Query\n${query}`,
+        codeContext: '',
+        conversationContext: '',
+        narrativeContext: '',
+        metadata: {
+          error: error.message
+        }
+      };
+    }
+  }
+  
+  /**
+   * Calculate context limits based on query analysis
+   * @param {Object} analysis - Query analysis results
+   * @returns {Object} Context limits
+   * @private
+   */
+  _calculateContextLimits(analysis) {
+    // Start with the recommendations from the analysis
+    const { codeItems, conversationItems, narrativeItems } = analysis.recommendations.contextSize;
+    
+    // Apply any additional adjustments based on config limits
+    return {
+      codeItems: Math.min(codeItems, this.config.MAX_CODE_CONTEXT_ITEMS),
+      conversationItems: Math.min(conversationItems, this.config.MAX_CONVERSATION_CONTEXT_ITEMS),
+      narrativeItems: Math.min(narrativeItems, this.config.MAX_NARRATIVE_CONTEXT_ITEMS)
+    };
+  }
+  
+  /**
+   * Adjust similarity threshold based on query complexity and type
+   * @param {number} baseThreshold - Base similarity threshold
+   * @param {string} complexity - Query complexity
+   * @param {string} queryType - Query type
+   * @returns {number} Adjusted similarity threshold
+   * @private
+   */
+  _adjustSimilarityThreshold(baseThreshold, complexity, queryType) {
+    let adjustedThreshold = baseThreshold;
+    
+    // Adjust based on complexity
+    if (complexity === 'high') {
+      // For complex queries, lower the threshold to include more diverse context
+      adjustedThreshold -= 0.05;
+    } else if (complexity === 'low') {
+      // For simple queries, raise the threshold to get more precise context
+      adjustedThreshold += 0.05;
+    }
+    
+    // Adjust based on query type
+    if (queryType === 'factual') {
+      // Factual queries need precise information
+      adjustedThreshold += 0.03;
+    } else if (queryType === 'conceptual') {
+      // Conceptual queries benefit from broader context
+      adjustedThreshold -= 0.03;
+    } else if (queryType === 'comparative') {
+      // Comparative queries need diverse perspectives
+      adjustedThreshold -= 0.05;
+    }
+    
+    // Ensure threshold stays within reasonable bounds
+    return Math.max(0.5, Math.min(0.9, adjustedThreshold));
+  }
+  
+  /**
+   * Retrieve code context from semantic context manager
+   * @param {string} query - Query text
+   * @param {number} maxItems - Maximum number of items to retrieve
+   * @param {number} similarityThreshold - Similarity threshold
+   * @param {Object} analysis - Query analysis
+   * @param {AbortSignal} [externalSignal] - External abort signal for timeout control
+   * @returns {Promise<string>} Code context
+   * @private
+   */
+  async _retrieveCodeContext(query, maxItems, similarityThreshold, analysis, externalSignal) {
+    // Generate a cache key for this specific context retrieval
+    const cacheKey = `code_${crypto.createHash('md5').update(query).digest('hex')}_${maxItems}_${similarityThreshold}`;
+    
+    // Check if we have this result in cache
+    if (this.contextCache.has(cacheKey)) {
+      const cachedResult = this.contextCache.get(cacheKey);
+      if (Date.now() - cachedResult.timestamp < this.config.CACHE_EXPIRATION_MS) {
+        logger.info(`Retrieved code context from cache for query: ${query}`);
+        return cachedResult.context;
+      }
+    }
+    
+    // Check for abort signal before proceeding
+    if (externalSignal && externalSignal.aborted) {
+      logger.warn('Code context retrieval aborted by external signal');
+      throw new Error('Code context retrieval aborted');
+    }
+    
+    // Use a controller to allow for aborting the fetch if it takes too long
+    const controller = new AbortController();
+    const signal = controller.signal;
+    
+    // Set a timeout to abort the operation if it takes too long
+    const timeoutId = setTimeout(() => {
+      controller.abort();
+      logger.warn(`Aborting code context retrieval after timeout for query: ${query}`);
+    }, 10000); // 10 second timeout
+    
+    try {
+      // Check if the semantic context manager is available
+      if (!semanticContextManager || typeof semanticContextManager.searchContext !== 'function') {
+        logger.warn('Semantic context manager or searchContext function not available, using fallback');
+        const fallbackContext = this._generateFallbackCodeContext(query, analysis);
+        
+        // Cache the fallback result
+        this.contextCache.set(cacheKey, {
+          context: fallbackContext,
+          timestamp: Date.now()
+        });
+        
+        return fallbackContext;
+      }
+      
+      // For code-focused queries, adjust the retrieval strategy
+      const options = {
+        maxResults: maxItems,
+        similarityThreshold: analysis.codeRelevance > 0.7 ? 
+          similarityThreshold - 0.05 : // For highly code-relevant queries, lower the threshold
+          similarityThreshold,
+        includeContent: true,
+        signal: externalSignal || signal // Pass the appropriate abort signal
+      };
+      
+      // Get code context
+      const codeResults = await semanticContextManager.searchContext(query, options);
+      
+      // Format the results
+      let formattedContext = '';
+      
+      if (codeResults && codeResults.length > 0) {
+        // Add a header for the code context
+        formattedContext = this._formatCodeResults(codeResults, analysis);
+        
+        // Cache the result
+        this.contextCache.set(cacheKey, {
+          context: formattedContext,
+          timestamp: Date.now()
+        });
+        
+        return formattedContext;
+      } else {
+        // No results found, generate fallback context
+        const fallbackContext = this._generateFallbackCodeContext(query, analysis);
+        
+        // Cache the fallback result
+        this.contextCache.set(cacheKey, {
+          context: fallbackContext,
+          timestamp: Date.now()
+        });
+        
+        return fallbackContext;
+      }
+    } catch (error) {
+      // Handle abort errors specially
+      if (error.name === 'AbortError') {
+        logger.warn('Code context retrieval aborted');
+        throw error; // Propagate abort errors
+      }
+      
+      logger.error(`Error retrieving code context: ${error.message}`);
+      return this._generateFallbackCodeContext(query, analysis);
+    } finally {
+      // Always clear the timeout to prevent memory leaks
+      clearTimeout(timeoutId);
+    }
+  }
+  
+  /**
+   * Retrieve conversation context
+   * @param {string} query - Query text
+   * @param {number} maxItems - Maximum number of items to retrieve
+   * @param {number} similarityThreshold - Similarity threshold
+   * @param {Object} analysis - Query analysis
+   * @returns {Promise<string>} Conversation context
+   * @private
+   */
+  async _retrieveConversationContext(query, maxItems, similarityThreshold, analysis) {
+    // Generate a cache key for this specific context retrieval
+    const cacheKey = `conversation_${crypto.createHash('md5').update(query).digest('hex')}_${maxItems}_${similarityThreshold}`;
+    
+    // Check if we have this result in cache
+    if (this.contextCache.has(cacheKey)) {
+      const cachedResult = this.contextCache.get(cacheKey);
+      if (Date.now() - cachedResult.timestamp < this.config.CACHE_EXPIRATION_MS) {
+        logger.info(`Retrieved conversation context from cache for query: ${query}`);
+        return cachedResult.context;
+      }
+    }
+    
+    // Use a controller to allow for aborting the fetch if it takes too long
+    const controller = new AbortController();
+    const signal = controller.signal;
+    
+    // Set a timeout to abort the operation if it takes too long
+    const timeoutId = setTimeout(() => {
+      controller.abort();
+      logger.warn(`Aborting conversation context retrieval after timeout for query: ${query}`);
+    }, 10000); // 10 second timeout
+    
+    try {
+      // Start with a quick search for immediate results (lower threshold, fewer results)
+      let quickContext = '';
+      let fullContext = '';
+      
+      // For conversation-focused queries, adjust the retrieval strategy
+      const options = {
+        maxResults: Math.min(2, maxItems), // Start with fewer results for quick response
+        similarityThreshold: similarityThreshold + 0.1, // Higher threshold for quicker, more relevant results
+        includeHistory: false,
+        signal // Pass the abort signal
+      };
+      
+      // Get quick results first
+      try {
+        // Check if conversationMemoryManager supports the signal parameter
+        if (typeof conversationMemoryManager.generateEnhancedContext === 'function') {
+          quickContext = await conversationMemoryManager.generateEnhancedContext(query, options);
+        }
+      } catch (quickError) {
+        if (quickError.name === 'AbortError') {
+          logger.warn('Quick conversation context retrieval aborted due to timeout');
+        } else {
+          logger.error(`Error in quick conversation context retrieval: ${quickError.message}`);
+        }
+      }
+      
+      // If we have quick results, store them as a fallback
+      if (quickContext) {
+        // Store in cache with short expiration
+        this.contextCache.set(cacheKey, {
+          context: quickContext,
+          timestamp: Date.now()
+        });
+      }
+      
+      // Now try to get more comprehensive results if we have time
+      if (!signal.aborted) {
+        const fullOptions = {
+          maxResults: maxItems,
+          similarityThreshold: analysis.conversationRelevance > 0.7 ? 
+            similarityThreshold + 0.05 : // For highly conversation-relevant queries
+            similarityThreshold,
+          includeHistory: analysis.conversationRelevance > 0.7,
+          signal
+        };
+        
+        try {
+          if (typeof conversationMemoryManager.generateEnhancedContext === 'function') {
+            fullContext = await conversationMemoryManager.generateEnhancedContext(query, fullOptions);
+            
+            // Update cache with full results
+            if (fullContext) {
+              this.contextCache.set(cacheKey, {
+                context: fullContext,
+                timestamp: Date.now()
+              });
+            }
+          }
+        } catch (fullError) {
+          if (fullError.name === 'AbortError') {
+            logger.warn('Full conversation context retrieval aborted due to timeout');
+            // Return quick context as fallback
+            return quickContext || '';
+          } else {
+            logger.error(`Error in full conversation context retrieval: ${fullError.message}`);
+            // Return quick context as fallback
+            return quickContext || '';
+          }
+        }
+      }
+      
+      // Return the full context if available, otherwise fall back to quick context
+      return fullContext || quickContext || '';
+    } catch (error) {
+      logger.error(`Error retrieving conversation context: ${error.message}`);
+      return '';
+    } finally {
+      // Always clear the timeout to prevent memory leaks
+  }
+
+  // Now try to get more comprehensive results if we have time
+  if (!signal.aborted) {
+    const fullOptions = {
+      maxResults: maxItems,
+      similarityThreshold: analysis.codeRelevance > 0.7 ? 
+        similarityThreshold + 0.05 : // For highly code-relevant queries
+        similarityThreshold,
+      includeDependencies: analysis.codeRelevance > 0.7,
+      signal
+    };
+
+    try {
+      fullContext = await semanticContextManager.generateEnhancedPrompt(query, fullOptions);
+
+      // Update cache with full results
+      if (fullContext) {
+        this.contextCache.set(cacheKey, {
+          context: fullContext,
+          timestamp: Date.now()
+        });
+      }
+    } catch (fullError) {
+      if (fullError.name === 'AbortError') {
+        logger.warn('Full code context retrieval aborted due to timeout');
+        // Return quick context as fallback
+        return quickContext || '';
+      } else {
+        logger.error(`Error in full code context retrieval: ${fullError.message}`);
+        // Return quick context as fallback
+        return quickContext || '';
+      }
+    }
+  }
+
+  // Return the full context if available, otherwise fall back to quick context
+  return fullContext || quickContext || '';
+} catch (error) {
+  logger.error(`Error retrieving code context: ${error.message}`);
+  return this._generateFallbackCodeContext(query, analysis);
+} finally {
+  // Always clear the timeout to prevent memory leaks
+  clearTimeout(timeoutId);
+}
+
+  // Check cache
+  if (this.contextCache.has(cacheKey)) {
+    const cachedResult = this.contextCache.get(cacheKey);
+
+    if (Date.now() - cachedResult.timestamp < this.config.CACHE_EXPIRATION_MS) {
+      logger.info(`Retrieved code context from cache for query: ${query}`);
+      return cachedResult.context;
+    }
+  }
+
+  // Check for abort signal after cache check
+  if (signal && signal.aborted) {
+    const abortError = new Error('Code context retrieval aborted after cache check');
+    abortError.name = 'AbortError';
+    throw abortError;
+  }
+
+  // Check if the semantic context manager is available
+  if (!semanticContextManager || typeof semanticContextManager.searchContext !== 'function') {
+    logger.warn('Semantic context manager or searchContext function not available, using fallback');
+    const fallbackContext = this._generateFallbackCodeContext(query, analysis);
+
+    // Cache the fallback result
+    this.contextCache.set(cacheKey, {
+      context: fallbackContext,
+      timestamp: Date.now()
+    });
+
+    return fallbackContext;
+  }
+
+  try {
+    // For code-focused queries, adjust the retrieval strategy
+    const options = {
+      maxResults: maxItems,
+      similarityThreshold: analysis.codeRelevance > 0.7 ? 
+        similarityThreshold - 0.05 : // For highly code-relevant queries, lower the threshold
+        similarityThreshold,
+      includeContent: true,
+      signal // Pass the abort signal to the semantic context manager
+    };
+
+    // Get code context
+    const codeResults = await semanticContextManager.searchContext(query, options);
+
+    // Check for abort signal after getting results
+    if (signal && signal.aborted) {
+      const abortError = new Error('Code context retrieval aborted after getting results');
+      abortError.name = 'AbortError';
+      throw abortError;
+    }
+
+    // Format the results
+    let formattedContext = '';
+
+    if (codeResults && codeResults.length > 0) {
+      // Add a header for the code context
+      formattedContext = this._formatCodeResults(codeResults, analysis);
+
+      // Cache the result
+      this.contextCache.set(cacheKey, {
+        context: formattedContext,
+        timestamp: Date.now()
+      });
+
+      return formattedContext;
+    } else {
+      // No results found, generate fallback context
+      const fallbackContext = this._generateFallbackCodeContext(query, analysis);
+
+      // Cache the fallback result
+      this.contextCache.set(cacheKey, {
+        context: fallbackContext,
+        timestamp: Date.now()
+      });
+
+      return fallbackContext;
+    }
+  } catch (error) {
+    // Propagate abort errors
+    if (error.name === 'AbortError') {
+      throw error;
+    }
+
+    logger.error(`Error retrieving code context: ${error.message}`);
+    return this._generateFallbackCodeContext(query, analysis);
+  }
+}
+
+/**
+ * Retrieve conversation context
+ * @param {string} query - Query text
+ * @param {number} maxItems - Maximum number of items to retrieve
+ * @param {number} similarityThreshold - Similarity threshold
+ * @param {Object} analysis - Query analysis
+ * @returns {Promise<string>} Conversation context
+ * @private
+ */
+async _retrieveConversationContext(query, maxItems, similarityThreshold, analysis) {
+  // Generate a cache key for this specific context retrieval
+  const cacheKey = `conversation_${crypto.createHash('md5').update(query).digest('hex')}_${maxItems}_${similarityThreshold}`;
+
+  // Check if we have this result in cache
+  if (this.contextCache.has(cacheKey)) {
+    const cachedResult = this.contextCache.get(cacheKey);
+    if (Date.now() - cachedResult.timestamp < this.config.CACHE_EXPIRATION_MS) {
+      logger.info(`Retrieved conversation context from cache for query: ${query}`);
+      return cachedResult.context;
+    }
+  }
+
+  // Use a controller to allow for aborting the fetch if it takes too long
+  const controller = new AbortController();
+  const signal = controller.signal;
+
+  // Set a timeout to abort the operation if it takes too long
+  const timeoutId = setTimeout(() => {
+    controller.abort();
+    logger.warn(`Aborting conversation context retrieval after timeout for query: ${query}`);
+  }, 10000); // 10 second timeout
+
+  try {
+    // Start with a quick search for immediate results (lower threshold, fewer results)
+    let quickContext = '';
+    let fullContext = '';
+
+    // For conversation-focused queries, adjust the retrieval strategy
+    const options = {
+      maxResults: Math.min(2, maxItems), // Start with fewer results for quick response
+      similarityThreshold: similarityThreshold + 0.1, // Higher threshold for quicker, more relevant results
+      includeHistory: false,
+      signal // Pass the abort signal
+    };
+
+    // Get quick results first
+    try {
+      // Check if conversationMemoryManager supports the signal parameter
+      if (typeof conversationMemoryManager.generateEnhancedContext === 'function') {
+        quickContext = await conversationMemoryManager.generateEnhancedContext(query, options);
+        }
+      }
+      
+      // If we have quick results, store them as a fallback
+      if (quickContext) {
+        // Store in cache with short expiration
+        this.contextCache.set(cacheKey, {
+          context: quickContext,
+          timestamp: Date.now()
+        });
+      }
+      
+      // Now try to get more comprehensive results if we have time
+      if (!signal.aborted) {
+        const fullOptions = {
+          maxResults: maxItems,
+          similarityThreshold: analysis.narrativeRelevance > 0.7 ? 
+            similarityThreshold + 0.05 : // For highly narrative-relevant queries
+            similarityThreshold,
+          includeDecisions: analysis.narrativeRelevance > 0.7,
+          signal
+        };
+        
+        try {
+          const fullNarratives = await narrativeUnderstandingService.searchNarratives(query, fullOptions);
+          fullContext = this._formatNarratives(fullNarratives);
+          
+          // Update cache with full results
+          if (fullContext) {
+            this.contextCache.set(cacheKey, {
+              context: fullContext,
+              timestamp: Date.now()
+            });
+          }
+        } catch (fullError) {
+          if (fullError.name === 'AbortError') {
+            logger.warn('Full narrative context retrieval aborted due to timeout');
+            // Return quick context as fallback
+            return quickContext || this._generateFallbackNarrativeContext(query, analysis);
+          } else {
+            logger.error(`Error in full narrative context retrieval: ${fullError.message}`);
+            // Return quick context as fallback
+            return quickContext || this._generateFallbackNarrativeContext(query, analysis);
+          }
+        }
+      }
+      
+      // Return the full context if available, otherwise fall back to quick context or generated fallback
+      if (fullContext) {
+        return fullContext;
+      } else if (quickContext) {
+        return quickContext;
+      } else {
+        return this._generateFallbackNarrativeContext(query, analysis);
+      }
+    } catch (error) {
+      logger.error(`Error retrieving narrative context: ${error.message}`);
+      return this._generateFallbackNarrativeContext(query, analysis);
+    } finally {
+      // Always clear the timeout to prevent memory leaks
+      clearTimeout(timeoutId);
+    }
+  }
+  
+  /**
+   * Fallback to standard narrative retrieval
+   * @param {string} query - Query text
+   * @param {number} maxItems - Maximum number of items to retrieve
+   * @param {number} similarityThreshold - Similarity threshold
+   * @returns {Promise<string>} Narrative context
+   * @private
+   */
+  async _fallbackToStandardNarrativeRetrieval(query, maxItems, similarityThreshold) {
+    try {
+      const narratives = await narrativeUnderstandingService.searchNarratives(query, {
+        maxResults: maxItems,
+        similarityThreshold
+      });
+      
+      return this._formatNarratives(narratives);
+    } catch (error) {
+      logger.error(`Error in standard narrative retrieval: ${error.message}`);
+      return '';
+    }
+  }
+  
+  /**
+   * Generate fallback narrative context when the narrative service is unavailable
+   * @param {string} query - Query text
+   * @param {Object} analysis - Query analysis
+   * @returns {string} Fallback narrative context
+   * @private
+   */
+  _generateFallbackNarrativeContext(query, analysis) {
+    // If narrative service is unavailable, try to generate some basic context
+    // based on the query and analysis
+    let fallbackContext = '### Development Context\n\n';
+    
+    // Add some basic information based on the query
+    fallbackContext += 'Note: Detailed development history is currently unavailable.\n\n';
+    
+    // If the query is highly narrative-relevant, add a note about it
+    if (analysis.narrativeRelevance > 0.7) {
+      fallbackContext += 'This query appears to be related to development history or decision-making.\n';
+      fallbackContext += 'Consider checking project documentation or commit history for more information.\n\n';
+    }
+    
+    return fallbackContext;
+  }
+  
+  /**
+   * Format narratives into readable text
+   * @param {Array} narratives - Array of narrative objects
+   * @returns {string} Formatted narrative text
+   * @private
+   */
+  _formatNarratives(narratives) {
+    if (!narratives || narratives.length === 0) {
+      return '';
+    }
+    
+    let formattedText = '### Development History\n\n';
+    
+    for (const narrative of narratives) {
+      formattedText += `#### ${narrative.title}\n\n`;
+      
+      // Add key decisions
+      if (narrative.decisions && narrative.decisions.length > 0) {
+        formattedText += 'Key decisions:\n';
+        narrative.decisions.slice(0, 3).forEach(decision => {
+          formattedText += `- ${decision.text}\n`;
+        });
+        formattedText += '\n';
+      }
+      
+      // Add recent code changes
+      if (narrative.codeChanges && narrative.codeChanges.length > 0) {
+        formattedText += 'Recent changes:\n';
+        narrative.codeChanges.slice(0, 3).forEach(change => {
+          formattedText += `- ${change.changeMessage} (${path.basename(change.filePath)})\n`;
+        });
+        formattedText += '\n';
+      }
+    }
+    
+    return formattedText;
+  }
+  
+  /**
+   * Deduplicate context across different sources
+   * @param {string} codeContext - Code context
+   * @param {string} conversationContext - Conversation context
+   * @param {string} narrativeContext - Narrative context
+   * @returns {Object} Deduplicated context
+   * @private
+   */
+  _deduplicateContext(codeContext, conversationContext, narrativeContext) {
+    if (!this.config.ENABLE_DEDUPLICATION) {
+      return {
+        codeContext,
+        conversationContext,
+        narrativeContext,
+        duplicatesRemoved: 0
+      };
+    }
+    
+    try {
+      // Split contexts into paragraphs
+      const codeParagraphs = this._splitIntoParagraphs(codeContext);
+      const conversationParagraphs = this._splitIntoParagraphs(conversationContext);
+      const narrativeParagraphs = this._splitIntoParagraphs(narrativeContext);
+      
+      // Create fingerprints for each paragraph
+      const codeFingerprints = codeParagraphs.map(p => this._createContentFingerprint(p));
+      const conversationFingerprints = conversationParagraphs.map(p => this._createContentFingerprint(p));
+      const narrativeFingerprints = narrativeParagraphs.map(p => this._createContentFingerprint(p));
+      
+      // Track duplicates
+      const duplicates = new Set();
+      let duplicatesRemoved = 0;
+      
+      // Check for duplicates between code and conversation
+      for (let i = 0; i < codeFingerprints.length; i++) {
+        for (let j = 0; j < conversationFingerprints.length; j++) {
+          if (this._areSimilarFingerprints(codeFingerprints[i], conversationFingerprints[j])) {
+            duplicates.add(`conv_${j}`);
+            duplicatesRemoved++;
+          }
+        }
+      }
+      
+      // Check for duplicates between code and narrative
+      for (let i = 0; i < codeFingerprints.length; i++) {
+        for (let j = 0; j < narrativeFingerprints.length; j++) {
+          if (this._areSimilarFingerprints(codeFingerprints[i], narrativeFingerprints[j])) {
+            duplicates.add(`narr_${j}`);
+            duplicatesRemoved++;
+          }
+        }
+      }
+      
+      // Check for duplicates between conversation and narrative
+      for (let i = 0; i < conversationFingerprints.length; i++) {
+        if (duplicates.has(`conv_${i}`)) continue;
+        
+        for (let j = 0; j < narrativeFingerprints.length; j++) {
+          if (this._areSimilarFingerprints(conversationFingerprints[i], narrativeFingerprints[j])) {
+            duplicates.add(`narr_${j}`);
+            duplicatesRemoved++;
+          }
+        }
+      }
+      
+      // Also check for duplicates within each context type
+      for (let i = 0; i < codeFingerprints.length - 1; i++) {
+        for (let j = i + 1; j < codeFingerprints.length; j++) {
+          if (this._areSimilarFingerprints(codeFingerprints[i], codeFingerprints[j])) {
+            duplicates.add(`code_${j}`);
+            duplicatesRemoved++;
+          }
+        }
+      }
+      
+      for (let i = 0; i < conversationFingerprints.length - 1; i++) {
+        if (duplicates.has(`conv_${i}`)) continue;
+        
+        for (let j = i + 1; j < conversationFingerprints.length; j++) {
+          if (this._areSimilarFingerprints(conversationFingerprints[i], conversationFingerprints[j])) {
+            duplicates.add(`conv_${j}`);
+            duplicatesRemoved++;
+          }
+        }
+      }
+      
+      for (let i = 0; i < narrativeFingerprints.length - 1; i++) {
+        if (duplicates.has(`narr_${i}`)) continue;
+        
+        for (let j = i + 1; j < narrativeFingerprints.length; j++) {
+          if (this._areSimilarFingerprints(narrativeFingerprints[i], narrativeFingerprints[j])) {
+            duplicates.add(`narr_${j}`);
+            duplicatesRemoved++;
+          }
+        }
+      }
+      
+      // Rebuild contexts without duplicates
+      const dedupCodeParagraphs = codeParagraphs.filter((_, i) => !duplicates.has(`code_${i}`));
+      const dedupConversationParagraphs = conversationParagraphs.filter((_, i) => !duplicates.has(`conv_${i}`));
+      const dedupNarrativeParagraphs = narrativeParagraphs.filter((_, i) => !duplicates.has(`narr_${i}`));
+      
+      return {
+        codeContext: dedupCodeParagraphs.join('\n\n'),
+        conversationContext: dedupConversationParagraphs.join('\n\n'),
+        narrativeContext: dedupNarrativeParagraphs.join('\n\n'),
+        duplicatesRemoved
+      };
+    } catch (error) {
+      logger.error(`Error deduplicating context: ${error.message}`);
+      return {
+        codeContext,
+        conversationContext,
+        narrativeContext,
+        duplicatesRemoved: 0
+      };
+    }
+  }
+  
+  /**
+   * Split text into paragraphs
+   * @param {string} text - Text to split
+   * @returns {Array<string>} Array of paragraphs
+   * @private
+   */
+  _splitIntoParagraphs(text) {
+    if (!text) return [];
+    
+    // Split by double newlines
+    const paragraphs = text.split(/\n\s*\n/);
+    
+    // Filter out empty paragraphs and trim
+    return paragraphs
+      .map(p => p.trim())
+      .filter(p => p.length > 0);
+  }
+  
+  /**
+   * Create a content fingerprint for deduplication
+   * @param {string} content - Content to fingerprint
+   * @returns {Object} Fingerprint object
+   * @private
+   */
+  _createContentFingerprint(content) {
+    // Create a normalized version of the content
+    const normalized = content
+      .toLowerCase()
+      .replace(/\s+/g, ' ')
+      .replace(/[^\w\s]/g, '')
+      .trim();
+    
+    // Create a hash of the normalized content
+    const hash = crypto
+      .createHash('md5')
+      .update(normalized)
+      .digest('hex');
+    
+    // Extract key terms (most frequent words)
+    const words = normalized.split(/\s+/);
+    const wordFreq = {};
+    
+    for (const word of words) {
+      if (word.length < 3) continue; // Skip short words
+      wordFreq[word] = (wordFreq[word] || 0) + 1;
+    }
+    
+    // Get top 5 most frequent words
+    const keyTerms = Object.entries(wordFreq)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5)
+      .map(([word]) => word);
+    
+    return {
+      hash,
+      keyTerms,
+      length: normalized.length
+    };
+  }
+  
+  /**
+   * Check if two fingerprints are similar
+   * @param {Object} fp1 - First fingerprint
+   * @param {Object} fp2 - Second fingerprint
+   * @returns {boolean} True if fingerprints are similar
+   * @private
+   */
+  _areSimilarFingerprints(fp1, fp2) {
+    // If hashes match, they're definitely duplicates
+    if (fp1.hash === fp2.hash) return true;
+    
+    // If length differs significantly, they're different
+    const lengthRatio = Math.min(fp1.length, fp2.length) / Math.max(fp1.length, fp2.length);
+    if (lengthRatio < 0.7) return false;
+    
+    // Check overlap in key terms
+    const commonTerms = fp1.keyTerms.filter(term => fp2.keyTerms.includes(term));
+    const termOverlap = commonTerms.length / Math.min(fp1.keyTerms.length, fp2.keyTerms.length);
+    
+    // Return true if there's significant overlap
+    return termOverlap > 0.6;
+  }
+  
+  /**
+   * Combine different types of context based on relevance
+   * @param {string} codeContext - Code context
+   * @param {string} conversationContext - Conversation context
+   * @param {string} narrativeContext - Narrative context
+   * @param {Object} analysis - Query analysis
+   * @returns {string} Combined context
+   * @private
+   */
+  _combineContext(codeContext, conversationContext, narrativeContext, analysis) {
+    try {
+      // Start with an empty combined context
+      let combinedContext = '';
+      
+      // Add a header for the enhanced context
+      combinedContext += '# Leo Context\n\n';
+      
+      // Add a brief introduction based on query type
+      if (analysis && analysis.queryType === 'conceptual') {
+        combinedContext += 'The following context provides conceptual information about the Leo system architecture and components.\n\n';
+      } else if (analysis && analysis.queryType === 'procedural') {
+        combinedContext += 'The following context provides implementation details and procedures relevant to your query.\n\n';
+      } else if (analysis && analysis.queryType === 'factual') {
+        combinedContext += 'The following context provides factual information relevant to your query.\n\n';
+      } else if (analysis && analysis.queryType === 'comparative') {
+        combinedContext += 'The following context provides information to help compare different components or approaches.\n\n';
+      } else {
+        combinedContext += 'The following context is relevant to your query about the Leo system.\n\n';
+      }
+      
+      // Determine the order of context types based on relevance scores
+      const contextTypes = [
+        { type: 'code', content: codeContext, relevance: analysis && analysis.codeRelevance || 0.5 },
+        { type: 'conversation', content: conversationContext, relevance: analysis && analysis.conversationRelevance || 0.3 },
+        { type: 'narrative', content: narrativeContext, relevance: analysis && analysis.narrativeRelevance || 0.2 }
+      ];
+      
+      // Sort by relevance (descending)
+      contextTypes.sort((a, b) => b.relevance - a.relevance);
+      
+      // Track what context we've included
+      const includedTypes = [];
+      
+      // Add context sections in order of relevance
+      for (const contextType of contextTypes) {
+        if (!contextType.content || contextType.content.trim().length < 10) continue; // Skip empty or minimal content
+        
+        // Add section header based on context type
+        switch (contextType.type) {
+          case 'code':
+            combinedContext += '## Code Context\n\n';
+            if (analysis && analysis.queryType === 'conceptual') {
+              combinedContext += 'The following code snippets illustrate the architecture and component relationships:\n\n';
+            } else if (analysis && analysis.queryType === 'procedural') {
+              combinedContext += 'The following code snippets show implementation details relevant to your task:\n\n';
+            } else {
+              combinedContext += 'The following code snippets are relevant to your query:\n\n';
+            }
+            includedTypes.push('code');
+            break;
+          case 'conversation':
+            combinedContext += '## Conversation History\n\n';
+            combinedContext += 'Previous discussions that provide context for your current query:\n\n';
+            includedTypes.push('conversation');
+            break;
+          case 'narrative':
+            combinedContext += '## Development History\n\n';
+            combinedContext += 'Relevant project history and decisions that inform the current state:\n\n';
+            includedTypes.push('narrative');
+            break;
+        }
+        
+        // Add the content
+        combinedContext += contextType.content;
+        combinedContext += '\n\n';
+      }
+      
+      // If the query is about relationships between components, add a special section
+      if ((analysis && analysis.queryType === 'comparative') || 
+          (analysis && analysis.query && analysis.query.toLowerCase().includes('relationship')) || 
+          (analysis && analysis.query && analysis.query.toLowerCase().includes('between')) || 
+          (analysis && analysis.query && analysis.query.toLowerCase().includes('connect')) || 
+          (analysis && analysis.query && analysis.query.toLowerCase().includes('integration'))) {
+        
+        combinedContext += '## Component Relationships\n\n';
+        combinedContext += 'The Leo architecture follows these key integration patterns:\n\n';
+        combinedContext += '1. **Service-Adapter Pattern**: Services provide core functionality, while adapters provide standardized interfaces\n';
+        combinedContext += '2. **Event-Driven Communication**: Components communicate through the event bus using standardized event names\n';
+        combinedContext += '3. **Context Flow**: Queries flow through the enhanced context retrieval service to the adaptive context selector\n';
+        combinedContext += '4. **Memory Integration**: The conversation memory manager integrates with the semantic context manager\n\n';
+      }
+      
+      // Add instructions section
+      combinedContext += '## Instructions\n\n';
+      combinedContext += 'Please use the provided context to answer the original query. If the context does not contain all the necessary information, use your general knowledge but acknowledge when you\'re doing so.\n\n';
+      
+      return combinedContext;
+    } catch (error) {
+      logger.error(`Error combining context: ${error.message}`);
+      
+      // Fallback to a simple concatenation if there's an error
+      let fallbackContext = '# Leo Context (Fallback Mode)\n\n';
+      
+      if (codeContext && codeContext.trim().length > 10) {
+        fallbackContext += '## Code Context\n\n' + codeContext + '\n\n';
+      }
+      
+      if (conversationContext && conversationContext.trim().length > 10) {
+        fallbackContext += '## Conversation Context\n\n' + conversationContext + '\n\n';
+      }
+      
+      if (narrativeContext && narrativeContext.trim().length > 10) {
+        fallbackContext += '## Narrative Context\n\n' + narrativeContext + '\n\n';
+      }
+      
+      fallbackContext += '## Instructions\n\n';
+      fallbackContext += 'Please use the provided context to answer the original query. Note that the context was generated in fallback mode due to an error.\n\n';
+      
+      return fallbackContext || 'No context available due to an error in context combination.';
+    }
+  }
+  /**
+   * Generate a cache key for a query and options
+   * @param {string} query - Query text
+   * @param {Object} options - Options object
+   * @returns {string} Cache key
+   * @private
+   */
+  _generateCacheKey(query, options) {
+    const optionsString = JSON.stringify({
+      similarityThreshold: options.similarityThreshold || this.config.DEFAULT_SIMILARITY_THRESHOLD,
+      maxCodeItems: options.maxCodeItems || this.config.MAX_CODE_CONTEXT_ITEMS,
+      maxConversationItems: options.maxConversationItems || this.config.MAX_CONVERSATION_CONTEXT_ITEMS,
+      maxNarrativeItems: options.maxNarrativeItems || this.config.MAX_NARRATIVE_CONTEXT_ITEMS
+    });
+    
+    return `${query}_${optionsString}`;
+  }
+  
+  /**
+   * Clear the context cache
+   * @returns {Promise<boolean>} Success status
+   */
+  async clearCache() {
+    try {
+      this.contextCache.clear();
+      logger.info('Context cache cleared');
+      return true;
+    } catch (error) {
+      logger.error(`Error clearing cache: ${error.message}`);
+      return false;
+    }
+  }
+  
+  /**
+   * Get cache statistics
+   * @returns {Object} Cache statistics
+   */
+  getCacheStats() {
+    return {
+      size: this.contextCache.size,
+      expirationMs: this.config.CACHE_EXPIRATION_MS
+    };
+  }
+}
+
+module.exports = AdaptiveContextSelector;

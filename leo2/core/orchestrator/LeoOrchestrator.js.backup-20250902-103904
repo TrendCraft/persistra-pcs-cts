@@ -1,0 +1,798 @@
+/**
+ * Leo Orchestrator - Central Cognitive Coordination Layer
+ * 
+ * This is the heart of Leo's Cognitive Operating System. Every interaction,
+ * every thought, every response flows through this orchestrator. It makes
+ * the Memory Graph, CSE, and Agent Loop inseparable and ensures that Leo
+ * operates as a true cognitive partner, not a tool.
+ * 
+ * Core Principles:
+ * 1. All cognition flows through the agent loop (Observe → Reflect → Act → Update)
+ * 2. All context injection flows through CSE
+ * 3. All knowledge comes from the memory graph
+ * 4. No static prompts - everything is memory-driven
+ * 5. Agent state is persistent and introspectable
+ * 
+ * @created 2025-08-01
+ * @phase COS Implementation
+ */
+
+const { createComponentLogger } = require('../../../lib/utils/logger');
+const eventBus = require('../../../lib/utils/event-bus');
+const OrchestratorLogger = require('../logging/OrchestratorLogger');
+const EmergentCSE = require('../emergence/EmergentCSE');
+
+// Component name for logging and events
+const COMPONENT_NAME = 'leo-orchestrator';
+
+// Create component logger
+const logger = createComponentLogger(COMPONENT_NAME);
+
+/**
+ * LeoOrchestrator - Central cognitive coordination class
+ * 
+ * This class unifies all cognitive components and ensures that every
+ * interaction follows the agent loop pattern with CSE-driven context
+ * injection and memory-graph sourced knowledge.
+ */
+class LeoOrchestrator {
+  /**
+   * Constructor - Initialize the orchestrator with core cognitive components
+   * @param {Object} components - Core cognitive components
+   * @param {Object} components.memoryGraph - Memory graph instance
+   * @param {Object} components.cse - Contextual Salience Engine instance
+   * @param {Object} components.agentLoop - Agent loop instance
+   * @param {Object} components.llmInterface - LLM interface instance
+   * @param {Object} components.logger - Logger instance (optional)
+   * @param {Object} components.capabilityRegistry - Capability registry (optional)
+   * @param {Object} components.feedbackManager - Feedback manager (optional)
+   * @param {Object} config - Configuration options
+   */
+  constructor({ 
+    memoryGraph, 
+    cse, 
+    agentLoop, 
+    llmInterface, 
+    logger: providedLogger,
+    capabilityRegistry,
+    feedbackManager,
+    semanticContextManager,
+    // Awareness components
+    unifiedAwarenessService,
+    contextProcessor,
+    flowMonitor,
+    interactionMemorySystem,
+    // Meta Agent Router
+    metaAgentRouter,
+    // Safety components
+    backupManager,
+    config = {}
+  }) {
+    // Core cognitive components - these are inseparable
+    this.memoryGraph = memoryGraph;
+    
+    // Always use the injected CSE instance from orchestratorFactory
+    this.cse = cse;
+    if (this.cse && this.cse.instanceId) {
+      console.log(`[LeoOrchestrator] Using injected CSE instanceId: ${this.cse.instanceId}`);
+    }
+
+    this.agentLoop = agentLoop;
+    this.llm = llmInterface;
+    
+    // Optional components
+    this.logger = providedLogger || logger;
+    this.capabilityRegistry = capabilityRegistry;
+    this.feedbackManager = feedbackManager;
+    this.semanticContextManager = semanticContextManager;
+    
+    // Awareness components - For conversation event processing
+    this.unifiedAwarenessService = unifiedAwarenessService;
+    this.contextProcessor = contextProcessor;
+    this.flowMonitor = flowMonitor;
+    this.interactionMemorySystem = interactionMemorySystem;
+    
+    // Meta Agent Router - For cognitive coordination and natural self-awareness
+    this.metaAgentRouter = metaAgentRouter;
+    
+    // Safety components - For file operation protection
+    this.backupManager = backupManager;
+    
+    // Configuration
+    this.config = {
+      // Agent loop configuration
+      enableReflection: true,
+      enableUpdate: true,
+      enableMetaCognition: true,
+      
+      // Emergent behavior configuration (no hardcoded identity/capabilities)
+      enableSalienceRanking: true,
+      enableEmergentBehavior: config.useEmergentBehavior !== false,
+      enableIdentityInjection: false, // Disabled - identity emerges from memory
+      enableCapabilityInjection: false, // Disabled - capabilities emerge from memory
+      
+      // Memory configuration
+      enableMemoryUpdates: true,
+      enableLearning: true,
+      
+      // Debugging configuration
+      enableIntrospection: true,
+      logAgentState: true,
+      
+      ...config
+    };
+    
+    // Agent state - persistent and introspectable (no hardcoded identity)
+    this.agentState = {
+      sessionId: this.generateSessionId(),
+      startTime: Date.now(),
+      lastInteraction: null,
+      beliefs: new Map(),
+      goals: new Map(),
+      tone: 'conversational',
+      mode: 'cognitive-partner',
+      // Identity and capabilities removed - they emerge from memory graph
+      emergentIdentity: null, // Will be populated from memory
+      emergentCapabilities: [], // Will be populated from memory
+      context: {
+        current: null,
+        history: [],
+        salience: new Map(),
+        emergent: true,
+        hardcodedRemoved: true
+      },
+      metrics: {
+        interactions: 0,
+        memoryUpdates: 0,
+        reflections: 0,
+        learningEvents: 0,
+        emergentDiscoveries: 0
+      }
+    };
+    
+    // Initialize orchestrator
+    this.initialized = false;
+    this.initializing = false;
+    
+    // Initialize orchestrator logger
+    this.orchestratorLogger = new OrchestratorLogger({
+      enableConsoleLogging: process.env.LEO_DEBUG === 'true',
+      enableFileLogging: true,
+      enableBatching: false
+    });
+    
+    this.logger.info('LeoOrchestrator created', {
+      sessionId: this.agentState.sessionId,
+      components: {
+        memoryGraph: !!memoryGraph,
+        cse: !!cse,
+        agentLoop: !!agentLoop,
+        llmInterface: !!llmInterface
+      }
+    });
+  }
+  
+  /**
+   * Initialize the orchestrator and all cognitive components
+   * @returns {Promise<boolean>} Initialization success
+   */
+  async initialize() {
+    if (this.initialized) {
+      this.logger.warn('LeoOrchestrator already initialized');
+      return true;
+    }
+    
+    if (this.initializing) {
+      this.logger.warn('LeoOrchestrator initialization in progress');
+      return false;
+    }
+    
+    this.initializing = true;
+    
+    try {
+      this.logger.info('Initializing LeoOrchestrator');
+      
+      // Initialize memory graph
+      if (this.memoryGraph && typeof this.memoryGraph.initialize === 'function') {
+        await this.memoryGraph.initialize();
+        this.logger.info('Memory graph initialized');
+      }
+      
+      // Initialize CSE
+      if (this.cse && typeof this.cse.initialize === 'function') {
+        await this.cse.initialize();
+        this.logger.info('CSE initialized');
+      }
+      
+      // Initialize agent loop with orchestrator reference
+      if (this.agentLoop && typeof this.agentLoop.initialize === 'function') {
+        await this.agentLoop.initialize({ orchestrator: this });
+        this.logger.info('Agent loop initialized');
+      }
+      
+      // Initialize LLM interface
+      if (this.llm && typeof this.llm.initialize === 'function') {
+        await this.llm.initialize();
+        this.logger.info('LLM interface initialized');
+      }
+      
+      // Initialize optional components
+      if (this.capabilityRegistry && typeof this.capabilityRegistry.initialize === 'function') {
+        await this.capabilityRegistry.initialize();
+        this.logger.info('Capability registry initialized');
+      }
+      
+      if (this.feedbackManager && typeof this.feedbackManager.initialize === 'function') {
+        await this.feedbackManager.initialize();
+        this.logger.info('Feedback manager initialized');
+      }
+      
+      // Load agent state from memory if available
+      await this.loadAgentState();
+      
+      // Set up event listeners
+      this.setupEventListeners();
+      
+      this.initialized = true;
+      this.initializing = false;
+      
+      // Log orchestrator initialization
+      this.orchestratorLogger.logOrchestratorEvent('initialization', {
+        sessionId: this.agentState.sessionId,
+        components: {
+          memoryGraph: !!this.memoryGraph,
+          cse: !!this.cse,
+          agentLoop: !!this.agentLoop,
+          llmInterface: !!this.llm
+        },
+        config: this.config,
+        timestamp: Date.now()
+      });
+      
+      this.logger.info('LeoOrchestrator initialized successfully', {
+        sessionId: this.agentState.sessionId,
+        components: {
+          memoryGraph: !!this.memoryGraph,
+          cse: !!this.cse,
+          agentLoop: !!this.agentLoop,
+          llmInterface: !!this.llm
+        }
+      });
+      
+      // Emit initialization event
+      eventBus.emit('orchestrator:initialized', {
+        sessionId: this.agentState.sessionId,
+        timestamp: Date.now()
+      }, COMPONENT_NAME);
+      
+      return true;
+      
+    } catch (error) {
+      this.initializing = false;
+      this.logger.error('Failed to initialize LeoOrchestrator', error);
+      return false;
+    }
+  }
+  
+  /**
+   * Ensure agent loop is ready for processing
+   * @returns {Promise<boolean>} Agent loop readiness
+   */
+  async ensureAgentLoopReady() {
+    if (!this.agentLoop) {
+      const OrchestratorAgentLoop = require('../agent/orchestratorAgentLoop');
+      this.agentLoop = new OrchestratorAgentLoop({ 
+        memoryGraph: this.memoryGraph, 
+        cse: this.cse, 
+        flowMonitor: this.flowMonitor,
+        orchestrator: this
+      });
+    }
+    await this.agentLoop.initialize();
+    return true;
+  }
+
+  /**
+   * Process user input with guaranteed agent loop readiness
+   * @param {string} text - User input text
+   * @param {Object} opts - Processing options
+   * @returns {Promise<Object>} Processing result
+   */
+  async processUserInput(text, opts = {}) {
+    await this.ensureAgentLoopReady();          // <- guarantee readiness
+    return this.agentLoop.process({ userInput: text, userContext: opts });
+  }
+
+  /**
+   * Main entry point - Handle user input through the agent loop
+   * 
+   * This is where ALL interactions begin. Every user input, system event,
+   * or cognitive process flows through this method and the agent loop.
+   * 
+   * @param {string} userInput - User's input
+   * @param {Object} userContext - Additional context about the user/session
+   * @returns {Promise<Object>} Response object with agent loop results
+   */
+  async handleUserInput(userInput, userContext = {}) {
+    if (!this.initialized) {
+      throw new Error('LeoOrchestrator not initialized. Call initialize() first.');
+    }
+    
+    try {
+      this.logger.info('Handling user input through agent loop', {
+        sessionId: this.agentState.sessionId,
+        inputLength: userInput?.length || 0,
+        userContext
+      });
+      
+      // Log user input received
+      this.orchestratorLogger.logOrchestratorEvent('user_input_received', {
+        inputLength: userInput.length,
+        sessionId: this.agentState.sessionId,
+        timestamp: Date.now()
+      });
+      
+      // Process conversation event through awareness layer
+      if (this.unifiedAwarenessService) {
+        try {
+          await this.unifiedAwarenessService.processEvent({
+            type: 'conversation_input',
+            userInput,
+            userContext,
+            sessionId: this.agentState.sessionId,
+            timestamp: Date.now()
+          });
+        } catch (awarenessError) {
+          this.logger.warn('Awareness event processing failed', awarenessError);
+        }
+      }
+      
+      // Update agent state
+      this.agentState.lastInteraction = Date.now();
+      this.agentState.metrics.interactions++;
+      
+      // Ensure agent loop is ready
+      await this.ensureAgentLoopReady();
+      
+      // Process through agent loop with orchestrator context
+      console.log('[DEBUG] About to call agentLoop.process...');
+      const result = await this.agentLoop.process({
+        userInput,
+        userContext,
+        orchestrator: this,
+        agentState: this.agentState
+      });
+      console.log('[DEBUG] agentLoop.process completed successfully');
+      
+      // Update agent state based on results
+      await this.updateAgentState(result);
+      
+      // Save agent state
+      await this.saveAgentState();
+      
+      // Process response event through awareness layer
+      if (this.unifiedAwarenessService && result.response) {
+        try {
+          await this.unifiedAwarenessService.processEvent({
+            type: 'conversation_response',
+            userInput,
+            response: result.response,
+            sessionId: this.agentState.sessionId,
+            metadata: result.metadata,
+            timestamp: Date.now()
+          });
+        } catch (awarenessError) {
+          this.logger.warn('Awareness response processing failed', awarenessError);
+        }
+      }
+      
+      // Log interaction completion
+      this.orchestratorLogger.logOrchestratorEvent('interaction_completed', {
+        sessionId: this.agentState.sessionId,
+        duration: result.metadata?.duration,
+        phasesExecuted: result.metadata?.phasesExecuted,
+        skillSelected: result.metadata?.skillSelected,
+        success: true,
+        timestamp: Date.now()
+      });
+      
+      if (this.config.logAgentState) {
+        this.logger.debug('Agent loop completed', {
+          sessionId: this.agentState.sessionId,
+          result: result,
+          agentState: this.getAgentStateSummary()
+        });
+      }
+      
+      // Emit interaction event
+      eventBus.emit('orchestrator:interaction', {
+        sessionId: this.agentState.sessionId,
+        userInput,
+        result: result,
+        timestamp: Date.now()
+      }, COMPONENT_NAME);
+      
+      return result;
+      
+    } catch (error) {
+      // Log error
+      this.orchestratorLogger.logOrchestratorEvent('interaction_error', {
+        sessionId: this.agentState?.sessionId || 'unknown',
+        error: error.message,
+        stack: error.stack,
+        timestamp: Date.now()
+      });
+      
+      this.logger.error('Error handling user input', error);
+      
+      // Emit error event
+      eventBus.emit('orchestrator:error', {
+        sessionId: this.agentState.sessionId,
+        error: error.message,
+        timestamp: Date.now()
+      }, COMPONENT_NAME);
+      
+      throw error;
+    }
+  }
+  
+  /**
+   * Get memory context through CSE
+   * 
+   * This method ensures all memory access flows through the CSE for
+   * salience-based ranking and context injection.
+   * 
+   * @param {string} query - Query for memory search
+   * @param {Object} options - Search options
+   * @returns {Promise<Object>} CSE-processed memory context
+   */
+  async getMemoryContext(query, options = {}) {
+    try {
+      if (process.env.LEO_DEBUG === 'true') {
+        console.log('\n🔍 === ORCHESTRATOR MEMORY CONTEXT DEBUG ===');
+        console.log('🎯 Query:', query);
+        console.log('🔧 Using EmergentCSE with category-aware retrieval...');
+      }
+      
+      // Use EmergentCSE to get fully emergent context with category-aware retrieval
+      // This now includes document type classification and balanced retrieval
+      const cseContext = await this.cse.getEmergentContext({
+        query,
+        flowState: this.agentState?.flowState,
+        memoryGraph: this.memoryGraph,
+        // Enhanced parameters for category-aware retrieval:
+        similarityThreshold: this.config?.semanticSearch?.similarityThreshold || 0.10, // Lowered from 0.12 for broader recall
+        topK: this.config?.semanticSearch?.topK || 15, // Increased from default for more context
+        enableCategoryAware: true, // Enable category-aware retrieval
+        entityDetection: true, // Enable entity detection for targeted retrieval
+        documentTypeWeighting: true // Enable document type re-ranking
+      });
+      
+      // If we have context but nothing has produced text yet, call the LLM now
+      if (!cseContext || cseContext.error) {
+        return { llmResponse: "Temporary retrieval issue. Try again." };
+      }
+
+      // Add consumer guard for safe array access
+      const mems = Array.isArray(cseContext?.memories) ? cseContext.memories : [];
+      const response = await this.generateLLMResponse({
+        query,
+        context: mems,
+        strategy: 'memory_informed'
+      });
+
+      if (!response || !response.trim()) {
+        this.logger.warn('[LLM] Empty response — using general-knowledge fallback');
+        const fallbackResponse = await this.generateLLMResponse({ 
+          query, 
+          context: [], 
+          strategy: 'fallback' 
+        });
+        return { llmResponse: fallbackResponse, cseContext };
+      }
+      
+      if (process.env.LEO_DEBUG === 'true') {
+        console.log('📚 CSE Context received:', cseContext?.length || 0, 'chunks');
+        console.log('🔍 === END ORCHESTRATOR MEMORY CONTEXT DEBUG ===\n');
+      }
+      
+      // Update agent state with emergent context - ensure context structure exists
+      if (!this.agentState.context) {
+        this.agentState.context = { current: null, history: [] };
+      }
+      if (!Array.isArray(this.agentState.context.history)) {
+        this.agentState.context.history = [];
+      }
+      
+      console.log('[DEBUG] About to update agent state context...');
+      this.agentState.context.current = cseContext;
+      this.agentState.context.history.push({
+        query,
+        context: cseContext,
+        timestamp: Date.now(),
+        emergent: true,
+        hardcodedRemoved: true,
+        categoryAware: true // Mark as using enhanced retrieval
+      });
+      console.log('[DEBUG] Agent state context updated successfully');
+      
+      // Keep context history manageable with safe array access
+      if (Array.isArray(this.agentState.context.history) && this.agentState.context.history.length > 10) {
+        this.agentState.context.history = this.agentState.context.history.slice(-10);
+      }
+      
+      // Return both CSE context and LLM response
+      console.log('[DEBUG] Returning LLM response length:', response?.length || 0);
+      return { 
+        ...cseContext,
+        llmResponse: response,
+        memories: cseContext.memories || cseContext.salientMemories || []
+      };
+      
+    } catch (error) {
+      // Log error
+      this.orchestratorLogger.logOrchestratorEvent('memory_error', {
+        sessionId: this.agentState?.sessionId || 'unknown',
+        error: error.message,
+        stack: error.stack,
+        timestamp: Date.now()
+      });
+      
+      this.logger.error('Error getting memory context', error);
+      throw error;
+    }
+  }
+  
+  /**
+   * Generate LLM response with guaranteed output
+   * 
+   * @param {Object} options - Generation options
+   * @returns {Promise<string>} Generated response
+   */
+  async generateLLMResponse({ query, context, strategy }) {
+    this.logger.info(`[LLM] Generating with strategy=${strategy}, model=${this.llm?.model || 'unknown'}`);
+    if (!this.llm || typeof this.llm.generate !== 'function') {
+      this.logger.error('[LLM] Service missing from DI container');
+      throw new Error('LLM service unavailable');
+    }
+    
+    // ✅ Compose clean user content without identity forcing
+    const contextArray = Array.isArray(context) ? context : [];
+    let prompt;
+    
+    if (strategy === 'memory_informed' && contextArray.length > 0) {
+      prompt = this.composeUserContent(contextArray, query);
+    } else {
+      prompt = query;
+    }
+    
+    return this.llm.generate({
+      prompt: prompt,
+      context: contextArray,
+      max_tokens: strategy === 'fallback' ? 300 : 500,
+      temperature: 0.7
+    });
+  }
+
+  // ✅ Compose user content with embedded memory snippets (no meta-commentary)
+  composeUserContent(ctx, userQuestion) {
+    const bullets = ctx
+      .map(m => `• ${m.content || m.text || ''}`)
+      .filter(bullet => bullet.length > 2) // Filter out empty bullets
+      .join('\n');
+    
+    return `Helpful facts you can rely on:\n${bullets}\n\nQuestion: ${userQuestion}\n\nGive a concise, direct answer.`;
+  }
+  
+  /**
+   * Update memory graph with new information
+   * 
+   * @param {Object} memoryData - Data to add to memory
+   * @returns {Promise<boolean>} Success status
+   */
+  async updateMemory(memoryData) {
+    if (!this.config.enableMemoryUpdates) {
+      return false;
+    }
+    
+    try {
+      await this.memoryGraph.addMemory(memoryData);
+      this.agentState.metrics.memoryUpdates++;
+      
+      this.logger.debug('Memory updated', {
+        sessionId: this.agentState.sessionId,
+        memoryType: memoryData.type
+      });
+      
+      return true;
+      
+    } catch (error) {
+      this.logger.error('Error updating memory', error);
+      return false;
+    }
+  }
+  
+  /**
+   * Get current agent state summary for introspection
+   * @returns {Object} Agent state summary
+   */
+  getAgentStateSummary() {
+    return {
+      sessionId: this.agentState.sessionId,
+      uptime: Date.now() - this.agentState.startTime,
+      lastInteraction: this.agentState.lastInteraction,
+      mode: this.agentState.mode,
+      tone: this.agentState.tone,
+      metrics: { ...this.agentState.metrics },
+      identity: {
+        emergent: !!this.agentState.emergentIdentity,
+        identityData: this.agentState.emergentIdentity ? 'present' : 'none'
+      },
+      capabilities: {
+        emergentCount: this.agentState.emergentCapabilities.length,
+        capabilities: this.agentState.emergentCapabilities.map(c => c.name || c).slice(0, 3) // Show first 3
+      }
+    };
+  }
+  
+  /**
+   * Get full agent state for debugging (introspection)
+   * @returns {Object} Complete agent state
+   */
+  introspect() {
+    if (!this.config.enableIntrospection) {
+      return { error: 'Introspection disabled' };
+    }
+    
+    return {
+      orchestrator: {
+        initialized: this.initialized,
+        config: this.config,
+        components: {
+          memoryGraph: !!this.memoryGraph,
+          cse: !!this.cse,
+          agentLoop: !!this.agentLoop,
+          llm: !!this.llm,
+          capabilityRegistry: !!this.capabilityRegistry,
+          feedbackManager: !!this.feedbackManager
+        }
+      },
+      agentState: this.agentState
+    };
+  }
+  
+  /**
+   * Generate unique session ID
+   * @returns {string} Session ID
+   */
+  generateSessionId() {
+    return `leo-session-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+  }
+  
+  /**
+   * Load agent state from memory
+   * @private
+   */
+  async loadAgentState() {
+    try {
+      // Skip if already loaded in this session (performance optimization)
+      if (this.agentStateLoaded) {
+        return;
+      }
+      
+      // Try to load previous agent state from memory graph
+      const stateMemory = await this.memoryGraph.searchMemories({
+        query: 'agent_state',
+        type: 'system',
+        limit: 1
+      });
+      
+      this.agentStateLoaded = true; // Cache flag
+      
+      if (stateMemory && stateMemory.length > 0) {
+        const savedState = JSON.parse(stateMemory[0].content);
+        
+        // Merge saved state with current state (preserve session info)
+        this.agentState = {
+          ...this.agentState,
+          beliefs: new Map(savedState.beliefs || []),
+          goals: new Map(savedState.goals || []),
+          tone: savedState.tone || this.agentState.tone,
+          mode: savedState.mode || this.agentState.mode,
+          identity: savedState.identity || this.agentState.identity,
+          capabilities: savedState.capabilities || this.agentState.capabilities
+        };
+        
+        this.logger.info('Agent state loaded from memory');
+      }
+      
+    } catch (error) {
+      this.logger.warn('Could not load agent state from memory', error);
+    }
+  }
+  
+  /**
+   * Save agent state to memory
+   * @private
+   */
+  async saveAgentState() {
+    if (!this.config.enableMemoryUpdates) {
+      return;
+    }
+    
+    try {
+      await this.memoryGraph.addMemory({
+        type: 'system',
+        subtype: 'agent_state',
+        content: JSON.stringify({
+          beliefs: Array.from(this.agentState.beliefs.entries()),
+          goals: Array.from(this.agentState.goals.entries()),
+          tone: this.agentState.tone,
+          mode: this.agentState.mode,
+          identity: this.agentState.identity,
+          capabilities: this.agentState.capabilities,
+          metrics: this.agentState.metrics
+        }),
+        timestamp: Date.now(),
+        sessionId: this.agentState.sessionId
+      });
+      
+    } catch (error) {
+      this.logger.warn('Could not save agent state to memory', error);
+    }
+  }
+  
+  /**
+   * Update agent state based on agent loop results
+   * @param {Object} agentLoopResult - Results from agent loop
+   * @private
+   */
+  async updateAgentState(agentLoopResult) {
+    if (!agentLoopResult) return;
+    
+    // Update metrics based on agent loop phases
+    if (agentLoopResult.reflection) {
+      this.agentState.metrics.reflections++;
+    }
+    
+    if (agentLoopResult.learning) {
+      this.agentState.metrics.learningEvents++;
+    }
+    
+    // Update identity if changed
+    if (agentLoopResult.identityUpdate) {
+      this.agentState.identity.dynamic = agentLoopResult.identityUpdate;
+      this.agentState.identity.lastUpdate = Date.now();
+    }
+    
+    // Update capabilities if changed
+    if (agentLoopResult.capabilityUpdate) {
+      this.agentState.capabilities.active = agentLoopResult.capabilityUpdate;
+      this.agentState.capabilities.lastUpdate = Date.now();
+    }
+  }
+  
+  /**
+   * Set up event listeners for orchestrator
+   * @private
+   */
+  setupEventListeners() {
+    // Listen for system events
+    eventBus.on('system:shutdown', () => {
+      this.logger.info('System shutdown - saving agent state');
+      this.saveAgentState();
+    }, COMPONENT_NAME);
+    
+    // Listen for memory updates
+    eventBus.on('memory:updated', (data) => {
+      this.logger.debug('Memory updated event received', data);
+    }, COMPONENT_NAME);
+    
+    // Listen for CSE updates
+    eventBus.on('cse:salience-updated', (data) => {
+      this.logger.debug('CSE salience updated', data);
+    }, COMPONENT_NAME);
+  }
+}
+
+module.exports = LeoOrchestrator;

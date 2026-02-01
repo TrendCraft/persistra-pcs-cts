@@ -1,0 +1,154 @@
+[2025-06-05T16:05:14.003Z] INFO: Event bus initialized {
+  "component": "event-bus"
+}
+[2025-06-05T16:05:14.004Z] INFO: Auto-initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-05T16:05:14.004Z] INFO: Initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-05T16:05:14.025Z] INFO: Configuration loaded successfully {
+  "component": "config-service"
+}
+[2025-06-05T16:05:14.026Z] INFO: Configuration service initialized successfully {
+  "component": "config-service"
+}
+[2025-06-05T16:29:03.897Z] INFO: Event bus initialized {
+  "component": "event-bus"
+}
+[2025-06-05T16:29:03.898Z] INFO: Auto-initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-05T16:29:03.898Z] INFO: Initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-05T16:29:03.920Z] INFO: Configuration loaded successfully {
+  "component": "config-service"
+}
+[2025-06-05T16:29:03.921Z] INFO: Configuration service initialized successfully {
+  "component": "config-service"
+}
+[2025-06-05T16:41:56.198Z] INFO: Event bus initialized {
+  "component": "event-bus"
+}
+[2025-06-05T16:41:56.199Z] INFO: Auto-initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-05T16:41:56.199Z] INFO: Initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-05T16:41:56.214Z] INFO: Configuration loaded successfully {
+  "component": "config-service"
+}
+[2025-06-05T16:41:56.214Z] INFO: Configuration service initialized successfully {
+  "component": "config-service"
+}
+[2025-06-05T16:50:57.323Z] INFO: Event bus initialized {
+  "component": "event-bus"
+}
+[2025-06-05T16:50:57.324Z] INFO: Auto-initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-05T16:50:57.324Z] INFO: Initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-05T16:50:57.339Z] INFO: Configuration loaded successfully {
+  "component": "config-service"
+}
+[2025-06-05T16:50:57.339Z] INFO: Configuration service initialized successfully {
+  "component": "config-service"
+}
+[2025-06-05T16:52:20.056Z] INFO: Event bus initialized {
+  "component": "event-bus"
+}
+[2025-06-05T16:52:20.057Z] INFO: Auto-initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-05T16:52:20.057Z] INFO: Initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-05T16:52:20.072Z] INFO: Configuration loaded successfully {
+  "component": "config-service"
+}
+[2025-06-05T16:52:20.072Z] INFO: Configuration service initialized successfully {
+  "component": "config-service"
+}
+[2025-06-05T16:58:45.499Z] INFO: Event bus initialized {
+  "component": "event-bus"
+}
+[2025-06-05T16:58:45.500Z] INFO: Auto-initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-05T16:58:45.500Z] INFO: Initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-05T16:58:45.514Z] INFO: Configuration loaded successfully {
+  "component": "config-service"
+}
+[2025-06-05T16:58:45.514Z] INFO: Configuration service initialized successfully {
+  "component": "config-service"
+}
+[2025-06-05T17:00:53.211Z] INFO: Event bus initialized {
+  "component": "event-bus"
+}
+[2025-06-05T17:00:53.212Z] INFO: Auto-initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-05T17:00:53.212Z] INFO: Initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-05T17:00:53.228Z] INFO: Configuration loaded successfully {
+  "component": "config-service"
+}
+[2025-06-05T17:00:53.228Z] INFO: Configuration service initialized successfully {
+  "component": "config-service"
+}
+[2025-06-05T17:04:40.650Z] INFO: Event bus initialized {
+  "component": "event-bus"
+}
+[2025-06-05T17:04:40.651Z] INFO: Auto-initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-05T17:04:40.651Z] INFO: Initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-05T17:04:40.667Z] INFO: Configuration loaded successfully {
+  "component": "config-service"
+}
+[2025-06-05T17:04:40.667Z] INFO: Configuration service initialized successfully {
+  "component": "config-service"
+}
+[2025-06-05T17:04:40.931Z] ERROR: Error generating embedding: Invalid text: text must be a non-empty string {
+  "component": "true-semantic-embeddings-adapter",
+  "error": "Error: Invalid text: text must be a non-empty string\n    at generateEmbedding (/Users/stephenmansfield/Projects/Leo/lib/core/true-semantic-embeddings-adapter.js:63:13)\n    at embedAndScore (/Users/stephenmansfield/Projects/Leo/lib/core/true-semantic-embeddings-adapter.js:215:32)\n    at CognitiveLeo.semanticSearch (/Users/stephenmansfield/Projects/Leo/lib/core/leo-unified-runtime-v2-full-updated.js:107:12)\n    at Interface.<anonymous> (/Users/stephenmansfield/Projects/Leo/lib/core/leo-unified-runtime-v2-full-updated.js:148:28)\n    at Interface.emit (node:events:518:28)\n    at [_onLine] [as _onLine] (node:internal/readline/interface:415:12)\n    at [_line] [as _line] (node:internal/readline/interface:886:18)\n    at [_ttyWrite] [as _ttyWrite] (node:internal/readline/interface:1264:22)\n    at ReadStream.onkeypress (node:internal/readline/interface:263:20)\n    at ReadStream.emit (node:events:518:28)"
+}
+[2025-06-05T17:04:57.591Z] INFO: Event bus initialized {
+  "component": "event-bus"
+}
+[2025-06-05T17:04:57.592Z] INFO: Auto-initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-05T17:04:57.592Z] INFO: Initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-05T17:04:57.608Z] INFO: Configuration loaded successfully {
+  "component": "config-service"
+}
+[2025-06-05T17:04:57.608Z] INFO: Configuration service initialized successfully {
+  "component": "config-service"
+}
+[2025-06-05T18:23:37.450Z] INFO: Event bus initialized {
+  "component": "event-bus"
+}
+[2025-06-05T18:23:37.451Z] INFO: Auto-initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-05T18:23:37.451Z] INFO: Initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-05T18:23:37.474Z] INFO: Configuration loaded successfully {
+  "component": "config-service"
+}
+[2025-06-05T18:23:37.474Z] INFO: Configuration service initialized successfully {
+  "component": "config-service"
+}

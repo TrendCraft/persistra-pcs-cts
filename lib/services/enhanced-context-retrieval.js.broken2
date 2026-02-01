@@ -1,0 +1,1185 @@
+/**
+ * Enhanced Context Retrieval Service
+ * 
+ * This service integrates conversation context into the retrieval system,
+ * providing a unified interface for retrieving context from both code and conversations.
+ * It's part of Phase 4: Memory Integration for the Conversation-Aware Leo implementation.
+ * 
+ * Updated with adaptive context selection and improved context stitching capabilities.
+ */
+
+const { createComponentLogger } = require('../utils/logger');
+const configServiceAdapter = require('../adapters/config-service-adapter');
+const eventBus = require('../utils/event-bus');
+const path = require('path');
+const fs = require('fs').promises;
+const semanticContextManager = require('./semantic-context-manager');
+const conversationMemoryManager = require('./conversation-memory-manager');
+const narrativeUnderstandingService = require('./narrative-understanding-service');
+const conversationSemanticSearch = require('./conversation-semantic-search');
+const QueryAnalyzer = require('./query-analyzer');
+const AdaptiveContextSelector = require('./adaptive-context-selector');
+
+// Component name for logging and events
+const COMPONENT_NAME = 'enhanced-context-retrieval';
+
+// Create component logger
+const logger = createComponentLogger(COMPONENT_NAME);
+
+// Configuration with sensible defaults
+let CONFIG = {
+  CACHE_DIR: process.env.LEO_CONTEXT_CACHE_DIR || path.join(process.cwd(), 'data', 'cache', 'context'),
+  CACHE_EXPIRATION_MS: 30 * 60 * 1000, // 30 minutes
+  MAX_CODE_CONTEXT_ITEMS: 10,
+  MAX_CONVERSATION_CONTEXT_ITEMS: 5,
+  MAX_NARRATIVE_CONTEXT_ITEMS: 3,
+  CODE_WEIGHT: 0.6,
+  CONVERSATION_WEIGHT: 0.3,
+  NARRATIVE_WEIGHT: 0.1,
+  DEFAULT_SIMILARITY_THRESHOLD: 0.65,
+  ENABLE_CONTEXT_BLENDING: true,
+  ENABLE_QUERY_ANALYSIS: true,
+  ENABLE_ADAPTIVE_SELECTION: true,
+  ENABLE_DEDUPLICATION: true
+};
+
+/**
+ * Initialize configuration with standardized property paths
+ * @private
+ */
+function initializeConfig() {
+  // Initialize the config service adapter if needed
+  if (!configServiceAdapter.isInitialized) {
+    configServiceAdapter.initialize();
+  }
+  
+  // Load configuration values using standardized property paths
+  CONFIG = {
+    CACHE_DIR: configServiceAdapter.getValue('enhancedContextRetrieval.cacheDir', 
+      process.env.LEO_CONTEXT_CACHE_DIR || path.join(process.cwd(), 'data', 'cache', 'context')),
+    CACHE_EXPIRATION_MS: configServiceAdapter.getValue('enhancedContextRetrieval.cacheExpirationMinutes', 30) * 60 * 1000,
+    MAX_CODE_CONTEXT_ITEMS: configServiceAdapter.getValue('enhancedContextRetrieval.maxCodeContextItems', 10),
+    MAX_CONVERSATION_CONTEXT_ITEMS: configServiceAdapter.getValue('enhancedContextRetrieval.maxConversationContextItems', 5),
+    MAX_NARRATIVE_CONTEXT_ITEMS: configServiceAdapter.getValue('enhancedContextRetrieval.maxNarrativeContextItems', 3),
+    CODE_WEIGHT: configServiceAdapter.getValue('enhancedContextRetrieval.codeWeight', 0.6),
+    CONVERSATION_WEIGHT: configServiceAdapter.getValue('enhancedContextRetrieval.conversationWeight', 0.3),
+    NARRATIVE_WEIGHT: configServiceAdapter.getValue('enhancedContextRetrieval.narrativeWeight', 0.1),
+    DEFAULT_SIMILARITY_THRESHOLD: configServiceAdapter.getValue('enhancedContextRetrieval.defaultSimilarityThreshold', 0.65),
+    ENABLE_CONTEXT_BLENDING: configServiceAdapter.getValue('enhancedContextRetrieval.enableContextBlending', true),
+    ENABLE_QUERY_ANALYSIS: configServiceAdapter.getValue('enhancedContextRetrieval.enableQueryAnalysis', true),
+    ENABLE_ADAPTIVE_SELECTION: configServiceAdapter.getValue('enhancedContextRetrieval.enableAdaptiveSelection', true),
+    ENABLE_DEDUPLICATION: configServiceAdapter.getValue('enhancedContextRetrieval.enableDeduplication', true)
+  };
+  
+  logger.info('Configuration initialized with standardized property paths');
+}
+
+// Initialize configuration
+initializeConfig();
+
+// Subscribe to configuration changes
+configServiceAdapter.subscribeToChanges(COMPONENT_NAME, () => {
+  logger.info('Configuration changed, reinitializing...');
+  initializeConfig();
+});
+
+// Initialization state
+let isInitialized = false;
+let queryCache = new Map();
+
+// Service instances
+let queryAnalyzer = null;
+let adaptiveContextSelector = null;
+
+/**
+ * Initialize the enhanced context retrieval service
+ * @param {Object} options - Configuration options
+ * @returns {Promise<boolean>} Success status
+ */
+async function initialize(options = {}) {
+  try {
+    // Prevent duplicate initialization
+    if (isInitialized) {
+      logger.warn('Enhanced context retrieval service already initialized, skipping duplicate initialization');
+      return true;
+    }
+    
+    logger.info('Initializing enhanced context retrieval service...');
+    
+    // Merge options with defaults
+    Object.assign(CONFIG, options);
+    
+    // Ensure config service adapter is initialized
+    if (!configServiceAdapter.isInitialized) {
+      try {
+        await configServiceAdapter.initialize();
+        logger.info('Config service adapter initialized successfully');
+      } catch (configError) {
+        logger.warn(`Could not initialize config service adapter: ${configError.message}`);
+      }
+    }
+    
+    // Refresh configuration using standardized access patterns
+    try {
+      initializeConfig();
+      logger.info('Configuration refreshed successfully');
+    } catch (configError) {
+      logger.warn(`Could not refresh configuration: ${configError.message}`);
+    }
+    
+    // Ensure cache directory exists
+    await fs.mkdir(CONFIG.CACHE_DIR, { recursive: true });
+    logger.info(`Cache directory created: ${CONFIG.CACHE_DIR}`);
+    
+    // Create an AbortController for timeout control
+    const initializationTimeout = options.timeout || 60000; // 60 seconds default timeout
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), initializationTimeout);
+    
+    // Track initialization status of dependencies
+    const dependencyStatus = {
+      semanticContextManager: false,
+      conversationMemoryManager: false,
+      narrativeUnderstandingService: false,
+      conversationSemanticSearch: false,
+      adaptiveContextSelector: false
+    };
+    
+    // Initialize services in the correct dependency order
+    // 1. First initialize semantic context manager as it's the most critical dependency
+    try {
+      logger.info('Initializing semantic context manager...');
+      if (!semanticContextManager.isInitialized) {
+        await Promise.race([
+          semanticContextManager.initialize({ signal: controller.signal }),
+          new Promise((_, reject) => {
+            setTimeout(() => reject(new Error('Semantic context manager initialization timed out')), 30000);
+          })
+        ]);
+      }
+      dependencyStatus.semanticContextManager = true;
+      logger.info('Semantic context manager initialized successfully');
+    } catch (error) {
+      logger.error(`Failed to initialize semantic context manager: ${error.message}`);
+    }
+    
+    // 4. Initialize conversation semantic search
+    try {
+      logger.info('Initializing conversation semantic search...');
+      await Promise.race([
+        conversationSemanticSearch.initialize(),
+        new Promise((_, reject) => {
+          setTimeout(() => reject(new Error('Conversation semantic search initialization timed out')), 30000);
+        })
+      ]);
+      dependencyStatus.conversationSemanticSearch = true;
+      logger.info('Conversation semantic search initialized successfully');
+    } catch (error) {
+      logger.error(`Failed to initialize conversation semantic search: ${error.message}`);
+    }
+    
+    // 5. Initialize query analyzer and adaptive context selector
+    try {
+      logger.info('Initializing query analyzer and adaptive context selector...');
+      queryAnalyzer = new QueryAnalyzer();
+      adaptiveContextSelector = new AdaptiveContextSelector({
+        semanticContextAvailable: dependencyStatus.semanticContextManager,
+        conversationMemoryAvailable: dependencyStatus.conversationMemoryManager,
+        narrativeUnderstandingAvailable: dependencyStatus.narrativeUnderstandingService
+      });
+      
+      // Explicitly initialize the adaptive context selector if it has an initialize method
+      if (typeof adaptiveContextSelector.initialize === 'function') {
+        await Promise.race([
+          adaptiveContextSelector.initialize({ signal: controller.signal }),
+          new Promise((_, reject) => {
+            setTimeout(() => reject(new Error('Adaptive context selector initialization timed out')), 10000);
+          })
+        ]);
+      }
+      
+      dependencyStatus.adaptiveContextSelector = true;
+      logger.info('Initialized QueryAnalyzer and AdaptiveContextSelector');
+    } catch (error) {
+      logger.error(`Failed to initialize context analysis components: ${error.message}`);
+    }
+    
+    // Clear the timeout
+    clearTimeout(timeoutId);
+    
+    // Check if we have enough dependencies to function
+    const canFunction = dependencyStatus.semanticContextManager; // At minimum we need semantic context
+    
+    if (!canFunction) {
+      logger.error('Critical dependencies failed to initialize. Enhanced context retrieval will be limited.');
+      // Even with limited functionality, mark as initialized but in degraded mode
+      isInitialized = true;
+      logger.info('Enhanced context retrieval service initialized in degraded mode');
+    } else {
+      // Clear expired cache entries
+      clearExpiredCache();
+      
+      // Schedule periodic cache cleanup
+      setInterval(clearExpiredCache, CONFIG.CACHE_EXPIRATION_MS);
+      
+      isInitialized = true;
+      logger.info('Enhanced context retrieval service initialized successfully');
+      
+      // Emit initialization event with dependency status
+      eventBus.emit('service:initialized', { 
+        service: COMPONENT_NAME,
+        timestamp: Date.now(),
+        dependencyStatus
+      });
+      
+      return true;
+    } catch (error) {
+      logger.error(`Initialization failed: ${error.message}`);
+      return false;
+    }
+  }
+}
+
+/**
+ * Clear expired cache entries
+ * @private
+ */
+function clearExpiredCache() {
+  try {
+    const now = Date.now();
+    let expiredCount = 0;
+    
+    for (const [key, value] of queryCache.entries()) {
+      if (now - value.timestamp > CONFIG.CACHE_EXPIRATION_MS) {
+        queryCache.delete(key);
+        expiredCount++;
+      }
+    }
+    
+    if (expiredCount > 0) {
+      logger.info(`Cleared ${expiredCount} expired cache entries`);
+    }
+  } catch (error) {
+    logger.error(`Error clearing expired cache: ${error.message}`);
+  }
+}
+
+/**
+ * Analyze query to determine context needs
+ * @param {string} query - Query text
+ * @returns {Object} Query analysis
+ * @private
+ */
+function analyzeQuery(query) {
+  try {
+    if (!CONFIG.ENABLE_QUERY_ANALYSIS) {
+      return {
+        codeRelevance: 1.0,
+        conversationRelevance: 1.0,
+        narrativeRelevance: 1.0
+      };
+    }
+    
+    // Default weights
+    let codeRelevance = CONFIG.CODE_WEIGHT;
+    let conversationRelevance = CONFIG.CONVERSATION_WEIGHT;
+    let narrativeRelevance = CONFIG.NARRATIVE_WEIGHT;
+    
+    // Code-related keywords
+    const codeKeywords = [
+      'code', 'function', 'class', 'method', 'variable', 'import', 
+      'export', 'module', 'library', 'package', 'dependency', 'bug', 
+      'error', 'fix', 'implement', 'refactor', 'optimize'
+    ];
+    
+    // Conversation-related keywords
+    const conversationKeywords = [
+      'conversation', 'discussion', 'talk', 'chat', 'said', 'mentioned',
+      'discussed', 'agreed', 'decided', 'conclusion', 'summary'
+    ];
+    
+    // Narrative-related keywords
+    const narrativeKeywords = [
+      'history', 'timeline', 'evolution', 'progress', 'development',
+      'journey', 'story', 'narrative', 'decision', 'rationale', 'why'
+    ];
+    
+    // Count keyword occurrences
+    const lowerQuery = query.toLowerCase();
+    const codeCount = codeKeywords.filter(word => lowerQuery.includes(word)).length;
+    const conversationCount = conversationKeywords.filter(word => lowerQuery.includes(word)).length;
+    const narrativeCount = narrativeKeywords.filter(word => lowerQuery.includes(word)).length;
+    
+    // Adjust weights based on keyword counts
+    const totalCount = codeCount + conversationCount + narrativeCount;
+    if (totalCount > 0) {
+      codeRelevance = 0.3 + (codeCount / totalCount) * 0.7;
+      conversationRelevance = 0.3 + (conversationCount / totalCount) * 0.7;
+      narrativeRelevance = 0.3 + (narrativeCount / totalCount) * 0.7;
+    }
+    
+    // Normalize weights
+    const sum = codeRelevance + conversationRelevance + narrativeRelevance;
+    codeRelevance /= sum;
+    conversationRelevance /= sum;
+    narrativeRelevance /= sum;
+    
+    logger.info(`Query analysis: code=${codeRelevance.toFixed(2)}, conversation=${conversationRelevance.toFixed(2)}, narrative=${narrativeRelevance.toFixed(2)}`);
+    
+    return {
+      codeRelevance,
+      conversationRelevance,
+      narrativeRelevance
+    };
+  } catch (error) {
+    logger.error(`Error analyzing query: ${error.message}`);
+    return {
+      codeRelevance: CONFIG.CODE_WEIGHT,
+      conversationRelevance: CONFIG.CONVERSATION_WEIGHT,
+      narrativeRelevance: CONFIG.NARRATIVE_WEIGHT
+    };
+  }
+}
+
+/**
+ * Blend context from different sources
+ * @param {string} codeContext - Context from code
+ * @param {string} conversationContext - Context from conversations
+ * @param {string} narrativeContext - Context from narrative understanding
+ * @param {Object} weights - Weights for different context types
+ * @returns {string} Blended context
+ * @private
+ */
+function blendContext(codeContext, conversationContext, narrativeContext, weights) {
+  try {
+    // Start with a header
+    let blendedContext = `# Enhanced Leo Context\n\n`;
+    
+    // Add code context if available with proper formatting
+    if (codeContext && codeContext.trim().length > 0) {
+      // Check if it already has a header
+      if (!codeContext.includes('## Code Context')) {
+        blendedContext += `## Code Context\n${codeContext}\n\n`;
+      } else {
+        blendedContext += `${codeContext}\n\n`;
+      }
+    } else {
+      blendedContext += `## Code Context\nNo relevant code context found for this query.\n\n`;
+    }
+    
+    // Add conversation context if available with proper formatting
+    if (conversationContext && conversationContext.trim().length > 0) {
+      // Check if it already has a header
+      if (!conversationContext.includes('## Conversation Context')) {
+        blendedContext += `## Conversation Context\n${conversationContext}\n\n`;
+      } else {
+        blendedContext += `${conversationContext}\n\n`;
+      }
+    } else {
+      blendedContext += `## Conversation Context\nNo relevant conversation history found for this query.\n\n`;
+    }
+    
+    // Add narrative context if available with proper formatting
+    if (narrativeContext && narrativeContext.trim().length > 0) {
+      // Check if it already has a header
+      if (!narrativeContext.includes('## Narrative Context')) {
+        blendedContext += `## Narrative Context\n${narrativeContext}\n\n`;
+      } else {
+        blendedContext += `${narrativeContext}\n\n`;
+      }
+    } else {
+      blendedContext += `## Narrative Context\nNo relevant narrative context found for this query.\n\n`;
+    }
+    
+    // Add current development focus
+    const focus = getCurrentFocus();
+    if (focus && focus.trim().length > 0) {
+      blendedContext += `## Current Development Focus\n${focus}\n\n`;
+    }
+    
+    // Add relevant components
+    const components = getRelevantComponents();
+    if (components && components.trim().length > 0) {
+      blendedContext += `## Relevant Components\n${components}\n\n`;
+    }
+    
+    return blendedContext;
+  } catch (error) {
+    logger.error(`Error blending context: ${error.message}`);
+    return `## Code Context\nNo relevant context found.\n\n## Conversation Context\nNo relevant context found.\n\n## Narrative Context\nNo relevant narrative found.\n\n## Current Development Focus\nUnable to determine current focus.\n\n## Relevant Components\nUnable to determine relevant components.`;
+  }
+}
+
+/**
+ * Get the current development focus
+ * @returns {string} Current development focus
+ */
+function getCurrentFocus() {
+  try {
+    // Try to determine the current focus from active files or recent activity
+    // For now, return a default message
+    return 'The current development focus is on enhancing the Leo MVL with conversation awareness capabilities and improving the enhanced prompting system.';
+  } catch (error) {
+    logger.error(`Error getting current focus: ${error.message}`);
+    return 'Unable to determine current development focus.';
+  }
+}
+
+/**
+ * Get relevant components for the current context
+ * @returns {string} Relevant components
+ */
+function getRelevantComponents() {
+  try {
+    // Try to determine the relevant components for the query
+    // For now, return a list of key components
+    return 'Key components include:\n- Semantic Context Manager\n- Enhanced Context Retrieval\n- Conversation Memory Manager\n- Narrative Understanding Service\n- True Semantic Embeddings';
+  } catch (error) {
+    logger.error(`Error getting relevant components: ${error.message}`);
+    return 'Unable to determine relevant components.';
+  }
+}
+
+/**
+ * Clean outdated formatting from context strings
+ * @param {string} contextString - Context string to clean
+ * @returns {string} Cleaned context string
+ */
+function cleanFormatting(contextString) {
+  if (!contextString) return '';
+  
+  // Remove outdated formatting patterns
+  let cleaned = contextString;
+  
+  // Remove === CONTEXT === pattern
+  cleaned = cleaned.replace(/===\s*CONTEXT\s*===/g, '');
+  
+  // Remove === YOUR TASK === pattern
+  cleaned = cleaned.replace(/===\s*YOUR\s*TASK\s*===/g, '');
+  
+  // Remove --- file path --- pattern (will be replaced with better formatting)
+  cleaned = cleaned.replace(/---\s*[^\n]+\s*---/g, '');
+  
+  // Clean up excessive newlines
+  cleaned = cleaned.replace(/\n{3,}/g, '\n\n');
+  
+  return cleaned.trim();
+}
+
+/**
+ * Generate narrative context from relevant narratives
+ * @param {string} query - Query text
+ * @param {Object} options - Options for retrieval
+ * @returns {Promise<string>} Narrative context
+ * @private
+ */
+async function generateNarrativeContext(query, options = {}) {
+  try {
+    const {
+      maxItems = CONFIG.MAX_NARRATIVE_CONTEXT_ITEMS,
+      similarityThreshold = CONFIG.DEFAULT_SIMILARITY_THRESHOLD
+    } = options;
+    
+    // Get all narratives
+    const narratives = await narrativeUnderstandingService.getAllNarratives();
+    
+    if (!narratives || narratives.length === 0) {
+      return '';
+    }
+    
+    // Get all decisions
+    const decisions = await narrativeUnderstandingService.getAllDecisions();
+    
+    // Generate query embedding
+    const queryEmbedding = await semanticContextManager.generateQueryEmbedding(query);
+    
+    // Find relevant narratives based on decisions
+    const relevantNarratives = [];
+    
+    for (const narrative of narratives) {
+      // Get full narrative
+      const fullNarrative = await narrativeUnderstandingService.getNarrative(narrative.id);
+      
+      if (!fullNarrative) continue;
+      
+      // Calculate relevance based on decisions
+      let relevance = 0;
+      let decisionText = '';
+      
+      if (fullNarrative.decisions && fullNarrative.decisions.length > 0) {
+        // Combine decision text
+        decisionText = fullNarrative.decisions.map(d => d.text).join(' ');
+        
+        // Generate embedding for decisions
+        const decisionEmbedding = await semanticContextManager.generateQueryEmbedding(decisionText);
+        
+        // Calculate similarity
+        const similarity = semanticContextManager.calculateCosineSimilarity(queryEmbedding, decisionEmbedding);
+        
+        if (similarity >= similarityThreshold) {
+          relevance = similarity;
+        }
+      }
+      
+      // Add to relevant narratives if above threshold
+      if (relevance > 0) {
+        relevantNarratives.push({
+          narrative: fullNarrative,
+          relevance,
+          decisionText
+        });
+      }
+    }
+    
+    // Sort by relevance and limit
+    relevantNarratives.sort((a, b) => b.relevance - a.relevance);
+    const topNarratives = relevantNarratives.slice(0, maxItems);
+    
+    // Generate narrative context
+    let narrativeContext = '';
+    
+    if (topNarratives.length > 0) {
+      narrativeContext = '### Development History\n\n';
+      
+      for (const item of topNarratives) {
+        const narrative = item.narrative;
+        
+        narrativeContext += `#### ${narrative.title}\n\n`;
+        
+        // Add key decisions
+        if (narrative.decisions && narrative.decisions.length > 0) {
+          narrativeContext += 'Key decisions:\n';
+          narrative.decisions.slice(0, 3).forEach(decision => {
+            narrativeContext += `- ${decision.text}\n`;
+          });
+          narrativeContext += '\n';
+        }
+        
+        // Add recent code changes
+        if (narrative.codeChanges && narrative.codeChanges.length > 0) {
+          narrativeContext += 'Recent changes:\n';
+          narrative.codeChanges.slice(0, 3).forEach(change => {
+            narrativeContext += `- ${change.changeMessage} (${path.basename(change.filePath)})\n`;
+          });
+          narrativeContext += '\n';
+        }
+      }
+    }
+    
+    return narrativeContext;
+  } catch (error) {
+    logger.error(`Error generating narrative context: ${error.message}`);
+    return '';
+  }
+}
+
+/**
+ * Retrieve enhanced context for a query
+ * @param {string} query - Query text
+ * @param {Object} options - Options for retrieval
+ * @returns {Promise<Object>} Enhanced context object with context components and metadata
+ */
+async function retrieveContext(query, options = {}) {
+  if (!isInitialized) {
+    logger.warn('Enhanced context retrieval service not initialized');
+    const initResult = await initialize();
+    if (!isInitialized) {
+      logger.error('Failed to initialize enhanced context retrieval service');
+      return {
+        codeContext: '',
+        conversationContext: '',
+        narrativeContext: '',
+        enhancedContext: `# Error: Context Service Not Initialized
+
+The enhanced context retrieval service could not be initialized. Please check the logs for more details.`
+      };
+    }
+    logger.info('Enhanced context retrieval service initialized successfully');
+  }
+  
+  try {
+    // Parse options with standardized defaults
+    const {
+      useCache = true,
+      maxCodeItems = CONFIG.MAX_CODE_CONTEXT_ITEMS,
+      maxConversationItems = CONFIG.MAX_CONVERSATION_CONTEXT_ITEMS,
+      maxNarrativeItems = CONFIG.MAX_NARRATIVE_CONTEXT_ITEMS,
+      similarityThreshold = CONFIG.DEFAULT_SIMILARITY_THRESHOLD,
+      includeConversationContext = true,
+      includeCodeContext = true,
+      includeNarrativeContext = true,
+      signal = null // For abort control
+    } = options;
+    
+    // Check for abort signal before starting
+    if (signal && signal.aborted) {
+      const abortError = new Error('Context retrieval aborted');
+      abortError.name = 'AbortError';
+      throw abortError;
+    }
+    
+    // Log retrieval attempt with detailed information
+    logger.info(`Retrieving context for query: "${query}" with options:`, {
+      maxCodeItems,
+      maxConversationItems,
+      maxNarrativeItems,
+      similarityThreshold,
+      includeConversationContext,
+      includeCodeContext,
+      includeNarrativeContext
+    });
+    
+    // Generate cache key with all options
+    const cacheKey = `${query}_${JSON.stringify({
+      maxCodeItems,
+      maxConversationItems,
+      maxNarrativeItems,
+      similarityThreshold,
+      includeConversationContext,
+      includeCodeContext,
+      includeNarrativeContext
+    })}`;
+    
+    // Check cache
+    if (useCache && queryCache.has(cacheKey)) {
+      const cachedResult = queryCache.get(cacheKey);
+      
+      if (Date.now() - cachedResult.timestamp < CONFIG.CACHE_EXPIRATION_MS) {
+        logger.info(`Retrieved context from cache for query: ${query}`);
+        return cachedResult.result;
+      }
+    }
+    
+    // Start timing for performance monitoring
+    const startTime = Date.now();
+    
+    // Check for abort signal after cache check
+    if (signal && signal.aborted) {
+      const abortError = new Error('Context retrieval aborted after cache check');
+      abortError.name = 'AbortError';
+      throw abortError;
+    }
+    
+    // Use adaptive context selection if enabled and available
+    if (CONFIG.ENABLE_ADAPTIVE_SELECTION && adaptiveContextSelector) {
+      logger.info('Using adaptive context selection for query');
+      
+      try {
+        // Prepare options for adaptive context selector
+        const adaptiveOptions = {
+          useCache,
+          similarityThreshold,
+          contextLimits: {
+            codeItems: maxCodeItems,
+            conversationItems: maxConversationItems,
+            narrativeItems: maxNarrativeItems
+          },
+          includeConversationContext,
+          includeCodeContext,
+          includeNarrativeContext,
+          signal
+        };
+        
+        // Get context using adaptive selection
+        const adaptiveResult = await adaptiveContextSelector.selectContext(query, adaptiveOptions);
+        
+        // Check for abort signal after adaptive selection
+        if (signal && signal.aborted) {
+          const abortError = new Error('Context retrieval aborted after adaptive selection');
+          abortError.name = 'AbortError';
+          throw abortError;
+        }
+        
+        // Process the result from adaptive context selector
+        let result;
+        
+        // Handle different return formats from adaptive context selector
+        if (adaptiveResult && typeof adaptiveResult === 'object') {
+          if (adaptiveResult.enhancedContext) {
+            // If it already has enhancedContext property, use it directly
+            result = adaptiveResult;
+          } else if (adaptiveResult.metadata) {
+            // If it has metadata but no enhancedContext, build it
+            const combinedContext = adaptiveContextSelector._combineContext(
+              adaptiveResult.codeContext || '',
+              adaptiveResult.conversationContext || '',
+              adaptiveResult.narrativeContext || '',
+              adaptiveResult.metadata.analysis
+            );
+            
+            result = {
+              ...adaptiveResult,
+              enhancedContext: combinedContext
+            };
+          }
+        }
+        
+        // If we couldn't process the result, create a default one
+        if (!result) {
+          logger.warn('Adaptive context selector returned an unexpected format');
+          result = {
+            codeContext: '',
+            conversationContext: '',
+            narrativeContext: '',
+            enhancedContext: `# Enhanced Leo Context\n\n## Your Query\n${query}\n\n## Note\nNo relevant context found for this query.\n\n## Instructions\nPlease answer the query based on your general knowledge.\n\n`
+          };
+        }
+        
+        // Store in cache
+        if (useCache) {
+          queryCache.set(cacheKey, {
+            result,
+            timestamp: Date.now()
+          });
+        }
+        
+        return result;
+      } catch (adaptiveError) {
+        // If adaptive selection fails, log and fall back to direct retrieval
+        logger.error(`Adaptive context selection failed: ${adaptiveError.message}`);
+        logger.info('Falling back to direct context retrieval');
+        
+        // Check if this was an abort error and rethrow if it was
+        if (adaptiveError.name === 'AbortError') {
+          throw adaptiveError;
+        }
+      }
+    }
+    
+    // Direct context retrieval (fallback or primary if adaptive is disabled)
+    logger.info('Using direct context retrieval for query');
+    
+    // Check for abort signal before direct retrieval
+    if (signal && signal.aborted) {
+      const abortError = new Error('Context retrieval aborted before direct retrieval');
+      abortError.name = 'AbortError';
+      throw abortError;
+    }
+    
+    // Retrieve all context types in parallel for efficiency
+    const [codeContextResult, conversationContextResult, narrativeContextResult] = await Promise.all([
+      // Get code context if enabled
+      (async () => {
+        if (!includeCodeContext) return '';
+        
+        try {
+          // Special handling for queries about essential files
+          if (query.toLowerCase().includes('essential file') || query.toLowerCase().includes('files processed')) {
+            return await _getEssentialFilesInfo();
+          }
+          
+          // Normal context retrieval for other queries
+          const context = await semanticContextManager.generateEnhancedPrompt(query, {
+            maxResults: maxCodeItems,
+            similarityThreshold,
+            signal
+          });
+          
+          // If context is empty or minimal, provide a default value
+          if (!context || context.trim().length < 10) {
+            return await _getDefaultCodeContext();
+          }
+          
+          return context;
+        } catch (error) {
+          // Check if this was an abort error and rethrow if it was
+          if (error.name === 'AbortError') throw error;
+          
+          logger.error(`Error retrieving code context: ${error.message}`);
+          return `Error retrieving code context: ${error.message}`;
+        }
+      })(),
+      
+      // Get conversation context if enabled
+      (async () => {
+        if (!includeConversationContext) return '';
+        
+        try {
+          // Check if conversation memory manager is initialized
+          if (conversationMemoryManager && typeof conversationMemoryManager.isInitialized === 'function' && conversationMemoryManager.isInitialized()) {
+            logger.info('Retrieving conversation context from conversation memory manager...');
+            
+            // Generate enhanced context from conversation memory
+            const context = await conversationMemoryManager.generateEnhancedContext(query, {
+              maxResults: maxConversationItems,
+              similarityThreshold,
+              signal
+            });
+            
+            // If context is empty or minimal, provide a default value
+            if (!context || context.trim().length < 10) {
+              return await _getDefaultComponentsContext();
+            }
+            
+            return context;
+          } else {
+            logger.warn('Conversation memory manager not initialized, using default conversation context');
+            return await _getDefaultComponentsContext();
+          }
+        } catch (error) {
+          // Check if this was an abort error and rethrow if it was
+          if (error.name === 'AbortError') throw error;
+          
+          logger.error(`Error retrieving conversation context: ${error.message}`);
+          return '';
+        }
+      })(),
+      
+      // Get narrative context if enabled
+      (async () => {
+        if (!includeNarrativeContext) return '';
+        
+        try {
+          const context = await generateNarrativeContext(query, {
+            maxItems: maxNarrativeItems,
+            similarityThreshold,
+            signal
+          });
+          
+          // If context is empty or minimal, provide a default value
+          if (!context || context.trim().length < 10) {
+            return await _getDefaultMemoryContext();
+          }
+          
+          return context;
+        } catch (error) {
+          // Check if this was an abort error and rethrow if it was
+          if (error.name === 'AbortError') throw error;
+          
+          logger.error(`Error retrieving narrative context: ${error.message}`);
+          return '';
+        }
+      })()
+    ]);
+    
+    // Check for abort signal after all retrievals
+    if (signal && signal.aborted) {
+      const abortError = new Error('Context retrieval aborted after retrieving contexts');
+      abortError.name = 'AbortError';
+      throw abortError;
+    }
+    
+    // Clean up any outdated formatting in the contexts
+    const codeContext = cleanFormatting(codeContextResult);
+    const conversationContext = cleanFormatting(conversationContextResult);
+    const narrativeContext = cleanFormatting(narrativeContextResult);
+    
+    // Log what we retrieved
+    logger.info(`Retrieved code context with ${codeContext.length} characters`);
+    logger.info(`Retrieved conversation context with ${conversationContext.length} characters`);
+    logger.info(`Retrieved narrative context with ${narrativeContext.length} characters`);
+    
+    // Analyze query to determine context needs
+    const analysis = analyzeQuery(query);
+    
+    // Combine context using the adaptive context selector's method if available
+    let combinedContext = '';
+    if (adaptiveContextSelector && typeof adaptiveContextSelector._combineContext === 'function') {
+      logger.info('Using adaptive context selector to combine contexts');
+      combinedContext = adaptiveContextSelector._combineContext(
+        codeContext,
+        conversationContext,
+        narrativeContext,
+        analysis
+      );
+    } else {
+      // Fallback to simple combination if adaptive selector not available
+      logger.info('Using simple context combination');
+      combinedContext = `# Enhanced Leo Context\n\n`;
+      
+      if (codeContext && codeContext.trim().length > 0) {
+        combinedContext += `## Code Context\n${codeContext}\n\n`;
+      }
+      
+      if (conversationContext && conversationContext.trim().length > 0) {
+        combinedContext += `## Conversation Context\n${conversationContext}\n\n`;
+      }
+      
+      if (narrativeContext && narrativeContext.trim().length > 0) {
+        combinedContext += `## Narrative Context\n${narrativeContext}\n\n`;
+      }
+    }
+    
+    // Ensure the query is included in the enhanced context
+    if (!combinedContext.includes('## Original Prompt') && !combinedContext.includes('## Your Query')) {
+      combinedContext += `## Your Query\n${query}\n\n`;
+    }
+    
+    // Add instructions section if not already present
+    if (!combinedContext.includes('## Instructions')) {
+      combinedContext += `## Instructions\n`;
+      combinedContext += `Please use the provided context to answer the query. If the context doesn't contain all the necessary information, `;
+      combinedContext += `use your general knowledge but acknowledge when you're doing so.\n\n`;
+    }
+    
+    // Add a separator to make it clear where the context ends and the task begins
+    if (!combinedContext.includes('---\n\nPlease respond')) {
+      combinedContext += `---\n\nPlease respond to the query using the provided context.\n`;
+    }
+    
+    // Create result object with detailed metadata for monitoring
+    const result = {
+      enhancedContext: combinedContext,
+      codeContext,
+      conversationContext,
+      narrativeContext,
+      metadata: {
+        query,
+        analysis: {
+          codeRelevance: analysis.codeRelevance,
+          conversationRelevance: analysis.conversationRelevance,
+          narrativeRelevance: analysis.narrativeRelevance,
+          complexity: analysis.complexity,
+          queryType: analysis.queryType
+        },
+        codeContextSize: codeContext.length,
+        conversationContextSize: conversationContext.length,
+        narrativeContextSize: narrativeContext.length,
+        similarityThreshold,
+        processingTime: Date.now() - startTime
+      }
+    };
+    
+    // Store in cache
+    if (useCache) {
+      queryCache.set(cacheKey, {
+        result,
+        timestamp: Date.now()
+      });
+    }
+    
+    // Log a summary of what we're returning
+    logger.info(`Generated enhanced context with ${codeContext.length} chars of code context, ${conversationContext.length} chars of conversation context, and ${narrativeContext.length} chars of narrative context`);
+    
+    return result;
+  } catch (error) {
+    // Special handling for abort errors
+    if (error.name === 'AbortError') {
+      logger.warn(`Context retrieval aborted: ${error.message}`);
+      return {
+        codeContext: '',
+        conversationContext: '',
+        narrativeContext: '',
+        enhancedContext: `# Enhanced Leo Context\n\n## Note\nContext retrieval was aborted: ${error.message}\n\n## Your Query\n${query}\n\n## Instructions\nPlease respond to the above query to the best of your ability despite the context retrieval being aborted.`
+      };
+    }
+    
+    // General error handling
+    logger.error(`Error retrieving context: ${error.message}`);
+    return {
+      codeContext: '',
+      conversationContext: '',
+      narrativeContext: '',
+      enhancedContext: `# Enhanced Leo Context\n\n## Error Details\nError retrieving context: ${error.message}\n\n## Your Query\n${query}\n\n---\n\nPlease respond to the above query to the best of your ability despite the context retrieval error.`
+    };
+  }
+}
+
+/**
+ * Get information about essential files
+ * @returns {Promise<string>} Essential files information
+ * @private
+ */
+async function _getEssentialFilesInfo() {
+  try {
+    // Check if we have the global.leoProcessedFiles variable
+    let essentialFilesInfo = '';
+    
+    // Try to get the essential files count from the quick init script
+    const quickInitPath = path.join(process.cwd(), 'bin', 'leo-quick-init.js');
+    if (await fs.access(quickInitPath).then(() => true).catch(() => false)) {
+      // Read the script to find the essential files logic
+      const quickInitContent = await fs.readFile(quickInitPath, 'utf8');
+      
+      // Extract the essential files logic
+      const essentialFilesMatch = quickInitContent.match(/const\s+essentialFiles\s*=\s*\[([^\]]+)\]/s);
+      if (essentialFilesMatch) {
+        essentialFilesInfo += 'Leo dynamically determines essential files based on the project structure. ';
+      }
+      
+      // Check for the processed files count in logs
+      const dataDir = path.join(process.cwd(), 'data');
+      const embeddingsFile = path.join(dataDir, 'embeddings.jsonl');
+      const chunksFile = path.join(dataDir, 'chunks.jsonl');
+      
+      let embeddingCount = 0;
+      let chunkCount = 0;
+      
+      if (await fs.access(embeddingsFile).then(() => true).catch(() => false)) {
+        const embeddings = await fs.readFile(embeddingsFile, 'utf8');
+        embeddingCount = embeddings.split('\n').filter(line => line.trim()).length;
+      }
+      
+      if (await fs.access(chunksFile).then(() => true).catch(() => false)) {
+        const chunks = await fs.readFile(chunksFile, 'utf8');
+        chunkCount = chunks.split('\n').filter(line => line.trim()).length;
+      }
+      
+      essentialFilesInfo += `The last initialization processed multiple essential files, creating ${embeddingCount} embeddings and ${chunkCount} chunks. `;
+      
+      // Look for specific files that were processed
+      try {
+        const docsDir = path.join(process.cwd(), 'docs');
+        const docFiles = await fs.readdir(docsDir);
+        const mdFiles = docFiles.filter(file => file.endsWith('.md'));
+        
+        essentialFilesInfo += `\n\nEssential documentation includes: ${mdFiles.slice(0, 5).join(', ')}${mdFiles.length > 5 ? ' and others' : ''}.`;
+        
+        const servicesDir = path.join(process.cwd(), 'lib/services');
+        const serviceFiles = await fs.readdir(servicesDir);
+        const jsFiles = serviceFiles.filter(file => file.endsWith('.js'));
+        
+        essentialFilesInfo += `\n\nCore services include: ${jsFiles.slice(0, 5).join(', ')}${jsFiles.length > 5 ? ' and others' : ''}.`;
+      } catch (error) {
+        logger.warn(`Error getting file lists: ${error.message}`);
+      }
+    }
+    
+    return `## Essential Files Information\n${essentialFilesInfo || 'Information about essential files could not be determined.'}`;
+  } catch (error) {
+    logger.error(`Error getting essential files info: ${error.message}`);
+    return "## Essential Files Information\nError retrieving information about essential files.";
+  }
+}
+
+/**
+ * Get default code context when no specific context is found
+ * @returns {Promise<string>} Default code context
+ * @private
+ */
+async function _getDefaultCodeContext() {
+  try {
+    const projectFiles = await fs.readdir(process.cwd() + '/lib', { withFileTypes: true });
+    const jsFiles = projectFiles
+      .filter(dirent => dirent.isFile() && dirent.name.endsWith('.js'))
+      .map(dirent => dirent.name);
+    
+    if (jsFiles.length > 0) {
+      return `## Current Development Focus\n\nThe project contains ${jsFiles.length} JavaScript files in the lib directory, including ${jsFiles.slice(0, 3).join(', ')}${jsFiles.length > 3 ? ' and others' : ''}.`;
+    } else {
+      return "## Current Development Focus\n\nNo specific focus identified in the current context.";
+    }
+  } catch (error) {
+    logger.error(`Error reading project files: ${error.message}`);
+    return "## Current Development Focus\n\nNo specific focus identified in the current context.";
+  }
+}
+
+/**
+ * Get default components context when no specific context is found
+ * @returns {Promise<string>} Default components context
+ * @private
+ */
+async function _getDefaultComponentsContext() {
+  try {
+    const serviceFiles = await fs.readdir(process.cwd() + '/lib/services', { withFileTypes: true });
+    const jsServices = serviceFiles
+      .filter(dirent => dirent.isFile() && dirent.name.endsWith('.js'))
+      .map(dirent => dirent.name.replace('.js', ''));
+    
+    if (jsServices.length > 0) {
+      return `## Relevant Components\n\nThe project includes these key services: ${jsServices.slice(0, 5).join(', ')}${jsServices.length > 5 ? ' and others' : ''}.`;
+    } else {
+      return "## Relevant Components\n\nNo specific components identified in the current context.";
+    }
+  } catch (error) {
+    logger.error(`Error reading service files: ${error.message}`);
+    return "## Relevant Components\n\nNo specific components identified in the current context.";
+  }
+}
+
+/**
+ * Get default memory context when no specific context is found
+ * @returns {Promise<string>} Default memory context
+ * @private
+ */
+async function _getDefaultMemoryContext() {
+  try {
+    const memoryDir = path.join(process.cwd(), 'data', 'memory');
+    const memoryFiles = await fs.readdir(memoryDir, { withFileTypes: true });
+    const jsonFiles = memoryFiles
+      .filter(dirent => dirent.isFile() && dirent.name.endsWith('.json'))
+      .map(dirent => dirent.name);
+    
+    if (jsonFiles.length > 0) {
+      return `## Prompt-Specific Context\n\nThere are ${jsonFiles.length} memory items available that might provide additional context for this prompt.`;
+    } else {
+      return "## Prompt-Specific Context\n\nNo specific context found for this prompt.";
+    }
+  } catch (error) {
+    logger.error(`Error reading memory files: ${error.message}`);
+    return "## Prompt-Specific Context\n\nNo specific context found for this prompt.";
+  }
+}
+
+/**
+ * Clear the context cache
+ * @returns {Promise<boolean>} Success status
+ */
+async function clearCache() {
+  if (!isInitialized) {
+    logger.warn('Enhanced context retrieval service not initialized');
+    return false;
+  }
+  
+  try {
+    queryCache.clear();
+    logger.info('Context cache cleared');
+    return true;
+  } catch (error) {
+    logger.error(`Error clearing cache: ${error.message}`);
+    return false;
+  }
+}
+
+/**
+ * Get cache statistics
+ * @returns {Object} Cache statistics
+ */
+function getCacheStats() {
+  return {
+    size: queryCache.size,
+    maxSize: CONFIG.QUERY_CACHE_SIZE,
+    expirationMs: CONFIG.CACHE_EXPIRATION_MS
+  };
+}
+
+/**
+ * Create a default result when context retrieval fails or returns unexpected format
+ * @param {string} query - The original query
+ * @returns {Object} A default context result object
+ * @private
+ */
+function createDefaultResult(query) {
+  return {
+    codeContext: '',
+    conversationContext: '',
+    narrativeContext: '',
+    enhancedContext: `# Enhanced Leo Context
+
+## Your Query
+${query}
+
+## Note
+No relevant context found for this query.
+
+## Instructions
+Please answer the query based on your general knowledge.
+
+`,
+    metadata: {
+      source: 'fallback',
+      timestamp: Date.now(),
+      query
+    }
+  };
+}
+
+// Export public API
+module.exports = {
+  initialize,
+  retrieveContext,
+  clearCache,
+  getCacheStats,
+  isInitialized
+};

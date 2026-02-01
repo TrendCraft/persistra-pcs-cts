@@ -1,0 +1,30 @@
+{
+    "keep": {
+        "days": false,
+        "amount": 5
+    },
+    "auditLog": "/Users/stephenmansfield/Projects/Leo/lib/core/logs/.0e445da9d03824eb3afa86469a80cf52beef02e6-audit.json",
+    "files": [
+        {
+            "date": 1749058644108,
+            "name": "/Users/stephenmansfield/Projects/Leo/lib/core/logs/leo-2025-06-04.log",
+            "hash": "9af8d8346464a6716b16781b866e119f6859b631befc77cb8b05f7420ec2c32d"
+        },
+        {
+            "date": 1749137874509,
+            "name": "/Users/stephenmansfield/Projects/Leo/lib/core/logs/leo-2025-06-05.log",
+            "hash": "826e690fe6b1474c9212859a10a7b3bf96d4399477bde9f99fd4324d150931f9"
+        },
+        {
+            "date": 1749227363716,
+            "name": "/Users/stephenmansfield/Projects/Leo/lib/core/logs/leo-2025-06-06.log",
+            "hash": "540c88b21bbce2220e7f05fd2ea7bf0d324962be97f2a1de7908904cc24e5d1a"
+        },
+        {
+            "date": 1749321803661,
+            "name": "/Users/stephenmansfield/Projects/Leo/lib/core/logs/leo-2025-06-07.log",
+            "hash": "1fda8f8369196cd6d72cc5adac183018734b37ee2284c52d10aac5e6f79705e8"
+        }
+    ],
+    "hashType": "sha256"
+}

@@ -1,0 +1,2768 @@
+[2025-06-07T18:43:23.662Z] INFO: Event bus initialized {
+  "component": "event-bus"
+}
+[2025-06-07T18:43:23.663Z] INFO: Auto-initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-07T18:43:23.663Z] INFO: Initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-07T18:43:23.692Z] INFO: Configuration loaded successfully {
+  "component": "config-service"
+}
+[2025-06-07T18:43:23.692Z] INFO: Configuration service initialized successfully {
+  "component": "config-service"
+}
+[2025-06-07T19:10:53.622Z] INFO: Event bus initialized {
+  "component": "event-bus"
+}
+[2025-06-07T19:10:53.623Z] INFO: Auto-initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-07T19:10:53.623Z] INFO: Initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-07T19:10:53.627Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:10:53.627Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:10:53.627Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:10:53.627Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:10:53.627Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:10:53.627Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:10:53.628Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:10:53.628Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:10:53.628Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:10:53.628Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:10:53.628Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:10:53.628Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:10:53.630Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:10:53.630Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:10:53.630Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:10:53.630Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:10:53.630Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:10:53.630Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:10:53.630Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:10:53.630Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:10:53.630Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:10:53.630Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:10:53.630Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:10:53.630Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:10:53.630Z] INFO: Configuration initialized {
+  "component": "semantic-context-manager",
+  "maxResults": 10,
+  "useSemanticChunker": true,
+  "embeddingDimensions": 384
+}
+[2025-06-07T19:10:53.630Z] WARN: Configuration service not initialized, subscription may not work {
+  "component": "config-service"
+}
+[2025-06-07T19:10:53.634Z] INFO: Loading configuration {
+  "component": "config"
+}
+[2025-06-07T19:10:53.634Z] INFO: No configuration file found, using defaults and environment variables {
+  "component": "config"
+}
+[2025-06-07T19:10:53.634Z] INFO: Configuration loaded successfully {
+  "component": "config"
+}
+[2025-06-07T19:10:53.634Z] INFO: Configuration sources: {
+  "component": "config",
+  "defaults": true,
+  "leorc": false,
+  "environment": false
+}
+[2025-06-07T19:10:53.634Z] INFO: File verification: {
+  "component": "config",
+  "embeddingsFile": "/Users/stephenmansfield/Projects/Leo/lib/core/data/embeddings.jsonl",
+  "embeddingsExists": false,
+  "chunksFile": "/Users/stephenmansfield/Projects/Leo/lib/core/data/chunks.jsonl",
+  "chunksExists": false
+}
+[2025-06-07T19:10:53.634Z] INFO: 🧠 Initializing Leo with local LLM interface (Qwen2.5-Coder 32B)... {
+  "component": "leo-unified-runtime"
+}
+[2025-06-07T19:10:53.634Z] INFO: 🚀 Launching Ollama shell subprocess for Qwen2.5-Coder 32B... {
+  "component": "ollama-adapter"
+}
+[2025-06-07T19:10:53.637Z] INFO: Configuration loaded successfully {
+  "component": "config-service"
+}
+[2025-06-07T19:10:53.637Z] INFO: Configuration service initialized successfully {
+  "component": "config-service"
+}
+[2025-06-07T19:28:12.913Z] INFO: Event bus initialized {
+  "component": "event-bus"
+}
+[2025-06-07T19:28:12.914Z] INFO: Auto-initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-07T19:28:12.914Z] INFO: Initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-07T19:28:12.917Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:28:12.917Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:28:12.917Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:28:12.918Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:28:12.918Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:28:12.918Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:28:12.918Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:28:12.918Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:28:12.918Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:28:12.918Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:28:12.918Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:28:12.918Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:28:12.920Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:28:12.920Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:28:12.920Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:28:12.920Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:28:12.920Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:28:12.920Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:28:12.920Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:28:12.920Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:28:12.920Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:28:12.920Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:28:12.920Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:28:12.920Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:28:12.920Z] INFO: Configuration initialized {
+  "component": "semantic-context-manager",
+  "maxResults": 10,
+  "useSemanticChunker": true,
+  "embeddingDimensions": 384
+}
+[2025-06-07T19:28:12.920Z] WARN: Configuration service not initialized, subscription may not work {
+  "component": "config-service"
+}
+[2025-06-07T19:28:12.924Z] INFO: Loading configuration {
+  "component": "config"
+}
+[2025-06-07T19:28:12.924Z] INFO: No configuration file found, using defaults and environment variables {
+  "component": "config"
+}
+[2025-06-07T19:28:12.924Z] INFO: Configuration loaded successfully {
+  "component": "config"
+}
+[2025-06-07T19:28:12.924Z] INFO: Configuration sources: {
+  "component": "config",
+  "defaults": true,
+  "leorc": false,
+  "environment": false
+}
+[2025-06-07T19:28:12.924Z] INFO: File verification: {
+  "component": "config",
+  "embeddingsFile": "/Users/stephenmansfield/Projects/Leo/lib/core/data/embeddings/embeddings.jsonl",
+  "embeddingsExists": false,
+  "chunksFile": "/Users/stephenmansfield/Projects/Leo/lib/core/data/chunks/chunks.jsonl",
+  "chunksExists": false
+}
+[2025-06-07T19:28:12.924Z] INFO: 🧠 Initializing Leo with local LLM interface (Qwen2.5-Coder 32B)... {
+  "component": "leo-unified-runtime"
+}
+[2025-06-07T19:28:12.924Z] INFO: 🚀 Launching Ollama shell subprocess for Qwen2.5-Coder 32B... {
+  "component": "ollama-adapter"
+}
+[2025-06-07T19:28:12.926Z] INFO: Configuration loaded successfully {
+  "component": "config-service"
+}
+[2025-06-07T19:28:12.927Z] INFO: Configuration service initialized successfully {
+  "component": "config-service"
+}
+[2025-06-07T19:29:50.156Z] INFO: Event bus initialized {
+  "component": "event-bus"
+}
+[2025-06-07T19:29:50.156Z] INFO: Auto-initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-07T19:29:50.157Z] INFO: Initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-07T19:29:50.160Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:29:50.160Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:29:50.161Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:29:50.161Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:29:50.161Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:29:50.161Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:29:50.161Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:29:50.161Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:29:50.161Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:29:50.161Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:29:50.161Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:29:50.161Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:29:50.163Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:29:50.163Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:29:50.163Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:29:50.163Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:29:50.163Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:29:50.163Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:29:50.164Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:29:50.164Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:29:50.164Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:29:50.164Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:29:50.164Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:29:50.164Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:29:50.164Z] INFO: Configuration initialized {
+  "component": "semantic-context-manager",
+  "maxResults": 10,
+  "useSemanticChunker": true,
+  "embeddingDimensions": 384
+}
+[2025-06-07T19:29:50.164Z] WARN: Configuration service not initialized, subscription may not work {
+  "component": "config-service"
+}
+[2025-06-07T19:29:50.166Z] INFO: Loading configuration {
+  "component": "config"
+}
+[2025-06-07T19:29:50.167Z] INFO: No configuration file found, using defaults and environment variables {
+  "component": "config"
+}
+[2025-06-07T19:29:50.167Z] INFO: Configuration loaded successfully {
+  "component": "config"
+}
+[2025-06-07T19:29:50.167Z] INFO: Configuration sources: {
+  "component": "config",
+  "defaults": true,
+  "leorc": false,
+  "environment": false
+}
+[2025-06-07T19:29:50.167Z] INFO: File verification: {
+  "component": "config",
+  "embeddingsFile": "/Users/stephenmansfield/Projects/Leo/data/embeddings/embeddings.jsonl",
+  "embeddingsExists": true,
+  "chunksFile": "/Users/stephenmansfield/Projects/Leo/data/chunks/chunks.jsonl",
+  "chunksExists": true
+}
+[2025-06-07T19:29:50.167Z] INFO: 🧠 Initializing Leo with local LLM interface (Qwen2.5-Coder 32B)... {
+  "component": "leo-unified-runtime"
+}
+[2025-06-07T19:29:50.167Z] INFO: 🚀 Launching Ollama shell subprocess for Qwen2.5-Coder 32B... {
+  "component": "ollama-adapter"
+}
+[2025-06-07T19:29:50.169Z] INFO: Configuration loaded successfully {
+  "component": "config-service"
+}
+[2025-06-07T19:29:50.169Z] INFO: Configuration service initialized successfully {
+  "component": "config-service"
+}
+[2025-06-07T19:46:04.349Z] INFO: Event bus initialized {
+  "component": "event-bus"
+}
+[2025-06-07T19:46:04.350Z] INFO: Auto-initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-07T19:46:04.350Z] INFO: Initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-07T19:46:04.356Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:46:04.356Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:46:04.356Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:46:04.356Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:46:04.356Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:46:04.356Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:46:04.356Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:46:04.356Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:46:04.356Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:46:04.357Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:46:04.357Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:46:04.357Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:46:04.359Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:46:04.359Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:46:04.359Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:46:04.359Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:46:04.359Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:46:04.359Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:46:04.359Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:46:04.359Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:46:04.359Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:46:04.359Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:46:04.359Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:46:04.359Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:46:04.359Z] INFO: Configuration initialized {
+  "component": "semantic-context-manager",
+  "maxResults": 10,
+  "useSemanticChunker": true,
+  "embeddingDimensions": 384
+}
+[2025-06-07T19:46:04.360Z] WARN: Configuration service not initialized, subscription may not work {
+  "component": "config-service"
+}
+[2025-06-07T19:46:04.364Z] INFO: Loading configuration {
+  "component": "config"
+}
+[2025-06-07T19:46:04.364Z] INFO: No configuration file found, using defaults and environment variables {
+  "component": "config"
+}
+[2025-06-07T19:46:04.364Z] INFO: Configuration loaded successfully {
+  "component": "config"
+}
+[2025-06-07T19:46:04.364Z] INFO: Configuration sources: {
+  "component": "config",
+  "defaults": true,
+  "leorc": false,
+  "environment": false
+}
+[2025-06-07T19:46:04.365Z] INFO: File verification: {
+  "component": "config",
+  "embeddingsFile": "/Users/stephenmansfield/Projects/Leo/data/embeddings/embeddings.jsonl",
+  "embeddingsExists": true,
+  "chunksFile": "/Users/stephenmansfield/Projects/Leo/data/chunks/chunks.jsonl",
+  "chunksExists": true
+}
+[2025-06-07T19:46:04.365Z] INFO: [LEO_RUNTIME_DEBUG] Entered initializeLeo() {
+  "component": "leo-unified-runtime"
+}
+[2025-06-07T19:46:04.365Z] INFO: 🧠 Initializing Leo with local LLM interface (Qwen2.5-Coder 32B)... {
+  "component": "leo-unified-runtime"
+}
+[2025-06-07T19:46:04.365Z] INFO: 🚀 Launching Ollama shell subprocess for Qwen2.5-Coder 32B... {
+  "component": "ollama-adapter"
+}
+[2025-06-07T19:46:04.367Z] INFO: Configuration loaded successfully {
+  "component": "config-service"
+}
+[2025-06-07T19:46:04.367Z] INFO: Configuration service initialized successfully {
+  "component": "config-service"
+}
+[2025-06-07T19:46:34.367Z] ERROR: ❌ Ollama shell did not become ready within 30 seconds. {
+  "component": "ollama-adapter"
+}
+[2025-06-07T19:46:34.372Z] WARN: ⚠️ Ollama process exited with code null {
+  "component": "ollama-adapter"
+}
+[2025-06-07T19:47:25.761Z] INFO: Event bus initialized {
+  "component": "event-bus"
+}
+[2025-06-07T19:47:25.762Z] INFO: Auto-initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-07T19:47:25.762Z] INFO: Initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-07T19:47:25.765Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:47:25.766Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:47:25.766Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:47:25.766Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:47:25.766Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:47:25.766Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:47:25.766Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:47:25.766Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:47:25.766Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:47:25.766Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:47:25.766Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:47:25.766Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:47:25.768Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:47:25.768Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:47:25.768Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:47:25.768Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:47:25.768Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:47:25.768Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:47:25.769Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:47:25.769Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:47:25.769Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:47:25.769Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:47:25.769Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:47:25.769Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:47:25.769Z] INFO: Configuration initialized {
+  "component": "semantic-context-manager",
+  "maxResults": 10,
+  "useSemanticChunker": true,
+  "embeddingDimensions": 384
+}
+[2025-06-07T19:47:25.769Z] WARN: Configuration service not initialized, subscription may not work {
+  "component": "config-service"
+}
+[2025-06-07T19:47:25.771Z] INFO: Loading configuration {
+  "component": "config"
+}
+[2025-06-07T19:47:25.771Z] INFO: No configuration file found, using defaults and environment variables {
+  "component": "config"
+}
+[2025-06-07T19:47:25.771Z] INFO: Configuration loaded successfully {
+  "component": "config"
+}
+[2025-06-07T19:47:25.771Z] INFO: Configuration sources: {
+  "component": "config",
+  "defaults": true,
+  "leorc": false,
+  "environment": false
+}
+[2025-06-07T19:47:25.772Z] INFO: File verification: {
+  "component": "config",
+  "embeddingsFile": "/Users/stephenmansfield/Projects/Leo/data/embeddings/embeddings.jsonl",
+  "embeddingsExists": true,
+  "chunksFile": "/Users/stephenmansfield/Projects/Leo/data/chunks/chunks.jsonl",
+  "chunksExists": true
+}
+[2025-06-07T19:47:25.772Z] INFO: [LEO_RUNTIME_DEBUG] Entered initializeLeo() {
+  "component": "leo-unified-runtime"
+}
+[2025-06-07T19:47:25.772Z] INFO: 🧠 Initializing Leo with local LLM interface (Qwen2.5-Coder 32B)... {
+  "component": "leo-unified-runtime"
+}
+[2025-06-07T19:47:25.772Z] INFO: 🚀 Launching Ollama shell subprocess for Qwen2.5-Coder 32B... {
+  "component": "ollama-adapter"
+}
+[2025-06-07T19:47:25.774Z] INFO: Configuration loaded successfully {
+  "component": "config-service"
+}
+[2025-06-07T19:47:25.774Z] INFO: Configuration service initialized successfully {
+  "component": "config-service"
+}
+[2025-06-07T19:47:55.775Z] ERROR: ❌ Ollama shell did not become ready within 30 seconds. {
+  "component": "ollama-adapter"
+}
+[2025-06-07T19:47:55.783Z] WARN: ⚠️ Ollama process exited with code null {
+  "component": "ollama-adapter"
+}
+[2025-06-07T19:50:16.510Z] INFO: Event bus initialized {
+  "component": "event-bus"
+}
+[2025-06-07T19:50:16.511Z] INFO: Auto-initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-07T19:50:16.511Z] INFO: Initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-07T19:50:16.515Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:50:16.515Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:50:16.515Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:50:16.515Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:50:16.515Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:50:16.515Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:50:16.515Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:50:16.515Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:50:16.515Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:50:16.516Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:50:16.516Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:50:16.516Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:50:16.517Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:50:16.518Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:50:16.518Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:50:16.518Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:50:16.518Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:50:16.518Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:50:16.518Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:50:16.518Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:50:16.518Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:50:16.518Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:50:16.518Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:50:16.518Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:50:16.518Z] INFO: Configuration initialized {
+  "component": "semantic-context-manager",
+  "maxResults": 10,
+  "useSemanticChunker": true,
+  "embeddingDimensions": 384
+}
+[2025-06-07T19:50:16.518Z] WARN: Configuration service not initialized, subscription may not work {
+  "component": "config-service"
+}
+[2025-06-07T19:50:16.521Z] INFO: Loading configuration {
+  "component": "config"
+}
+[2025-06-07T19:50:16.521Z] INFO: No configuration file found, using defaults and environment variables {
+  "component": "config"
+}
+[2025-06-07T19:50:16.521Z] INFO: Configuration loaded successfully {
+  "component": "config"
+}
+[2025-06-07T19:50:16.521Z] INFO: Configuration sources: {
+  "component": "config",
+  "defaults": true,
+  "leorc": false,
+  "environment": false
+}
+[2025-06-07T19:50:16.521Z] INFO: File verification: {
+  "component": "config",
+  "embeddingsFile": "/Users/stephenmansfield/Projects/Leo/data/embeddings/embeddings.jsonl",
+  "embeddingsExists": true,
+  "chunksFile": "/Users/stephenmansfield/Projects/Leo/data/chunks/chunks.jsonl",
+  "chunksExists": true
+}
+[2025-06-07T19:50:16.521Z] INFO: [LEO_RUNTIME_DEBUG] Entered initializeLeo() {
+  "component": "leo-unified-runtime"
+}
+[2025-06-07T19:50:16.521Z] INFO: 🧠 Initializing Leo with local LLM interface (Qwen2.5-Coder 32B)... {
+  "component": "leo-unified-runtime"
+}
+[2025-06-07T19:50:16.521Z] INFO: 🚀 Launching Ollama shell subprocess for Qwen2.5-Coder 32B... {
+  "component": "ollama-adapter"
+}
+[2025-06-07T19:50:16.523Z] INFO: Configuration loaded successfully {
+  "component": "config-service"
+}
+[2025-06-07T19:50:16.524Z] INFO: Configuration service initialized successfully {
+  "component": "config-service"
+}
+[2025-06-07T19:50:46.524Z] ERROR: ❌ Ollama shell did not become ready within 30 seconds. {
+  "component": "ollama-adapter"
+}
+[2025-06-07T19:50:46.532Z] WARN: ⚠️ Ollama process exited with code null {
+  "component": "ollama-adapter"
+}
+[2025-06-07T19:52:19.260Z] INFO: Event bus initialized {
+  "component": "event-bus"
+}
+[2025-06-07T19:52:19.261Z] INFO: Auto-initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-07T19:52:19.261Z] INFO: Initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-07T19:52:19.264Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:52:19.265Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:52:19.265Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:52:19.265Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:52:19.265Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:52:19.265Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:52:19.265Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:52:19.265Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:52:19.265Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:52:19.265Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:52:19.265Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:52:19.265Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:52:19.267Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:52:19.268Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:52:19.268Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:52:19.268Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:52:19.268Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:52:19.268Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:52:19.268Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:52:19.268Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:52:19.268Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:52:19.268Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:52:19.268Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:52:19.268Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T19:52:19.268Z] INFO: Configuration initialized {
+  "component": "semantic-context-manager",
+  "maxResults": 10,
+  "useSemanticChunker": true,
+  "embeddingDimensions": 384
+}
+[2025-06-07T19:52:19.268Z] WARN: Configuration service not initialized, subscription may not work {
+  "component": "config-service"
+}
+[2025-06-07T19:52:19.271Z] INFO: Loading configuration {
+  "component": "config"
+}
+[2025-06-07T19:52:19.271Z] INFO: No configuration file found, using defaults and environment variables {
+  "component": "config"
+}
+[2025-06-07T19:52:19.271Z] INFO: Configuration loaded successfully {
+  "component": "config"
+}
+[2025-06-07T19:52:19.271Z] INFO: Configuration sources: {
+  "component": "config",
+  "defaults": true,
+  "leorc": false,
+  "environment": false
+}
+[2025-06-07T19:52:19.271Z] INFO: File verification: {
+  "component": "config",
+  "embeddingsFile": "/Users/stephenmansfield/Projects/Leo/data/embeddings/embeddings.jsonl",
+  "embeddingsExists": true,
+  "chunksFile": "/Users/stephenmansfield/Projects/Leo/data/chunks/chunks.jsonl",
+  "chunksExists": true
+}
+[2025-06-07T19:52:19.272Z] INFO: [LEO_RUNTIME_DEBUG] Entered initializeLeo() {
+  "component": "leo-unified-runtime"
+}
+[2025-06-07T19:52:19.272Z] INFO: 🧠 Initializing Leo with local LLM interface (Qwen2.5-Coder 32B)... {
+  "component": "leo-unified-runtime"
+}
+[2025-06-07T19:52:19.272Z] INFO: 🚀 Launching Ollama shell subprocess for Qwen2.5-Coder 32B... {
+  "component": "ollama-adapter"
+}
+[2025-06-07T19:52:19.274Z] INFO: Configuration loaded successfully {
+  "component": "config-service"
+}
+[2025-06-07T19:52:19.274Z] INFO: Configuration service initialized successfully {
+  "component": "config-service"
+}
+[2025-06-07T19:52:49.275Z] ERROR: ❌ Ollama shell did not become ready within 30 seconds. {
+  "component": "ollama-adapter"
+}
+[2025-06-07T19:52:49.284Z] WARN: ⚠️ Ollama process exited with code null {
+  "component": "ollama-adapter"
+}
+[2025-06-07T20:16:42.146Z] INFO: Event bus initialized {
+  "component": "event-bus"
+}
+[2025-06-07T20:16:42.147Z] INFO: Auto-initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-07T20:16:42.147Z] INFO: Initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-07T20:16:42.150Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:16:42.150Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:16:42.150Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:16:42.151Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:16:42.151Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:16:42.151Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:16:42.151Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:16:42.151Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:16:42.151Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:16:42.152Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:16:42.152Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:16:42.152Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:16:42.153Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:16:42.154Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:16:42.154Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:16:42.154Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:16:42.154Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:16:42.154Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:16:42.154Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:16:42.154Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:16:42.154Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:16:42.154Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:16:42.154Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:16:42.154Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:16:42.154Z] INFO: Configuration initialized {
+  "component": "semantic-context-manager",
+  "maxResults": 10,
+  "useSemanticChunker": true,
+  "embeddingDimensions": 384
+}
+[2025-06-07T20:16:42.154Z] WARN: Configuration service not initialized, subscription may not work {
+  "component": "config-service"
+}
+[2025-06-07T20:16:42.157Z] INFO: Loading configuration {
+  "component": "config"
+}
+[2025-06-07T20:16:42.157Z] INFO: No configuration file found, using defaults and environment variables {
+  "component": "config"
+}
+[2025-06-07T20:16:42.157Z] INFO: Configuration loaded successfully {
+  "component": "config"
+}
+[2025-06-07T20:16:42.157Z] INFO: Configuration sources: {
+  "component": "config",
+  "defaults": true,
+  "leorc": false,
+  "environment": false
+}
+[2025-06-07T20:16:42.157Z] INFO: File verification: {
+  "component": "config",
+  "embeddingsFile": "/Users/stephenmansfield/Projects/Leo/data/embeddings/embeddings.jsonl",
+  "embeddingsExists": true,
+  "chunksFile": "/Users/stephenmansfield/Projects/Leo/data/chunks/chunks.jsonl",
+  "chunksExists": true
+}
+[2025-06-07T20:16:42.157Z] INFO: [LEO_RUNTIME_DEBUG] Entered initializeLeo() {
+  "component": "leo-unified-runtime"
+}
+[2025-06-07T20:16:42.157Z] INFO: 🧠 Initializing Leo with local LLM interface (Qwen2.5-Coder 32B)... {
+  "component": "leo-unified-runtime"
+}
+[2025-06-07T20:16:42.158Z] INFO: Configuration loaded successfully {
+  "component": "config-service"
+}
+[2025-06-07T20:16:42.158Z] INFO: Configuration service initialized successfully {
+  "component": "config-service"
+}
+[2025-06-07T20:27:05.675Z] INFO: Event bus initialized {
+  "component": "event-bus"
+}
+[2025-06-07T20:27:05.675Z] INFO: Auto-initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-07T20:27:05.675Z] INFO: Initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-07T20:27:05.679Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:27:05.679Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:27:05.679Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:27:05.679Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:27:05.679Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:27:05.679Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:27:05.679Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:27:05.679Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:27:05.679Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:27:05.679Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:27:05.680Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:27:05.680Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:27:05.681Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:27:05.681Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:27:05.681Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:27:05.681Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:27:05.681Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:27:05.681Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:27:05.681Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:27:05.681Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:27:05.681Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:27:05.681Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:27:05.681Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:27:05.681Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:27:05.681Z] INFO: Configuration initialized {
+  "component": "semantic-context-manager",
+  "maxResults": 10,
+  "useSemanticChunker": true,
+  "embeddingDimensions": 384
+}
+[2025-06-07T20:27:05.681Z] WARN: Configuration service not initialized, subscription may not work {
+  "component": "config-service"
+}
+[2025-06-07T20:27:05.684Z] INFO: Loading configuration {
+  "component": "config"
+}
+[2025-06-07T20:27:05.684Z] INFO: No configuration file found, using defaults and environment variables {
+  "component": "config"
+}
+[2025-06-07T20:27:05.684Z] INFO: Configuration loaded successfully {
+  "component": "config"
+}
+[2025-06-07T20:27:05.684Z] INFO: Configuration sources: {
+  "component": "config",
+  "defaults": true,
+  "leorc": false,
+  "environment": false
+}
+[2025-06-07T20:27:05.684Z] INFO: File verification: {
+  "component": "config",
+  "embeddingsFile": "/Users/stephenmansfield/Projects/Leo/data/embeddings/embeddings.jsonl",
+  "embeddingsExists": true,
+  "chunksFile": "/Users/stephenmansfield/Projects/Leo/data/chunks/chunks.jsonl",
+  "chunksExists": true
+}
+[2025-06-07T20:27:05.684Z] INFO: [LEO_RUNTIME_DEBUG] Entered initializeLeo() {
+  "component": "leo-unified-runtime"
+}
+[2025-06-07T20:27:05.684Z] INFO: 🧠 Initializing Leo with local LLM interface (Qwen2.5-Coder 32B)... {
+  "component": "leo-unified-runtime"
+}
+[2025-06-07T20:27:05.694Z] INFO: Configuration loaded successfully {
+  "component": "config-service"
+}
+[2025-06-07T20:27:05.694Z] INFO: Configuration service initialized successfully {
+  "component": "config-service"
+}
+[2025-06-07T20:27:05.698Z] INFO: ✅ Ollama shell initialized (Qwen2.5-Coder 32B) {
+  "component": "local-llm-interface"
+}
+[2025-06-07T20:27:05.698Z] INFO: 🧠 Loading persistent memory graph... {
+  "component": "leo-unified-runtime"
+}
+[2025-06-07T20:27:05.698Z] INFO: 📚 Loading full memory graph via conversation-memory-manager... {
+  "component": "memory-loader"
+}
+[2025-06-07T20:27:05.698Z] WARN: getFullMemoryGraph called before ConversationMemoryManager is initialized. Attempting to initialize... {
+  "component": "conversation-memory-manager"
+}
+[2025-06-07T20:27:05.699Z] INFO: Initializing conversation memory manager... {
+  "component": "conversation-memory-manager"
+}
+[2025-06-07T20:27:05.699Z] INFO: Memory directory created: /Users/stephenmansfield/Projects/Leo/lib/core/data/memory {
+  "component": "conversation-memory-manager"
+}
+[2025-06-07T20:27:05.699Z] INFO: Narrative directory created: /Users/stephenmansfield/Projects/Leo/lib/core/data/narrative {
+  "component": "conversation-memory-manager"
+}
+[2025-06-07T20:27:05.699Z] INFO: Registering component: conversation-memory-manager {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:27:05.699Z] INFO: Component registered: conversation-memory-manager with dependencies: conversation-semantic-search, conversation-summarizer, change-linking-service, fixed-semantic-context-adapter {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:27:05.699Z] INFO: Initializing System Health Monitor {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:27:05.699Z] INFO: Registering health check for component: event-bus {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:27:05.699Z] INFO: Registering health check for component: dependency-resolver {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:27:05.699Z] INFO: Registering data integrity check for: embeddings {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:27:05.699Z] INFO: Registering data integrity check for: chunks {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:27:05.699Z] INFO: Starting System Health Monitor {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:27:05.699Z] INFO: Running one-time health check {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:27:05.699Z] INFO: Running system health check {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:27:05.699Z] INFO: Checking health of component: event-bus {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:27:05.699Z] INFO: Checking health of component: dependency-resolver {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:27:05.699Z] INFO: Checking integrity of data: embeddings {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:27:05.700Z] WARN: Data embeddings integrity check failed: File does not exist {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:27:05.700Z] INFO: Attempting to repair data embeddings (attempt 1/3) {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:27:05.700Z] WARN: Could not create backup: ENOENT: no such file or directory, open '/Users/stephenmansfield/Projects/Leo/lib/core/data/embeddings.jsonl' {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:27:05.700Z] INFO: Reset embeddings file: /Users/stephenmansfield/Projects/Leo/lib/core/data/embeddings.jsonl {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:27:05.700Z] INFO: Successfully repaired data embeddings {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:27:05.700Z] INFO: Checking integrity of data: chunks {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:27:05.700Z] WARN: Data chunks integrity check failed: File does not exist {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:27:05.700Z] INFO: Attempting to repair data chunks (attempt 1/3) {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:27:05.701Z] WARN: Could not create backup: ENOENT: no such file or directory, open '/Users/stephenmansfield/Projects/Leo/lib/core/data/chunks.jsonl' {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:27:05.701Z] INFO: Reset chunks file: /Users/stephenmansfield/Projects/Leo/lib/core/data/chunks.jsonl {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:27:05.701Z] INFO: Successfully repaired data chunks {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:27:05.701Z] INFO: Health check completed in 2ms, overall health: degraded {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:27:05.701Z] INFO: System Health Monitor started with check interval: 60000ms {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:27:05.701Z] INFO: System Health Monitor initialized successfully {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:27:05.701Z] INFO: Initializing component: conversation-semantic-search {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:27:05.701Z] WARN: Component conversation-semantic-search not registered, initializing without dependency resolution {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:27:05.701Z] INFO: Initializing conversation semantic search service {
+  "component": "conversation-semantic-search"
+}
+[2025-06-07T20:27:05.701Z] INFO: Initializing conversation chunker adapter {
+  "component": "conversation-chunker-adapter"
+}
+[2025-06-07T20:27:05.701Z] INFO: Initializing semantic chunker adapter {
+  "component": "semantic-chunker-adapter"
+}
+[2025-06-07T20:27:05.701Z] INFO: Initializing semantic chunker... {
+  "component": "semantic-chunker"
+}
+[2025-06-07T20:27:05.701Z] INFO: Configuration initialized {
+  "component": "semantic-chunker",
+  "maxChunkSize": 1000,
+  "minChunkSize": 100,
+  "overlapSize": 20
+}
+[2025-06-07T20:27:05.701Z] INFO: Semantic chunker initialized successfully {
+  "component": "semantic-chunker"
+}
+[2025-06-07T20:27:05.701Z] INFO: Semantic chunker adapter initialized successfully {
+  "component": "semantic-chunker-adapter"
+}
+[2025-06-07T20:27:05.701Z] INFO: Conversation chunker adapter initialized successfully {
+  "component": "conversation-chunker-adapter"
+}
+[2025-06-07T20:27:05.701Z] INFO: Initializing conversation embeddings adapter {
+  "component": "conversation-embeddings-adapter"
+}
+[2025-06-07T20:27:05.702Z] INFO: No corpus statistics file found, using defaults {
+  "component": "semantic-embeddings"
+}
+[2025-06-07T20:27:05.702Z] INFO: Semantic embeddings module initialized successfully {
+  "component": "semantic-embeddings"
+}
+[2025-06-07T20:27:05.702Z] INFO: Loading corpus statistics from /Users/stephenmansfield/Projects/Leo/lib/core/data/cache/corpus-stats.json {
+  "component": "true-semantic-embeddings"
+}
+[2025-06-07T20:27:05.702Z] INFO: No corpus statistics file found, using defaults {
+  "component": "true-semantic-embeddings"
+}
+[2025-06-07T20:27:05.702Z] INFO: True semantic embeddings initialized successfully {
+  "component": "true-semantic-embeddings"
+}
+[2025-06-07T20:27:05.702Z] INFO: Created new embeddings cache {
+  "component": "conversation-embeddings-adapter"
+}
+[2025-06-07T20:27:05.702Z] INFO: Conversation embeddings adapter initialized successfully {
+  "component": "conversation-embeddings-adapter"
+}
+[2025-06-07T20:27:05.702Z] INFO: Created new conversation index {
+  "component": "conversation-semantic-search"
+}
+[2025-06-07T20:27:05.702Z] INFO: Conversation semantic search service initialized successfully {
+  "component": "conversation-semantic-search"
+}
+[2025-06-07T20:27:05.702Z] INFO: Component initialized successfully: conversation-semantic-search {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:27:05.702Z] INFO: Initializing component: conversation-summarizer {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:27:05.702Z] WARN: Component conversation-summarizer not registered, initializing without dependency resolution {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:27:05.702Z] INFO: Initializing conversation summarizer service... {
+  "component": "conversation-summarizer"
+}
+[2025-06-07T20:27:05.702Z] INFO: Summary storage directory created: /Users/stephenmansfield/Projects/Leo/lib/core/data/summaries {
+  "component": "conversation-summarizer"
+}
+[2025-06-07T20:27:05.702Z] INFO: Summary metadata saved successfully {
+  "component": "conversation-summarizer"
+}
+[2025-06-07T20:27:05.703Z] INFO: Conversation summarizer service initialized successfully {
+  "component": "conversation-summarizer"
+}
+[2025-06-07T20:27:05.703Z] INFO: Component initialized successfully: conversation-summarizer {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:27:05.703Z] INFO: Initializing component: change-linking-service {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:27:05.703Z] WARN: Component change-linking-service not registered, initializing without dependency resolution {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:27:05.703Z] INFO: Initializing change linking service... {
+  "component": "change-linking-service"
+}
+[2025-06-07T20:27:05.703Z] INFO: Link storage directory created: /Users/stephenmansfield/Projects/Leo/lib/core/data/links {
+  "component": "change-linking-service"
+}
+[2025-06-07T20:27:05.716Z] INFO: Git is available for change tracking {
+  "component": "change-linking-service"
+}
+[2025-06-07T20:27:05.716Z] INFO: Link data saved successfully {
+  "component": "change-linking-service"
+}
+[2025-06-07T20:27:05.716Z] INFO: Git-based change tracking enabled {
+  "component": "change-linking-service"
+}
+[2025-06-07T20:27:05.716Z] INFO: Change linking service initialized successfully {
+  "component": "change-linking-service"
+}
+[2025-06-07T20:27:05.716Z] INFO: Component initialized successfully: change-linking-service {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:27:05.716Z] INFO: Initializing component: fixed-semantic-context-adapter {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:27:05.716Z] WARN: Component fixed-semantic-context-adapter not registered, initializing without dependency resolution {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:27:05.716Z] INFO: Initializing Fixed Semantic Context Adapter as standalone component {
+  "component": "fixed-semantic-context-adapter"
+}
+[2025-06-07T20:27:05.716Z] INFO: Checking and repairing embeddings files {
+  "component": "fixed-semantic-context-adapter"
+}
+[2025-06-07T20:27:05.717Z] INFO: Embeddings files checked and repaired successfully {
+  "component": "fixed-semantic-context-adapter"
+}
+[2025-06-07T20:27:05.717Z] INFO: Setting up embeddings interface {
+  "component": "fixed-semantic-context-adapter"
+}
+[2025-06-07T20:27:05.717Z] INFO: Using local semantic embeddings as primary implementation {
+  "component": "fixed-semantic-context-adapter"
+}
+[2025-06-07T20:27:05.717Z] INFO: Fixed Semantic Context Adapter initialized successfully as standalone component {
+  "component": "fixed-semantic-context-adapter"
+}
+[2025-06-07T20:27:05.717Z] INFO: Component initialized successfully: fixed-semantic-context-adapter {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:27:05.717Z] INFO: Saved 0 memory items to index {
+  "component": "conversation-memory-manager"
+}
+[2025-06-07T20:27:05.717Z] INFO: Conversation memory manager initialized successfully {
+  "component": "conversation-memory-manager"
+}
+[2025-06-07T20:27:05.717Z] INFO: ✅ Loaded 0 memory nodes. {
+  "component": "memory-loader"
+}
+[2025-06-07T20:27:05.717Z] INFO: ✅ Leo runtime is initialized and ready. {
+  "component": "leo-unified-runtime"
+}
+[2025-06-07T20:27:05.717Z] INFO: [LEO_RUNTIME_DEBUG] Entered runLeoPrompt() {
+  "component": "leo-unified-runtime"
+}
+[2025-06-07T20:27:05.717Z] INFO: Initializing local semantic search... {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:27:05.717Z] INFO: Loading chunks from /Users/stephenmansfield/Projects/Leo/lib/core/data/chunks.jsonl... {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:27:05.718Z] INFO: Successfully loaded 1 chunks {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:27:05.718Z] INFO: Loading embeddings from /Users/stephenmansfield/Projects/Leo/lib/core/data/embeddings.jsonl... {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:27:05.718Z] INFO: Successfully loaded 0 embeddings {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:27:05.718Z] WARN: 1 chunks are missing corresponding embeddings {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:27:05.718Z] INFO: Building corpus statistics for fallback search... {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:27:05.719Z] INFO: Corpus statistics built: 0 terms in 1 documents {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:27:05.719Z] INFO: Initialization complete in 2ms {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:27:05.719Z] INFO: Loaded 1 chunks and 0 embeddings {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:27:05.719Z] INFO: Performing semantic search for: "What are the foundational architectural goals of Leo?" {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:27:05.719Z] WARN: Embedding script not found: /Users/stephenmansfield/Projects/Leo/lib/core/lib/embeddings/generate-embedding.js {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:27:05.719Z] WARN: Falling back to keyword search due to missing embeddings {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:27:05.719Z] INFO: Fallback search completed in 0ms with 0 results {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:27:05.719Z] INFO: 🔍 No relevant memory context found. {
+  "component": "search-engine"
+}
+[2025-06-07T20:28:05.704Z] INFO: Running system health check {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:28:05.705Z] INFO: Checking health of component: event-bus {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:28:05.705Z] INFO: Checking health of component: dependency-resolver {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:28:05.706Z] INFO: Checking integrity of data: embeddings {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:28:05.707Z] INFO: Checking integrity of data: chunks {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:28:05.708Z] INFO: Health check completed in 3ms, overall health: healthy {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:29:05.705Z] INFO: Running system health check {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:29:05.705Z] INFO: Checking health of component: event-bus {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:29:05.706Z] INFO: Checking health of component: dependency-resolver {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:29:05.706Z] INFO: Checking integrity of data: embeddings {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:29:05.708Z] INFO: Checking integrity of data: chunks {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:29:05.708Z] INFO: Health check completed in 3ms, overall health: healthy {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:29:36.723Z] INFO: Event bus initialized {
+  "component": "event-bus"
+}
+[2025-06-07T20:29:36.723Z] INFO: Auto-initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-07T20:29:36.723Z] INFO: Initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-07T20:29:36.727Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:29:36.727Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:29:36.727Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:29:36.727Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:29:36.727Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:29:36.727Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:29:36.727Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:29:36.728Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:29:36.728Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:29:36.728Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:29:36.728Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:29:36.728Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:29:36.729Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:29:36.729Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:29:36.729Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:29:36.729Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:29:36.729Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:29:36.729Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:29:36.729Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:29:36.729Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:29:36.729Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:29:36.729Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:29:36.729Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:29:36.729Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:29:36.729Z] INFO: Configuration initialized {
+  "component": "semantic-context-manager",
+  "maxResults": 10,
+  "useSemanticChunker": true,
+  "embeddingDimensions": 384
+}
+[2025-06-07T20:29:36.729Z] WARN: Configuration service not initialized, subscription may not work {
+  "component": "config-service"
+}
+[2025-06-07T20:29:36.732Z] INFO: Loading configuration {
+  "component": "config"
+}
+[2025-06-07T20:29:36.732Z] INFO: No configuration file found, using defaults and environment variables {
+  "component": "config"
+}
+[2025-06-07T20:29:36.732Z] INFO: Configuration loaded successfully {
+  "component": "config"
+}
+[2025-06-07T20:29:36.732Z] INFO: Configuration sources: {
+  "component": "config",
+  "defaults": true,
+  "leorc": false,
+  "environment": false
+}
+[2025-06-07T20:29:36.732Z] INFO: File verification: {
+  "component": "config",
+  "embeddingsFile": "/Users/stephenmansfield/Projects/Leo/data/embeddings/embeddings.jsonl",
+  "embeddingsExists": true,
+  "chunksFile": "/Users/stephenmansfield/Projects/Leo/data/chunks/chunks.jsonl",
+  "chunksExists": true
+}
+[2025-06-07T20:29:36.732Z] INFO: [LEO_RUNTIME_DEBUG] Entered initializeLeo() {
+  "component": "leo-unified-runtime"
+}
+[2025-06-07T20:29:36.732Z] INFO: 🧠 Initializing Leo with local LLM interface (Qwen2.5-Coder 32B)... {
+  "component": "leo-unified-runtime"
+}
+[2025-06-07T20:29:36.740Z] INFO: Configuration loaded successfully {
+  "component": "config-service"
+}
+[2025-06-07T20:29:36.740Z] INFO: Configuration service initialized successfully {
+  "component": "config-service"
+}
+[2025-06-07T20:29:36.743Z] INFO: ✅ Ollama shell initialized (Qwen2.5-Coder 32B) {
+  "component": "local-llm-interface"
+}
+[2025-06-07T20:29:36.743Z] INFO: 🧠 Loading persistent memory graph... {
+  "component": "leo-unified-runtime"
+}
+[2025-06-07T20:29:36.743Z] INFO: 📚 Loading full memory graph via conversation-memory-manager... {
+  "component": "memory-loader"
+}
+[2025-06-07T20:29:36.743Z] WARN: getFullMemoryGraph called before ConversationMemoryManager is initialized. Attempting to initialize... {
+  "component": "conversation-memory-manager"
+}
+[2025-06-07T20:29:36.743Z] INFO: Initializing conversation memory manager... {
+  "component": "conversation-memory-manager"
+}
+[2025-06-07T20:29:36.743Z] INFO: Memory directory created: /Users/stephenmansfield/Projects/Leo/lib/core/data/memory {
+  "component": "conversation-memory-manager"
+}
+[2025-06-07T20:29:36.743Z] INFO: Narrative directory created: /Users/stephenmansfield/Projects/Leo/lib/core/data/narrative {
+  "component": "conversation-memory-manager"
+}
+[2025-06-07T20:29:36.743Z] INFO: Registering component: conversation-memory-manager {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:29:36.743Z] INFO: Component registered: conversation-memory-manager with dependencies: conversation-semantic-search, conversation-summarizer, change-linking-service, fixed-semantic-context-adapter {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:29:36.744Z] INFO: Initializing System Health Monitor {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:29:36.744Z] INFO: Registering health check for component: event-bus {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:29:36.744Z] INFO: Registering health check for component: dependency-resolver {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:29:36.744Z] INFO: Registering data integrity check for: embeddings {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:29:36.744Z] INFO: Registering data integrity check for: chunks {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:29:36.744Z] INFO: Starting System Health Monitor {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:29:36.744Z] INFO: Running one-time health check {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:29:36.744Z] INFO: Running system health check {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:29:36.744Z] INFO: Checking health of component: event-bus {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:29:36.744Z] INFO: Checking health of component: dependency-resolver {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:29:36.744Z] INFO: Checking integrity of data: embeddings {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:29:36.745Z] INFO: Checking integrity of data: chunks {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:29:36.745Z] INFO: Health check completed in 1ms, overall health: healthy {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:29:36.745Z] INFO: System Health Monitor started with check interval: 60000ms {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:29:36.745Z] INFO: System Health Monitor initialized successfully {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:29:36.745Z] INFO: Initializing component: conversation-semantic-search {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:29:36.745Z] WARN: Component conversation-semantic-search not registered, initializing without dependency resolution {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:29:36.745Z] INFO: Initializing conversation semantic search service {
+  "component": "conversation-semantic-search"
+}
+[2025-06-07T20:29:36.745Z] INFO: Initializing conversation chunker adapter {
+  "component": "conversation-chunker-adapter"
+}
+[2025-06-07T20:29:36.745Z] INFO: Initializing semantic chunker adapter {
+  "component": "semantic-chunker-adapter"
+}
+[2025-06-07T20:29:36.745Z] INFO: Initializing semantic chunker... {
+  "component": "semantic-chunker"
+}
+[2025-06-07T20:29:36.745Z] INFO: Configuration initialized {
+  "component": "semantic-chunker",
+  "maxChunkSize": 1000,
+  "minChunkSize": 100,
+  "overlapSize": 20
+}
+[2025-06-07T20:29:36.745Z] INFO: Semantic chunker initialized successfully {
+  "component": "semantic-chunker"
+}
+[2025-06-07T20:29:36.745Z] INFO: Semantic chunker adapter initialized successfully {
+  "component": "semantic-chunker-adapter"
+}
+[2025-06-07T20:29:36.745Z] INFO: Conversation chunker adapter initialized successfully {
+  "component": "conversation-chunker-adapter"
+}
+[2025-06-07T20:29:36.745Z] INFO: Initializing conversation embeddings adapter {
+  "component": "conversation-embeddings-adapter"
+}
+[2025-06-07T20:29:36.745Z] INFO: No corpus statistics file found, using defaults {
+  "component": "semantic-embeddings"
+}
+[2025-06-07T20:29:36.745Z] INFO: Semantic embeddings module initialized successfully {
+  "component": "semantic-embeddings"
+}
+[2025-06-07T20:29:36.745Z] INFO: Loading corpus statistics from /Users/stephenmansfield/Projects/Leo/lib/core/data/cache/corpus-stats.json {
+  "component": "true-semantic-embeddings"
+}
+[2025-06-07T20:29:36.746Z] INFO: No corpus statistics file found, using defaults {
+  "component": "true-semantic-embeddings"
+}
+[2025-06-07T20:29:36.746Z] INFO: True semantic embeddings initialized successfully {
+  "component": "true-semantic-embeddings"
+}
+[2025-06-07T20:29:36.746Z] INFO: Created new embeddings cache {
+  "component": "conversation-embeddings-adapter"
+}
+[2025-06-07T20:29:36.746Z] INFO: Conversation embeddings adapter initialized successfully {
+  "component": "conversation-embeddings-adapter"
+}
+[2025-06-07T20:29:36.746Z] INFO: Created new conversation index {
+  "component": "conversation-semantic-search"
+}
+[2025-06-07T20:29:36.746Z] INFO: Conversation semantic search service initialized successfully {
+  "component": "conversation-semantic-search"
+}
+[2025-06-07T20:29:36.746Z] INFO: Component initialized successfully: conversation-semantic-search {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:29:36.746Z] INFO: Initializing component: conversation-summarizer {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:29:36.746Z] WARN: Component conversation-summarizer not registered, initializing without dependency resolution {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:29:36.746Z] INFO: Initializing conversation summarizer service... {
+  "component": "conversation-summarizer"
+}
+[2025-06-07T20:29:36.746Z] INFO: Summary storage directory created: /Users/stephenmansfield/Projects/Leo/lib/core/data/summaries {
+  "component": "conversation-summarizer"
+}
+[2025-06-07T20:29:36.746Z] INFO: Loaded metadata for 0 summaries {
+  "component": "conversation-summarizer"
+}
+[2025-06-07T20:29:36.746Z] INFO: Conversation summarizer service initialized successfully {
+  "component": "conversation-summarizer"
+}
+[2025-06-07T20:29:36.746Z] INFO: Component initialized successfully: conversation-summarizer {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:29:36.746Z] INFO: Initializing component: change-linking-service {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:29:36.747Z] WARN: Component change-linking-service not registered, initializing without dependency resolution {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:29:36.747Z] INFO: Initializing change linking service... {
+  "component": "change-linking-service"
+}
+[2025-06-07T20:29:36.747Z] INFO: Link storage directory created: /Users/stephenmansfield/Projects/Leo/lib/core/data/links {
+  "component": "change-linking-service"
+}
+[2025-06-07T20:29:36.759Z] INFO: Git is available for change tracking {
+  "component": "change-linking-service"
+}
+[2025-06-07T20:29:36.759Z] INFO: Loaded 0 change links {
+  "component": "change-linking-service"
+}
+[2025-06-07T20:29:36.759Z] INFO: Git-based change tracking enabled {
+  "component": "change-linking-service"
+}
+[2025-06-07T20:29:36.759Z] INFO: Change linking service initialized successfully {
+  "component": "change-linking-service"
+}
+[2025-06-07T20:29:36.759Z] INFO: Component initialized successfully: change-linking-service {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:29:36.759Z] INFO: Initializing component: fixed-semantic-context-adapter {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:29:36.759Z] WARN: Component fixed-semantic-context-adapter not registered, initializing without dependency resolution {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:29:36.759Z] INFO: Initializing Fixed Semantic Context Adapter as standalone component {
+  "component": "fixed-semantic-context-adapter"
+}
+[2025-06-07T20:29:36.760Z] INFO: Checking and repairing embeddings files {
+  "component": "fixed-semantic-context-adapter"
+}
+[2025-06-07T20:29:36.760Z] INFO: Embeddings files checked and repaired successfully {
+  "component": "fixed-semantic-context-adapter"
+}
+[2025-06-07T20:29:36.760Z] INFO: Setting up embeddings interface {
+  "component": "fixed-semantic-context-adapter"
+}
+[2025-06-07T20:29:36.760Z] INFO: Using local semantic embeddings as primary implementation {
+  "component": "fixed-semantic-context-adapter"
+}
+[2025-06-07T20:29:36.760Z] INFO: Fixed Semantic Context Adapter initialized successfully as standalone component {
+  "component": "fixed-semantic-context-adapter"
+}
+[2025-06-07T20:29:36.760Z] INFO: Component initialized successfully: fixed-semantic-context-adapter {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:29:36.760Z] INFO: Loaded 0 memory items from index {
+  "component": "conversation-memory-manager"
+}
+[2025-06-07T20:29:36.760Z] INFO: Conversation memory manager initialized successfully {
+  "component": "conversation-memory-manager"
+}
+[2025-06-07T20:29:36.760Z] INFO: ✅ Loaded 0 memory nodes. {
+  "component": "memory-loader"
+}
+[2025-06-07T20:29:36.760Z] INFO: ✅ Leo runtime is initialized and ready. {
+  "component": "leo-unified-runtime"
+}
+[2025-06-07T20:29:36.760Z] INFO: [LEO_RUNTIME_DEBUG] Entered runLeoPrompt() {
+  "component": "leo-unified-runtime"
+}
+[2025-06-07T20:29:36.760Z] INFO: Initializing local semantic search... {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:29:36.761Z] INFO: Loading chunks from /Users/stephenmansfield/Projects/Leo/lib/core/data/chunks.jsonl... {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:29:36.761Z] INFO: Successfully loaded 1 chunks {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:29:36.761Z] INFO: Loading embeddings from /Users/stephenmansfield/Projects/Leo/lib/core/data/embeddings.jsonl... {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:29:36.761Z] INFO: Successfully loaded 0 embeddings {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:29:36.761Z] WARN: 1 chunks are missing corresponding embeddings {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:29:36.762Z] INFO: Building corpus statistics for fallback search... {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:29:36.762Z] INFO: Corpus statistics built: 0 terms in 1 documents {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:29:36.762Z] INFO: Initialization complete in 2ms {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:29:36.762Z] INFO: Loaded 1 chunks and 0 embeddings {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:29:36.762Z] INFO: Performing semantic search for: "What are the foundational architectural goals of Leo?" {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:29:36.762Z] WARN: Embedding script not found: /Users/stephenmansfield/Projects/Leo/lib/core/lib/embeddings/generate-embedding.js {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:29:36.762Z] WARN: Falling back to keyword search due to missing embeddings {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:29:36.762Z] INFO: Fallback search completed in 0ms with 0 results {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:29:36.762Z] INFO: 🔍 No relevant memory context found. {
+  "component": "search-engine"
+}
+[2025-06-07T20:30:36.747Z] INFO: Running system health check {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:30:36.749Z] INFO: Checking health of component: event-bus {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:30:36.749Z] INFO: Checking health of component: dependency-resolver {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:30:36.750Z] INFO: Checking integrity of data: embeddings {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:30:36.751Z] INFO: Checking integrity of data: chunks {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:30:36.753Z] INFO: Health check completed in 4ms, overall health: healthy {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:39:34.964Z] INFO: Event bus initialized {
+  "component": "event-bus"
+}
+[2025-06-07T20:39:34.964Z] INFO: Auto-initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-07T20:39:34.964Z] INFO: Initializing configuration service {
+  "component": "config-service"
+}
+[2025-06-07T20:39:34.968Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:39:34.968Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:39:34.968Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:39:34.968Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:39:34.968Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:39:34.968Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:39:34.968Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:39:34.968Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:39:34.969Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:39:34.969Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:39:34.969Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:39:34.969Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:39:34.970Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:39:34.970Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:39:34.970Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:39:34.970Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:39:34.970Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:39:34.970Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:39:34.970Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:39:34.970Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:39:34.970Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:39:34.970Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:39:34.970Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:39:34.970Z] WARN: Configuration service not initialized, using default values {
+  "component": "config-service"
+}
+[2025-06-07T20:39:34.970Z] INFO: Configuration initialized {
+  "component": "semantic-context-manager",
+  "maxResults": 10,
+  "useSemanticChunker": true,
+  "embeddingDimensions": 384
+}
+[2025-06-07T20:39:34.970Z] WARN: Configuration service not initialized, subscription may not work {
+  "component": "config-service"
+}
+[2025-06-07T20:39:34.973Z] INFO: Loading configuration {
+  "component": "config"
+}
+[2025-06-07T20:39:34.973Z] INFO: No configuration file found, using defaults and environment variables {
+  "component": "config"
+}
+[2025-06-07T20:39:34.973Z] INFO: Configuration loaded successfully {
+  "component": "config"
+}
+[2025-06-07T20:39:34.973Z] INFO: Configuration sources: {
+  "component": "config",
+  "defaults": true,
+  "leorc": false,
+  "environment": false
+}
+[2025-06-07T20:39:34.973Z] INFO: File verification: {
+  "component": "config",
+  "embeddingsFile": "/Users/stephenmansfield/Projects/Leo/data/embeddings/embeddings.jsonl",
+  "embeddingsExists": true,
+  "chunksFile": "/Users/stephenmansfield/Projects/Leo/data/chunks/chunks.jsonl",
+  "chunksExists": true
+}
+[2025-06-07T20:39:34.973Z] INFO: [LEO_RUNTIME_DEBUG] Entered initializeLeo() {
+  "component": "leo-unified-runtime"
+}
+[2025-06-07T20:39:34.973Z] INFO: 🧠 Initializing Leo with local LLM interface (Qwen2.5-Coder 32B)... {
+  "component": "leo-unified-runtime"
+}
+[2025-06-07T20:39:34.981Z] INFO: Configuration loaded successfully {
+  "component": "config-service"
+}
+[2025-06-07T20:39:34.981Z] INFO: Configuration service initialized successfully {
+  "component": "config-service"
+}
+[2025-06-07T20:39:34.985Z] INFO: ✅ Ollama shell initialized (Qwen2.5-Coder 32B) {
+  "component": "local-llm-interface"
+}
+[2025-06-07T20:39:34.985Z] INFO: 🧠 Loading persistent memory graph... {
+  "component": "leo-unified-runtime"
+}
+[2025-06-07T20:39:34.985Z] INFO: 📚 Loading full memory graph via conversation-memory-manager... {
+  "component": "memory-loader"
+}
+[2025-06-07T20:39:34.985Z] WARN: getFullMemoryGraph called before ConversationMemoryManager is initialized. Attempting to initialize... {
+  "component": "conversation-memory-manager"
+}
+[2025-06-07T20:39:34.985Z] INFO: Initializing conversation memory manager... {
+  "component": "conversation-memory-manager"
+}
+[2025-06-07T20:39:34.985Z] INFO: Memory directory created: /Users/stephenmansfield/Projects/Leo/lib/core/data/memory {
+  "component": "conversation-memory-manager"
+}
+[2025-06-07T20:39:34.985Z] INFO: Narrative directory created: /Users/stephenmansfield/Projects/Leo/lib/core/data/narrative {
+  "component": "conversation-memory-manager"
+}
+[2025-06-07T20:39:34.985Z] INFO: Registering component: conversation-memory-manager {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:39:34.986Z] INFO: Component registered: conversation-memory-manager with dependencies: conversation-semantic-search, conversation-summarizer, change-linking-service, fixed-semantic-context-adapter {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:39:34.986Z] INFO: Initializing System Health Monitor {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:39:34.986Z] INFO: Registering health check for component: event-bus {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:39:34.986Z] INFO: Registering health check for component: dependency-resolver {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:39:34.986Z] INFO: Registering data integrity check for: embeddings {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:39:34.986Z] INFO: Registering data integrity check for: chunks {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:39:34.986Z] INFO: Starting System Health Monitor {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:39:34.986Z] INFO: Running one-time health check {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:39:34.986Z] INFO: Running system health check {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:39:34.986Z] INFO: Checking health of component: event-bus {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:39:34.986Z] INFO: Checking health of component: dependency-resolver {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:39:34.986Z] INFO: Checking integrity of data: embeddings {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:39:34.987Z] INFO: Checking integrity of data: chunks {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:39:34.987Z] INFO: Health check completed in 1ms, overall health: healthy {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:39:34.987Z] INFO: System Health Monitor started with check interval: 60000ms {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:39:34.987Z] INFO: System Health Monitor initialized successfully {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:39:34.987Z] INFO: Initializing component: conversation-semantic-search {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:39:34.987Z] WARN: Component conversation-semantic-search not registered, initializing without dependency resolution {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:39:34.987Z] INFO: Initializing conversation semantic search service {
+  "component": "conversation-semantic-search"
+}
+[2025-06-07T20:39:34.987Z] INFO: Initializing conversation chunker adapter {
+  "component": "conversation-chunker-adapter"
+}
+[2025-06-07T20:39:34.987Z] INFO: Initializing semantic chunker adapter {
+  "component": "semantic-chunker-adapter"
+}
+[2025-06-07T20:39:34.987Z] INFO: Initializing semantic chunker... {
+  "component": "semantic-chunker"
+}
+[2025-06-07T20:39:34.987Z] INFO: Configuration initialized {
+  "component": "semantic-chunker",
+  "maxChunkSize": 1000,
+  "minChunkSize": 100,
+  "overlapSize": 20
+}
+[2025-06-07T20:39:34.987Z] INFO: Semantic chunker initialized successfully {
+  "component": "semantic-chunker"
+}
+[2025-06-07T20:39:34.987Z] INFO: Semantic chunker adapter initialized successfully {
+  "component": "semantic-chunker-adapter"
+}
+[2025-06-07T20:39:34.987Z] INFO: Conversation chunker adapter initialized successfully {
+  "component": "conversation-chunker-adapter"
+}
+[2025-06-07T20:39:34.987Z] INFO: Initializing conversation embeddings adapter {
+  "component": "conversation-embeddings-adapter"
+}
+[2025-06-07T20:39:34.987Z] INFO: No corpus statistics file found, using defaults {
+  "component": "semantic-embeddings"
+}
+[2025-06-07T20:39:34.987Z] INFO: Semantic embeddings module initialized successfully {
+  "component": "semantic-embeddings"
+}
+[2025-06-07T20:39:34.987Z] INFO: Loading corpus statistics from /Users/stephenmansfield/Projects/Leo/lib/core/data/cache/corpus-stats.json {
+  "component": "true-semantic-embeddings"
+}
+[2025-06-07T20:39:34.987Z] INFO: No corpus statistics file found, using defaults {
+  "component": "true-semantic-embeddings"
+}
+[2025-06-07T20:39:34.987Z] INFO: True semantic embeddings initialized successfully {
+  "component": "true-semantic-embeddings"
+}
+[2025-06-07T20:39:34.988Z] INFO: Created new embeddings cache {
+  "component": "conversation-embeddings-adapter"
+}
+[2025-06-07T20:39:34.988Z] INFO: Conversation embeddings adapter initialized successfully {
+  "component": "conversation-embeddings-adapter"
+}
+[2025-06-07T20:39:34.988Z] INFO: Created new conversation index {
+  "component": "conversation-semantic-search"
+}
+[2025-06-07T20:39:34.988Z] INFO: Conversation semantic search service initialized successfully {
+  "component": "conversation-semantic-search"
+}
+[2025-06-07T20:39:34.988Z] INFO: Component initialized successfully: conversation-semantic-search {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:39:34.988Z] INFO: Initializing component: conversation-summarizer {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:39:34.988Z] WARN: Component conversation-summarizer not registered, initializing without dependency resolution {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:39:34.988Z] INFO: Initializing conversation summarizer service... {
+  "component": "conversation-summarizer"
+}
+[2025-06-07T20:39:34.988Z] INFO: Summary storage directory created: /Users/stephenmansfield/Projects/Leo/lib/core/data/summaries {
+  "component": "conversation-summarizer"
+}
+[2025-06-07T20:39:34.988Z] INFO: Loaded metadata for 0 summaries {
+  "component": "conversation-summarizer"
+}
+[2025-06-07T20:39:34.988Z] INFO: Conversation summarizer service initialized successfully {
+  "component": "conversation-summarizer"
+}
+[2025-06-07T20:39:34.988Z] INFO: Component initialized successfully: conversation-summarizer {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:39:34.988Z] INFO: Initializing component: change-linking-service {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:39:34.988Z] WARN: Component change-linking-service not registered, initializing without dependency resolution {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:39:34.989Z] INFO: Initializing change linking service... {
+  "component": "change-linking-service"
+}
+[2025-06-07T20:39:34.989Z] INFO: Link storage directory created: /Users/stephenmansfield/Projects/Leo/lib/core/data/links {
+  "component": "change-linking-service"
+}
+[2025-06-07T20:39:35.001Z] INFO: Git is available for change tracking {
+  "component": "change-linking-service"
+}
+[2025-06-07T20:39:35.001Z] INFO: Loaded 0 change links {
+  "component": "change-linking-service"
+}
+[2025-06-07T20:39:35.001Z] INFO: Git-based change tracking enabled {
+  "component": "change-linking-service"
+}
+[2025-06-07T20:39:35.001Z] INFO: Change linking service initialized successfully {
+  "component": "change-linking-service"
+}
+[2025-06-07T20:39:35.001Z] INFO: Component initialized successfully: change-linking-service {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:39:35.001Z] INFO: Initializing component: fixed-semantic-context-adapter {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:39:35.001Z] WARN: Component fixed-semantic-context-adapter not registered, initializing without dependency resolution {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:39:35.001Z] INFO: Initializing Fixed Semantic Context Adapter as standalone component {
+  "component": "fixed-semantic-context-adapter"
+}
+[2025-06-07T20:39:35.002Z] INFO: Checking and repairing embeddings files {
+  "component": "fixed-semantic-context-adapter"
+}
+[2025-06-07T20:39:35.002Z] INFO: Embeddings files checked and repaired successfully {
+  "component": "fixed-semantic-context-adapter"
+}
+[2025-06-07T20:39:35.002Z] INFO: Setting up embeddings interface {
+  "component": "fixed-semantic-context-adapter"
+}
+[2025-06-07T20:39:35.002Z] INFO: Using local semantic embeddings as primary implementation {
+  "component": "fixed-semantic-context-adapter"
+}
+[2025-06-07T20:39:35.002Z] INFO: Fixed Semantic Context Adapter initialized successfully as standalone component {
+  "component": "fixed-semantic-context-adapter"
+}
+[2025-06-07T20:39:35.002Z] INFO: Component initialized successfully: fixed-semantic-context-adapter {
+  "component": "dependency-resolver"
+}
+[2025-06-07T20:39:35.002Z] INFO: Loaded 0 memory items from index {
+  "component": "conversation-memory-manager"
+}
+[2025-06-07T20:39:35.002Z] INFO: Conversation memory manager initialized successfully {
+  "component": "conversation-memory-manager"
+}
+[2025-06-07T20:39:35.002Z] INFO: ✅ Loaded 0 memory nodes. {
+  "component": "memory-loader"
+}
+[2025-06-07T20:39:35.002Z] INFO: ✅ Leo runtime is initialized and ready. {
+  "component": "leo-unified-runtime"
+}
+[2025-06-07T20:39:35.002Z] INFO: [LEO_RUNTIME_DEBUG] Entered runLeoPrompt() {
+  "component": "leo-unified-runtime"
+}
+[2025-06-07T20:39:35.002Z] INFO: Initializing local semantic search... {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:39:35.003Z] INFO: Loading chunks from /Users/stephenmansfield/Projects/Leo/lib/core/data/chunks.jsonl... {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:39:35.003Z] INFO: Successfully loaded 1 chunks {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:39:35.003Z] INFO: Loading embeddings from /Users/stephenmansfield/Projects/Leo/lib/core/data/embeddings.jsonl... {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:39:35.003Z] INFO: Successfully loaded 0 embeddings {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:39:35.003Z] WARN: 1 chunks are missing corresponding embeddings {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:39:35.004Z] INFO: Building corpus statistics for fallback search... {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:39:35.004Z] INFO: Corpus statistics built: 0 terms in 1 documents {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:39:35.004Z] INFO: Initialization complete in 2ms {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:39:35.004Z] INFO: Loaded 1 chunks and 0 embeddings {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:39:35.004Z] INFO: Performing semantic search for: "What are the foundational architectural goals of Leo?" {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:39:35.004Z] WARN: Embedding script not found: /Users/stephenmansfield/Projects/Leo/lib/core/lib/embeddings/generate-embedding.js {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:39:35.004Z] WARN: Falling back to keyword search due to missing embeddings {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:39:35.004Z] INFO: Fallback search completed in 0ms with 0 results {
+  "component": "local-semantic-search"
+}
+[2025-06-07T20:39:35.004Z] INFO: 🔍 No relevant memory context found. {
+  "component": "search-engine"
+}
+[2025-06-07T20:40:34.989Z] INFO: Running system health check {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:40:34.991Z] INFO: Checking health of component: event-bus {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:40:34.992Z] INFO: Checking health of component: dependency-resolver {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:40:34.992Z] INFO: Checking integrity of data: embeddings {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:40:34.995Z] INFO: Checking integrity of data: chunks {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:40:34.997Z] INFO: Health check completed in 6ms, overall health: healthy {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:41:34.990Z] INFO: Running system health check {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:41:34.991Z] INFO: Checking health of component: event-bus {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:41:34.992Z] INFO: Checking health of component: dependency-resolver {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:41:34.992Z] INFO: Checking integrity of data: embeddings {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:41:34.995Z] INFO: Checking integrity of data: chunks {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:41:34.996Z] INFO: Health check completed in 5ms, overall health: healthy {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:42:34.992Z] INFO: Running system health check {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:42:34.993Z] INFO: Checking health of component: event-bus {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:42:34.994Z] INFO: Checking health of component: dependency-resolver {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:42:34.994Z] INFO: Checking integrity of data: embeddings {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:42:34.997Z] INFO: Checking integrity of data: chunks {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:42:34.999Z] INFO: Health check completed in 6ms, overall health: healthy {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:43:34.976Z] INFO: Running system health check {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:43:34.977Z] INFO: Checking health of component: event-bus {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:43:34.977Z] INFO: Checking health of component: dependency-resolver {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:43:34.978Z] INFO: Checking integrity of data: embeddings {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:43:34.979Z] INFO: Checking integrity of data: chunks {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:43:34.980Z] INFO: Health check completed in 3ms, overall health: healthy {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:44:34.976Z] INFO: Running system health check {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:44:34.977Z] INFO: Checking health of component: event-bus {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:44:34.978Z] INFO: Checking health of component: dependency-resolver {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:44:34.978Z] INFO: Checking integrity of data: embeddings {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:44:34.980Z] INFO: Checking integrity of data: chunks {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:44:34.982Z] INFO: Health check completed in 5ms, overall health: healthy {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:45:34.978Z] INFO: Running system health check {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:45:34.979Z] INFO: Checking health of component: event-bus {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:45:34.979Z] INFO: Checking health of component: dependency-resolver {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:45:34.980Z] INFO: Checking integrity of data: embeddings {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:45:34.982Z] INFO: Checking integrity of data: chunks {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:45:34.984Z] INFO: Health check completed in 5ms, overall health: healthy {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:46:34.979Z] INFO: Running system health check {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:46:34.980Z] INFO: Checking health of component: event-bus {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:46:34.981Z] INFO: Checking health of component: dependency-resolver {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:46:34.981Z] INFO: Checking integrity of data: embeddings {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:46:34.982Z] INFO: Checking integrity of data: chunks {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:46:34.983Z] INFO: Health check completed in 3ms, overall health: healthy {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:47:34.980Z] INFO: Running system health check {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:47:34.980Z] INFO: Checking health of component: event-bus {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:47:34.981Z] INFO: Checking health of component: dependency-resolver {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:47:34.981Z] INFO: Checking integrity of data: embeddings {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:47:34.981Z] INFO: Checking integrity of data: chunks {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:47:34.982Z] INFO: Health check completed in 2ms, overall health: healthy {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:48:34.981Z] INFO: Running system health check {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:48:34.982Z] INFO: Checking health of component: event-bus {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:48:34.982Z] INFO: Checking health of component: dependency-resolver {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:48:34.982Z] INFO: Checking integrity of data: embeddings {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:48:34.983Z] INFO: Checking integrity of data: chunks {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:48:34.984Z] INFO: Health check completed in 3ms, overall health: healthy {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:49:34.983Z] INFO: Running system health check {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:49:34.983Z] INFO: Checking health of component: event-bus {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:49:34.984Z] INFO: Checking health of component: dependency-resolver {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:49:34.984Z] INFO: Checking integrity of data: embeddings {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:49:34.986Z] INFO: Checking integrity of data: chunks {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:49:34.987Z] INFO: Health check completed in 4ms, overall health: healthy {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:50:34.985Z] INFO: Running system health check {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:50:34.986Z] INFO: Checking health of component: event-bus {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:50:34.986Z] INFO: Checking health of component: dependency-resolver {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:50:34.987Z] INFO: Checking integrity of data: embeddings {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:50:34.988Z] INFO: Checking integrity of data: chunks {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:50:34.988Z] INFO: Health check completed in 2ms, overall health: healthy {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:51:34.985Z] INFO: Running system health check {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:51:34.986Z] INFO: Checking health of component: event-bus {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:51:34.986Z] INFO: Checking health of component: dependency-resolver {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:51:34.987Z] INFO: Checking integrity of data: embeddings {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:51:34.989Z] INFO: Checking integrity of data: chunks {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:51:34.990Z] INFO: Health check completed in 4ms, overall health: healthy {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:52:34.986Z] INFO: Running system health check {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:52:34.987Z] INFO: Checking health of component: event-bus {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:52:34.988Z] INFO: Checking health of component: dependency-resolver {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:52:34.988Z] INFO: Checking integrity of data: embeddings {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:52:34.989Z] INFO: Checking integrity of data: chunks {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:52:34.990Z] INFO: Health check completed in 3ms, overall health: healthy {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:53:34.987Z] INFO: Running system health check {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:53:34.988Z] INFO: Checking health of component: event-bus {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:53:34.988Z] INFO: Checking health of component: dependency-resolver {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:53:34.988Z] INFO: Checking integrity of data: embeddings {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:53:34.989Z] INFO: Checking integrity of data: chunks {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:53:34.990Z] INFO: Health check completed in 2ms, overall health: healthy {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:54:34.989Z] INFO: Running system health check {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:54:34.990Z] INFO: Checking health of component: event-bus {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:54:34.991Z] INFO: Checking health of component: dependency-resolver {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:54:34.991Z] INFO: Checking integrity of data: embeddings {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:54:34.992Z] INFO: Checking integrity of data: chunks {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:54:34.994Z] INFO: Health check completed in 4ms, overall health: healthy {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:55:34.990Z] INFO: Running system health check {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:55:34.991Z] INFO: Checking health of component: event-bus {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:55:34.991Z] INFO: Checking health of component: dependency-resolver {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:55:34.991Z] INFO: Checking integrity of data: embeddings {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:55:34.992Z] INFO: Checking integrity of data: chunks {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:55:34.993Z] INFO: Health check completed in 2ms, overall health: healthy {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:56:34.992Z] INFO: Running system health check {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:56:34.992Z] INFO: Checking health of component: event-bus {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:56:34.992Z] INFO: Checking health of component: dependency-resolver {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:56:34.993Z] INFO: Checking integrity of data: embeddings {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:56:34.993Z] INFO: Checking integrity of data: chunks {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:56:34.994Z] INFO: Health check completed in 2ms, overall health: healthy {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:57:34.993Z] INFO: Running system health check {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:57:34.994Z] INFO: Checking health of component: event-bus {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:57:34.994Z] INFO: Checking health of component: dependency-resolver {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:57:34.995Z] INFO: Checking integrity of data: embeddings {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:57:34.996Z] INFO: Checking integrity of data: chunks {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:57:34.997Z] INFO: Health check completed in 3ms, overall health: healthy {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:58:34.994Z] INFO: Running system health check {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:58:34.995Z] INFO: Checking health of component: event-bus {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:58:34.995Z] INFO: Checking health of component: dependency-resolver {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:58:34.996Z] INFO: Checking integrity of data: embeddings {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:58:34.997Z] INFO: Checking integrity of data: chunks {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:58:34.999Z] INFO: Health check completed in 4ms, overall health: healthy {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:59:34.995Z] INFO: Running system health check {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:59:34.996Z] INFO: Checking health of component: event-bus {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:59:34.996Z] INFO: Checking health of component: dependency-resolver {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:59:34.996Z] INFO: Checking integrity of data: embeddings {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:59:34.996Z] INFO: Checking integrity of data: chunks {
+  "component": "system-health-monitor"
+}
+[2025-06-07T20:59:34.996Z] INFO: Health check completed in 0ms, overall health: healthy {
+  "component": "system-health-monitor"
+}
+[2025-06-07T21:00:34.996Z] INFO: Running system health check {
+  "component": "system-health-monitor"
+}
+[2025-06-07T21:00:34.997Z] INFO: Checking health of component: event-bus {
+  "component": "system-health-monitor"
+}
+[2025-06-07T21:00:34.998Z] INFO: Checking health of component: dependency-resolver {
+  "component": "system-health-monitor"
+}
+[2025-06-07T21:00:34.998Z] INFO: Checking integrity of data: embeddings {
+  "component": "system-health-monitor"
+}
+[2025-06-07T21:00:34.999Z] INFO: Checking integrity of data: chunks {
+  "component": "system-health-monitor"
+}
+[2025-06-07T21:00:35.000Z] INFO: Health check completed in 3ms, overall health: healthy {
+  "component": "system-health-monitor"
+}
+[2025-06-07T21:01:34.999Z] INFO: Running system health check {
+  "component": "system-health-monitor"
+}
+[2025-06-07T21:01:34.999Z] INFO: Checking health of component: event-bus {
+  "component": "system-health-monitor"
+}
+[2025-06-07T21:01:34.999Z] INFO: Checking health of component: dependency-resolver {
+  "component": "system-health-monitor"
+}
+[2025-06-07T21:01:35.000Z] INFO: Checking integrity of data: embeddings {
+  "component": "system-health-monitor"
+}
+[2025-06-07T21:01:35.001Z] INFO: Checking integrity of data: chunks {
+  "component": "system-health-monitor"
+}
+[2025-06-07T21:01:35.001Z] INFO: Health check completed in 2ms, overall health: healthy {
+  "component": "system-health-monitor"
+}
+[2025-06-07T21:02:34.999Z] INFO: Running system health check {
+  "component": "system-health-monitor"
+}
+[2025-06-07T21:02:34.999Z] INFO: Checking health of component: event-bus {
+  "component": "system-health-monitor"
+}
+[2025-06-07T21:02:35.000Z] INFO: Checking health of component: dependency-resolver {
+  "component": "system-health-monitor"
+}
+[2025-06-07T21:02:35.000Z] INFO: Checking integrity of data: embeddings {
+  "component": "system-health-monitor"
+}
+[2025-06-07T21:02:35.001Z] INFO: Checking integrity of data: chunks {
+  "component": "system-health-monitor"
+}
+[2025-06-07T21:02:35.002Z] INFO: Health check completed in 3ms, overall health: healthy {
+  "component": "system-health-monitor"
+}
+[2025-06-07T21:03:35.000Z] INFO: Running system health check {
+  "component": "system-health-monitor"
+}
+[2025-06-07T21:03:35.000Z] INFO: Checking health of component: event-bus {
+  "component": "system-health-monitor"
+}
+[2025-06-07T21:03:35.000Z] INFO: Checking health of component: dependency-resolver {
+  "component": "system-health-monitor"
+}
+[2025-06-07T21:03:35.000Z] INFO: Checking integrity of data: embeddings {
+  "component": "system-health-monitor"
+}
+[2025-06-07T21:03:35.001Z] INFO: Checking integrity of data: chunks {
+  "component": "system-health-monitor"
+}
+[2025-06-07T21:03:35.001Z] INFO: Health check completed in 1ms, overall health: healthy {
+  "component": "system-health-monitor"
+}
+[2025-06-07T21:04:35.000Z] INFO: Running system health check {
+  "component": "system-health-monitor"
+}
+[2025-06-07T21:04:35.001Z] INFO: Checking health of component: event-bus {
+  "component": "system-health-monitor"
+}
+[2025-06-07T21:04:35.001Z] INFO: Checking health of component: dependency-resolver {
+  "component": "system-health-monitor"
+}
+[2025-06-07T21:04:35.002Z] INFO: Checking integrity of data: embeddings {
+  "component": "system-health-monitor"
+}
+[2025-06-07T21:04:35.003Z] INFO: Checking integrity of data: chunks {
+  "component": "system-health-monitor"
+}
+[2025-06-07T21:04:35.004Z] INFO: Health check completed in 3ms, overall health: healthy {
+  "component": "system-health-monitor"
+}

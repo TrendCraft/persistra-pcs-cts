@@ -1,0 +1,12 @@
+{
+  "totalDocuments": 0,
+  "totalTokens": 0,
+  "averageDocumentLength": 0,
+  "vocabulary": [],
+  "vocabularySize": 0,
+  "documentFrequency": {},
+  "inverseDocumentFrequency": {},
+  "termFrequency": {},
+  "cooccurrenceMatrix": {},
+  "semanticClusters": {}
+}
