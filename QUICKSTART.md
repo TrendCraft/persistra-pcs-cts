@@ -6,7 +6,7 @@
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/TrendCraft/persistra-pcs-cts.git
+git clone --branch pcs-cts-v1.0.1 https://github.com/TrendCraft/persistra-pcs-cts.git
 cd persistra-pcs-cts
 
 # 2. Install dependencies
@@ -34,11 +34,11 @@ npm run test:l1 && npm run test:l2
 
 ## Test Suite Version
 
-This package is frozen at tag: `pcs-cts-v1.0`
+This package is frozen at tag: `pcs-cts-v1.0.1`
 
 To use the exact validated version:
 ```bash
-git clone --branch pcs-cts-v1.0 https://github.com/TrendCraft/persistra-pcs-cts.git
+git clone --branch pcs-cts-v1.0.1 https://github.com/TrendCraft/persistra-pcs-cts.git
 ```
 
 ## Support
@@ -50,7 +50,8 @@ git clone --branch pcs-cts-v1.0 https://github.com/TrendCraft/persistra-pcs-cts.
 
 ---
 
-**Version:** PCS-CTS 1.0  
+**Version:** PCS-CTS 1.0.1  
 **Validated:** Claude (Anthropic)  
 **Security Audit:** Passed (no hardcoded credentials)  
+**Anti-Subsumption Safeguards:** Included  
 **Independent Validation:** Carnegie Mellon SEI (pending), MIT CSAIL (pending)

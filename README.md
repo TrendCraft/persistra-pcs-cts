@@ -290,8 +290,8 @@ This test suite is provided for independent validation purposes. Use for PCS con
 
 ## 🏷️ Version Information
 
-**Version:** PCS-CTS 1.0  
-**Status:** Production  
+**Version:** PCS-CTS 1.0.1  
+**Status:** Production (includes anti-subsumption safeguards)  
 **Last Updated:** February 2026  
 **PCS Compatibility:** RFC-PCS-0001 through RFC-PCS-0007  
 **Validated By:** Carnegie Mellon SEI (pending), MIT CSAIL (pending)

@@ -25,7 +25,7 @@ https://github.com/TrendCraft/persistra-pcs-cts
 
 **Immutable Version (Recommended):**
 ```bash
-git clone --branch pcs-cts-v1.0 https://github.com/TrendCraft/persistra-pcs-cts.git
+git clone --branch pcs-cts-v1.0.1 https://github.com/TrendCraft/persistra-pcs-cts.git
 ```
 
 **Latest Version:**
@@ -39,7 +39,7 @@ git clone https://github.com/TrendCraft/persistra-pcs-cts.git
 
 ```bash
 # 1. Clone repository
-git clone --branch pcs-cts-v1.0 https://github.com/TrendCraft/persistra-pcs-cts.git
+git clone --branch pcs-cts-v1.0.1 https://github.com/TrendCraft/persistra-pcs-cts.git
 cd persistra-pcs-cts
 
 # 2. Install dependencies
@@ -272,7 +272,7 @@ Upon completion of validation, please provide:
 4. **Optional: Attestation**
    - Signed declaration of validation results
    - CMU SEI identification and credentials
-   - Test suite version confirmation (pcs-cts-v1.0)
+   - Test suite version confirmation (pcs-cts-v1.0.1)
 
 ### Reporting Format
 
@@ -280,7 +280,7 @@ Upon completion of validation, please provide:
 ```json
 {
   "validation_lab": "Carnegie Mellon University - Software Engineering Institute",
-  "test_suite_version": "pcs-cts-v1.0",
+  "test_suite_version": "pcs-cts-v1.0.1",
   "execution_date": "YYYY-MM-DD",
   "environment": {
     "node_version": "v18.x.x",
@@ -381,7 +381,7 @@ This test suite is provided under an evaluation license for independent validati
 
 1. **Internal Use Only.** CMU SEI may execute PCS-CTS internally for evaluation and reporting to Exocortical Concepts, Inc.
 
-2. **No Publication / No Publicity.** CMU SEI will not publish, present, or publicly reference PCS-CTS, Persistra, PCS, or validation outcomes (including on websites, papers, slides, press releases, social posts, or proposals) without prior mutual written approval of specific text.
+2. **No Publication / No Publicity.** CMU SEI will not publish, present, or publicly reference PCS-CTS, Persistra, PCS, or validation outcomes (including on websites, papers, slides, press releases, social posts, proposals, grant proposals, funding applications, or client briefings) without prior mutual written approval of specific text.
 
 3. **Factual Report Allowed.** CMU SEI may provide Exocortical Concepts, Inc. a factual execution report (pass/fail, environment, logs, artifacts).
 
@@ -389,7 +389,7 @@ This test suite is provided under an evaluation license for independent validati
 
 5. **No Patent License.** Execution or receipt of PCS-CTS grants no license to any patents or patent applications; licensing (if any) is by separate written agreement.
 
-6. **Attribution.** If a mutually approved public statement occurs, it will be limited to factual execution outcomes and will include the exact suite version tag (pcs-cts-v1.0).
+6. **Attribution.** If a mutually approved public statement occurs, it will be limited to factual execution outcomes and will include the exact suite version tag (pcs-cts-v1.0.1).
 
 ### Data Handling
 
@@ -414,10 +414,10 @@ Thank you for considering participation in the validation of persistent cognitiv
 
 ## Version Information
 
-**Package Version:** PCS-CTS 1.0  
-**Tag:** pcs-cts-v1.0  
+**Package Version:** PCS-CTS 1.0.1  
+**Tag:** pcs-cts-v1.0.1  
 **Date:** February 2026  
-**Status:** Production  
+**Status:** Production (includes anti-subsumption safeguards)  
 **PCS Compatibility:** RFC-PCS-0001 through RFC-PCS-0007
 
 ---
