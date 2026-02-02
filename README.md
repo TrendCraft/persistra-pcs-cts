@@ -46,6 +46,7 @@ npm test           # Run all tests
 
 - **PCS_CONFORMANCE_TEST_SUITE.md**: Complete test execution guide
 - **PCS_VALIDATION_BRIEF.md**: Validation overview and architectural context
+- **PATENT_NOTICE.md**: Patent disclosure and licensing notice
 - **PCS Specifications**: See https://persistra.com/standards/pcs/
 
 ## 🔧 Prerequisites
@@ -269,22 +270,30 @@ https://github.com/TrendCraft/persistra-pcs-cts
 **PCS Specifications:**
 https://persistra.com/standards/pcs/
 
-**Validation Inquiries:**
-validation@persistra.com
+**All Inquiries:**
+info@exocorticalconcepts.com
 
-**Certification Program:**
-certification@persistra.com
-
-**Technical Support:**
-support@persistra.com
+**Patent and Licensing:**
+info@exocorticalconcepts.com (Subject: PCS Patent Inquiry)
 
 ---
 
-## 📄 License
+## 📄 License and Intellectual Property
 
-**Proprietary**
+**Evaluation License**
 
-This test suite is provided for independent validation purposes. Use for PCS conformance testing does not grant patent licenses. See RFC-PCS-0007 for FRAND licensing framework.
+This test suite is provided for independent validation purposes under an evaluation license.
+
+**Patent Notice:**
+- Implementations of PCS may involve patented technology
+- Execution of PCS-CTS does not grant patent licenses
+- See **PATENT_NOTICE.md** for complete patent disclosure
+- See RFC-PCS-0007 for FRAND licensing framework
+
+**Key Points:**
+- Technical conformance and IP rights are independent considerations
+- Licensing (if required) is subject to separate written agreement
+- All patent rights are expressly reserved
 
 ---
 
@@ -306,6 +315,6 @@ If you are an independent validation lab executing this test suite:
 2. **Follow the Quick Start** instructions exactly
 3. **Preserve all audit artifacts** in `leo2/validation/audit/`
 4. **Document test results** using provided JSON format
-5. **Submit validation report** to validation@persistra.com
+5. **Submit validation report** to info@exocorticalconcepts.com
 
 Thank you for contributing to the validation of persistent cognitive standards.

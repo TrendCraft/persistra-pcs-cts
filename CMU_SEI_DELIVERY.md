@@ -231,6 +231,11 @@ tar -czf pcs-cts-audit-$(date +%Y%m%d).tar.gz leo2/validation/audit/
    - Complete test definitions
    - Expected results and pass criteria
 
+5. **PATENT_NOTICE.md**
+   - Patent disclosure and licensing notice
+   - Relationship between technical conformance and IP rights
+   - FRAND licensing framework overview
+
 ### PCS Specifications
 
 Full PCS specifications available at:
@@ -364,6 +369,24 @@ https://github.com/TrendCraft/persistra-pcs-cts/issues
 
 ---
 
+## Patent and Intellectual Property Notice
+
+**Important:** Implementations of PCS may involve patented technology owned by Exocortical Concepts, Inc.
+
+**Key Points:**
+- Execution of PCS-CTS does not grant patent licenses
+- Technical conformance and IP rights are independent considerations
+- Licensing (if required) is subject to separate written agreement under FRAND terms
+- See **PATENT_NOTICE.md** for complete disclosure
+- See RFC-PCS-0007 for FRAND licensing framework
+
+**For CMU SEI:**
+- Evaluation and validation are strictly technical in nature
+- No patent licenses are granted by implication, estoppel, or execution
+- Patent inquiries: info@exocorticalconcepts.com (Subject: PCS Patent Inquiry)
+
+---
+
 ## Confidentiality / Publication Control (Evaluation Terms)
 
 ### Test Suite License
@@ -380,6 +403,7 @@ This test suite is provided under an evaluation license for independent validati
 ### Publication and Disclosure Terms
 
 1. **Internal Use Only.** CMU SEI may execute PCS-CTS internally for evaluation and reporting to Exocortical Concepts, Inc.
+   PCS-CTS is publicly accessible for transparency; “Internal Use Only” governs execution outputs, reports, and external communications, not repository access.
 
 2. **No Publication / No Publicity.** CMU SEI will not publish, present, or publicly reference PCS-CTS, Persistra, PCS, or validation outcomes (including on websites, papers, slides, press releases, social posts, proposals, grant proposals, funding applications, or client briefings) without prior mutual written approval of specific text.
 
