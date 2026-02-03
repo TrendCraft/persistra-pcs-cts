@@ -47,7 +47,7 @@ npm test           # Run all tests
 - **PCS_CONFORMANCE_TEST_SUITE.md**: Complete test execution guide
 - **PCS_VALIDATION_BRIEF.md**: Validation overview and architectural context
 - **PATENT_NOTICE.md**: Patent disclosure and licensing notice
-- **PCS Specifications**: See https://persistra.com/standards/pcs/
+- **PCS Specifications**: See https://github.com/TrendCraft/pcs-spec
 
 ## 🔧 Prerequisites
 
@@ -268,7 +268,7 @@ npm run test:l1
 https://github.com/TrendCraft/persistra-pcs-cts
 
 **PCS Specifications:**
-https://persistra.com/standards/pcs/
+https://github.com/TrendCraft/pcs-spec
 
 **All Inquiries:**
 info@exocorticalconcepts.com

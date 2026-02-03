@@ -240,7 +240,7 @@ tar -czf pcs-cts-audit-$(date +%Y%m%d).tar.gz leo2/validation/audit/
 
 Full PCS specifications available at:
 ```
-https://persistra.com/standards/pcs/
+https://github.com/TrendCraft/pcs-spec
 ```
 
 **Relevant RFCs:**
