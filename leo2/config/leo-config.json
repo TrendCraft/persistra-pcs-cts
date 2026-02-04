@@ -1,0 +1,54 @@
+{
+  "version": "1.0.0",
+  "environment": "development",
+  "logging": {
+    "level": "info",
+    "format": "json",
+    "directory": "logs"
+  },
+  "thresholds": {
+    "visionAlignment": 0.75,
+    "driftDetection": 0.65,
+    "semanticSimilarity": 0.8
+  },
+  "services": {
+    "realTimeAwareness": {
+      "enabled": true,
+      "updateInterval": 5000
+    },
+    "visionAnchor": {
+      "enabled": true,
+      "checkFrequency": "high"
+    },
+    "metaCognitive": {
+      "enabled": true,
+      "reflectionInterval": 10000
+    },
+    "contextInjection": {
+      "enabled": true,
+      "strategy": "proactive"
+    }
+  },
+  "integration": {
+    "llmPlatform": {
+      "default": "anthropic",
+      "platforms": {
+        "windsurf": {
+          "enabled": true,
+          "apiVersion": "latest"
+        },
+        "openai": {
+          "enabled": false
+        },
+        "anthropic": {
+          "enabled": true,
+          "apiKey": "${ANTHROPIC_API_KEY}"
+        }
+      }
+    }
+  },
+  "dataStorage": {
+    "directory": "../data",
+    "backupFrequency": "daily"
+  }
+}
