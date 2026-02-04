@@ -6,13 +6,23 @@ const { extractClaudeText } = require('../../utils/extractClaudeText');
 
 const { getAnthropicApiKey } = require('./anthropicProvider');
 const CLAUDE_API_URL = 'https://api.anthropic.com/v1/messages';
-const CLAUDE_MODEL = 'claude-3-haiku-20240307';
+
+// PCS-CTS: Pin model and temperature for deterministic validation
+// Model: claude-3-5-sonnet-20241022 (tested and validated)
+// Temperature: 0 (deterministic responses)
+const CLAUDE_MODEL = process.env.CLAUDE_MODEL || 'claude-3-5-sonnet-20241022';
+const CLAUDE_TEMPERATURE = 0;
+const CLAUDE_MAX_TOKENS = 4096;
 
 class ClaudeLLMClient {
   constructor(options = {}) {
     this.model = options.model || CLAUDE_MODEL;
     this.endpoint = options.endpoint || CLAUDE_API_URL;
     // Don't cache API key in constructor - get it fresh each time
+    
+    // PCS-CTS: Retry configuration for transient failures
+    this.maxRetries = 3;
+    this.baseRetryDelay = 1000; // 1 second
   }
 
   get apiKey() {
@@ -27,8 +37,7 @@ class ClaudeLLMClient {
    * @returns {Promise<string>} LLM response
    */
   async generate(prompt, options = {}) {
-    console.log('[ClaudeLLMClient DEBUG] generate() called with prompt type:', typeof prompt, 'Array.isArray:', Array.isArray(prompt));
-    console.log('[ClaudeLLMClient DEBUG] prompt value:', JSON.stringify(prompt, null, 2));
+    console.log('[ClaudeLLMClient] generate() called');
     
     // Handle both old and new calling conventions
     let actualPrompt, max_tokens, temperature, context, systemPrompt;
@@ -36,23 +45,101 @@ class ClaudeLLMClient {
     if (typeof prompt === 'object' && prompt.prompt) {
       // New style: generate({ prompt, max_tokens, temperature, system })
       actualPrompt = prompt.prompt;
-      max_tokens = prompt.max_tokens || 2000;
-      temperature = prompt.temperature || 0.7;
+      max_tokens = prompt.max_tokens || CLAUDE_MAX_TOKENS;
+      temperature = CLAUDE_TEMPERATURE; // Always use deterministic temperature
       context = prompt.context || [];
       systemPrompt = prompt.system;
     } else {
       // Old style: generate(prompt, { max_tokens, temperature })
       actualPrompt = prompt;
-      max_tokens = options.max_tokens || 2000;
-      temperature = options.temperature || 0.7;
+      max_tokens = options.max_tokens || CLAUDE_MAX_TOKENS;
+      temperature = CLAUDE_TEMPERATURE; // Always use deterministic temperature
       context = options.context || [];
       systemPrompt = options.system;
     }
     
-    console.log('[ClaudeLLMClient DEBUG] actualPrompt type:', typeof actualPrompt, 'Array.isArray:', Array.isArray(actualPrompt));
-    console.log('[ClaudeLLMClient DEBUG] actualPrompt value:', JSON.stringify(actualPrompt, null, 2));
-    // Add rate limiting delay to prevent API errors
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    // PCS-CTS: Retry wrapper for transient failures
+    return await this._executeWithRetry(async () => {
+      return await this._generateInternal(actualPrompt, max_tokens, temperature, systemPrompt);
+    });
+  }
+
+  /**
+   * Execute API call with exponential backoff retry logic
+   * Retries: 3 attempts with 1s, 2s, 4s delays (+ jitter)
+   * Retry conditions: timeouts, network errors, 429, 500/502/503/504
+   * Never retry: 400/401/403 (bad request/auth/perms)
+   */
+  async _executeWithRetry(apiCall) {
+    let lastError;
+    
+    for (let attempt = 1; attempt <= this.maxRetries; attempt++) {
+      try {
+        return await apiCall();
+      } catch (error) {
+        lastError = error;
+        
+        // Check if error is retryable
+        const isRetryable = this._isRetryableError(error);
+        
+        if (!isRetryable || attempt === this.maxRetries) {
+          // Don't retry on final attempt or non-retryable errors
+          throw error;
+        }
+        
+        // Calculate delay with exponential backoff + jitter
+        const baseDelay = this.baseRetryDelay * Math.pow(2, attempt - 1);
+        const jitter = Math.random() * 200; // 0-200ms jitter
+        const delay = baseDelay + jitter;
+        
+        console.log(`[ClaudeLLMClient] ⚠️  API error (attempt ${attempt}/${this.maxRetries}): ${error.message}`);
+        console.log(`[ClaudeLLMClient]    Retrying in ${Math.round(delay)}ms...`);
+        
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
+    }
+    
+    throw lastError;
+  }
+
+  /**
+   * Determine if an error is retryable
+   * Retry: timeouts, network errors, 429 (rate limit), 500/502/503/504 (server errors)
+   * Never retry: 400 (bad request), 401 (bad API key), 403 (forbidden)
+   */
+  _isRetryableError(error) {
+    // Network/timeout errors
+    if (error.code === 'ETIMEDOUT' || error.code === 'ECONNRESET' || error.code === 'ENOTFOUND') {
+      return true;
+    }
+    
+    // Check HTTP status from error message or response
+    const errorMsg = error.message || '';
+    const status = error.status || error.statusCode;
+    
+    // Rate limiting (429)
+    if (status === 429 || errorMsg.includes('rate limit')) {
+      return true;
+    }
+    
+    // Server errors (500, 502, 503, 504)
+    if (status >= 500 && status < 600) {
+      return true;
+    }
+    
+    // Never retry client errors (400, 401, 403)
+    if (status === 400 || status === 401 || status === 403) {
+      return false;
+    }
+    
+    // Default: don't retry unknown errors
+    return false;
+  }
+
+  /**
+   * Internal generate method (called by retry wrapper)
+   */
+  async _generateInternal(actualPrompt, max_tokens, temperature, systemPrompt) {
     try {
       const SYSTEM_STYLE = `
 Answer the user directly and conversationally using both project context and your general knowledge.
@@ -147,7 +234,9 @@ No apologies unless a hard error occurs.
         max_tokens: max_tokens,
         temperature: temperature,
         system: systemMessage || systemPrompt || SYSTEM_STYLE,
-        messages: validMessages
+        messages: validMessages,
+        // PCS-CTS: Additional deterministic settings
+        top_p: 1.0 // Disable nucleus sampling for determinism
       };
       // Debug: log outgoing payload
       console.log('[ClaudeLLMClient DEBUG] Outgoing Claude API payload:', JSON.stringify(body, null, 2));
@@ -164,18 +253,28 @@ No apologies unless a hard error occurs.
           'anthropic-version': '2023-06-01',
           'content-type': 'application/json'
         },
-        body: JSON.stringify(body)
+        body: JSON.stringify(body),
+        timeout: 60000 // 60 second timeout
       });
+      
+      // Check for HTTP errors and throw with status for retry logic
+      if (!response.ok) {
+        const error = new Error(`HTTP ${response.status}: ${response.statusText}`);
+        error.status = response.status;
+        error.statusCode = response.status;
+        throw error;
+      }
       const text = await response.text();
       let data;
       try {
         data = JSON.parse(text);
       } catch (jsonErr) {
         console.error('[ClaudeLLMClient] Failed to parse JSON:', text);
-        return '[ClaudeLLMClient] Claude API returned non-JSON response.';
+        const error = new Error('Claude API returned non-JSON response');
+        error.status = 500; // Treat as server error for retry
+        throw error;
       }
       console.log('[ClaudeLLMClient] HTTP status:', response.status);
-      console.log('[ClaudeLLMClient] API response:', JSON.stringify(data, null, 2));
       
       // ✅ Extract raw text and sanitize boilerplate
       const rawText = data?.content
@@ -192,13 +291,17 @@ No apologies unless a hard error occurs.
       }
       
       if (data && data.error) {
-        // Handle rate limiting gracefully with a fallback response
-        if (data.error.message && data.error.message.includes('rate limit')) {
-          return "I'm experiencing high demand right now. Please try your question again in a moment.";
-        }
-        return `[ClaudeLLMClient] Claude API error: ${data.error.message || JSON.stringify(data.error)}`;
+        // Throw error with proper status for retry logic
+        const error = new Error(`Claude API error: ${data.error.message || JSON.stringify(data.error)}`);
+        error.status = data.error.type === 'rate_limit_error' ? 429 : 500;
+        throw error;
       }
-      return '[ClaudeLLMClient] No response from Claude API.';
+      
+      if (!rawText) {
+        const error = new Error('No response from Claude API');
+        error.status = 500;
+        throw error;
+      }
     } catch (e) {
       console.error('[ClaudeLLMClient] LLM ERROR', { 
         message: e.message, 
