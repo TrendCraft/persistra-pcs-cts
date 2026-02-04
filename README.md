@@ -8,7 +8,7 @@ This repository contains the normative **Persistra Cognitive Standard Conformanc
 
 ```bash
 # 1. Clone repository
-git clone https://github.com/TrendCraft/persistra-pcs-cts.git
+git clone --branch pcs-cts-v1.0.2 https://github.com/TrendCraft/persistra-pcs-cts.git
 cd persistra-pcs-cts
 
 # 2. Install dependencies
@@ -299,7 +299,7 @@ This test suite is provided for independent validation purposes under an evaluat
 
 ## 🏷️ Version Information
 
-**Version:** PCS-CTS 1.0.1  
+**Immutable Tag:** `pcs-cts-v1.0.2`  
 **Status:** Production (includes anti-subsumption safeguards)  
 **Last Updated:** February 2026  
 **PCS Compatibility:** RFC-PCS-0001 through RFC-PCS-0007  

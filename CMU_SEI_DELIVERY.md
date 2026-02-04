@@ -25,7 +25,7 @@ https://github.com/TrendCraft/persistra-pcs-cts
 
 **Immutable Version (Recommended):**
 ```bash
-git clone --branch pcs-cts-v1.0.1 https://github.com/TrendCraft/persistra-pcs-cts.git
+git clone --branch pcs-cts-v1.0.2 https://github.com/TrendCraft/persistra-pcs-cts.git
 ```
 
 **Latest Version:**
@@ -39,7 +39,7 @@ git clone https://github.com/TrendCraft/persistra-pcs-cts.git
 
 ```bash
 # 1. Clone repository
-git clone --branch pcs-cts-v1.0.1 https://github.com/TrendCraft/persistra-pcs-cts.git
+git clone --branch pcs-cts-v1.0.2 https://github.com/TrendCraft/persistra-pcs-cts.git
 cd persistra-pcs-cts
 
 # 2. Install dependencies
@@ -438,8 +438,8 @@ Thank you for considering participation in the validation of persistent cognitiv
 
 ## Version Information
 
-**Package Version:** PCS-CTS 1.0.1  
-**Tag:** pcs-cts-v1.0.1  
+**Package Version:** PCS-CTS 1.0.2  
+**Immutable Tag:** `pcs-cts-v1.0.2`  
 **Date:** February 2026  
 **Status:** Production (includes anti-subsumption safeguards)  
 **PCS Compatibility:** RFC-PCS-0001 through RFC-PCS-0007
