@@ -22,9 +22,14 @@ const fs = require('fs');
 
 // --- PCS-CTS run isolation (CRITICAL) ---
 // Set DATA_DIR BEFORE any core imports to prevent module-load-time capture
-const runId =
-  process.env.PCS_RUN_ID ||
-  new Date().toISOString().replace(/[:.]/g, '-'); // safe filename timestamp
+// Require PCS_RUN_ID for deterministic, reproducible runs
+if (!process.env.PCS_RUN_ID) {
+  console.error('❌ ERROR: PCS_RUN_ID is required for deterministic runs.');
+  console.error('   Example: PCS_RUN_ID=smoke-1 npm run test:l2');
+  console.error('   Or use: npm run preflight (auto-generates run ID)');
+  process.exit(1);
+}
+const runId = process.env.PCS_RUN_ID;
 
 // Always use an absolute path to avoid cwd surprises
 const dataDir = path.resolve(__dirname, '..', 'validation_runs', runId, 'data');

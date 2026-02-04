@@ -24,9 +24,16 @@ const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
+// Generate stable run ID for this preflight execution
+// Use existing PCS_RUN_ID if set, otherwise create preflight-<timestamp>
+const runId = process.env.PCS_RUN_ID || `preflight-${new Date().toISOString().replace(/[:.]/g, '-')}`;
+process.env.PCS_RUN_ID = runId;
+
 console.log('='.repeat(80));
 console.log('PCS-CTS PREFLIGHT VALIDATION');
 console.log('='.repeat(80));
+console.log();
+console.log(`Run ID: ${runId}`);
 console.log();
 
 // 1. Print Node version + OS
