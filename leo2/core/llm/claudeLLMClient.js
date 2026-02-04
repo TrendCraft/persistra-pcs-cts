@@ -195,8 +195,8 @@ No apologies unless a hard error occurs.
       let validMessages = [];
       let systemMessage = '';
       
-      if (Array.isArray(prompt)) {
-        const filteredMessages = prompt.filter(msg => 
+      if (Array.isArray(actualPrompt)) {
+        const filteredMessages = actualPrompt.filter(msg => 
           msg && 
           typeof msg === 'object' && 
           msg.role && 
