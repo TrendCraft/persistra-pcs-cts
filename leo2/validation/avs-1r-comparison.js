@@ -21,11 +21,31 @@ require('dotenv').config();
 const path = require('path');
 const fs = require('fs-extra');
 
+// --- PCS-CTS run isolation (CRITICAL) ---
+// Set DATA_DIR BEFORE any core imports to prevent module-load-time capture
+const runId =
+  process.env.PCS_RUN_ID ||
+  new Date().toISOString().replace(/[:.]/g, '-'); // safe filename timestamp
+
+// Always use an absolute path to avoid cwd surprises
+const dataDir = path.resolve(__dirname, '..', 'validation_runs', runId, 'data');
+process.env.DATA_DIR = dataDir;
+
+// Ensure DATA_DIR exists
+fs.mkdirSync(process.env.DATA_DIR, { recursive: true });
+
+// Also make audit dir absolute & namespaced
+const auditDir = path.resolve(__dirname, 'audit', runId);
+fs.mkdirSync(auditDir, { recursive: true });
+
 // Disable Vision history to prove no in-process cheating
 process.env.LEO_VISION_HISTORY_MAX = '0';
 
 async function runComparison() {
   console.log('=== AVS-1R: 3-Mode Comparison Test ===\n');
+  console.log(`Run ID: ${runId}`);
+  console.log(`DATA_DIR: ${process.env.DATA_DIR}`);
+  console.log(`Audit Dir: ${auditDir}\n`);
   console.log('Testing modes:');
   console.log('  1. Persistra ON (full memory retrieval)');
   console.log('  2. Persistra OFF (no retrieval - baseline)');
@@ -39,10 +59,14 @@ async function runComparison() {
     console.log('Initializing orchestrator...');
     const { createDefaultLeoOrchestrator } = require('../core/orchestrator/orchestratorFactory');
     
+    // Use absolute paths for demo files to avoid cwd issues
+    const defaultChunks = path.resolve(__dirname, '..', 'demo', 'data', 'chunks.jsonl');
+    const defaultEmbeddings = path.resolve(__dirname, '..', 'demo', 'data', 'embeddings.jsonl');
+    
     const orchestrator = await createDefaultLeoOrchestrator({
       memoryGraphConfig: {
-        chunksFile: process.env.LEO_CHUNKS_FILE || './demo/data/chunks.jsonl',
-        embeddingsFile: process.env.LEO_EMBEDDINGS_FILE || './demo/data/embeddings.jsonl'
+        chunksFile: process.env.LEO_CHUNKS_FILE || defaultChunks,
+        embeddingsFile: process.env.LEO_EMBEDDINGS_FILE || defaultEmbeddings
       }
     });
     
@@ -62,7 +86,7 @@ async function runComparison() {
     console.log('='.repeat(80) + '\n');
     
     const harness1 = new AVSHarness(orchestrator, {
-      auditDir: './validation/audit',
+      auditDir,
       mode: 'persistra_on'
     });
     
@@ -76,7 +100,7 @@ async function runComparison() {
     console.log('='.repeat(80) + '\n');
     
     const harness2 = new AVSHarness(orchestrator, {
-      auditDir: './validation/audit',
+      auditDir,
       mode: 'persistra_off'
     });
     
@@ -90,7 +114,7 @@ async function runComparison() {
     console.log('='.repeat(80) + '\n');
     
     const harness3 = new AVSHarness(orchestrator, {
-      auditDir: './validation/audit',
+      auditDir,
       mode: 'paste_context',
       pasteContext
     });
@@ -107,7 +131,7 @@ async function runComparison() {
     printComparisonTable(results);
     
     // Save comparison report
-    const reportPath = './validation/audit/avs-1r-comparison.json';
+    const reportPath = path.join(auditDir, 'avs-1r-comparison.json');
     await fs.writeJson(reportPath, {
       timestamp: new Date().toISOString(),
       environment: {

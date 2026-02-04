@@ -10,11 +10,34 @@
  * validating the Exocortex thesis: memory is state, transformers are commoditized.
  */
 
+// Load environment variables from .env file
+require('dotenv').config();
+
 const path = require('path');
 const fs = require('fs');
 
+// --- PCS-CTS run isolation (CRITICAL) ---
+// Set DATA_DIR BEFORE any core imports to prevent module-load-time capture
+const runId =
+  process.env.PCS_RUN_ID ||
+  new Date().toISOString().replace(/[:.]/g, '-'); // safe filename timestamp
+
+// Always use an absolute path to avoid cwd surprises
+const dataDir = path.resolve(__dirname, '..', 'validation_runs', runId, 'data');
+process.env.DATA_DIR = dataDir;
+
+// Ensure DATA_DIR exists
+fs.mkdirSync(process.env.DATA_DIR, { recursive: true });
+
+// Also make audit dir absolute & namespaced
+const auditDir = path.resolve(__dirname, 'audit', runId);
+fs.mkdirSync(auditDir, { recursive: true });
+
 async function runAVS1M() {
   console.log('=== AVS-1M: Cross-Model Relay ===');
+  console.log(`Run ID: ${runId}`);
+  console.log(`DATA_DIR: ${process.env.DATA_DIR}`);
+  console.log(`Audit Dir: ${auditDir}`);
   console.log('Proof Point: "Transformers are Replaceable"\n');
 
   // Initialize orchestrator
@@ -28,7 +51,8 @@ async function runAVS1M() {
   // Create harness instance
   const harness = new AVSHarness(orchestrator, {
     mode: 'persistra_on', // Full retrieval enabled
-    enableAudit: true
+    enableAudit: true,
+    auditDir
   });
 
   console.log(`Running scenario: ${scenario.name}`);
@@ -51,13 +75,7 @@ async function runAVS1M() {
     }
 
     // Save audit trail
-    const auditDir = path.join(__dirname, 'audit');
-    if (!fs.existsSync(auditDir)) {
-      fs.mkdirSync(auditDir, { recursive: true });
-    }
-
-    const timestamp = new Date().toISOString().replace(/:/g, '-');
-    const auditPath = path.join(auditDir, `avs-audit-${timestamp}.json`);
+    const auditPath = path.join(auditDir, `avs-1m-audit.json`);
     
     fs.writeFileSync(auditPath, JSON.stringify({
       timestamp: new Date().toISOString(),
