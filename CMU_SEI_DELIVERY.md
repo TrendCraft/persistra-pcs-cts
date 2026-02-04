@@ -25,7 +25,7 @@ https://github.com/TrendCraft/persistra-pcs-cts
 
 **Immutable Version (Recommended):**
 ```bash
-git clone --branch pcs-cts-v1.0.2 https://github.com/TrendCraft/persistra-pcs-cts.git
+git clone --branch pcs-cts-v1.0.3 https://github.com/TrendCraft/persistra-pcs-cts.git
 ```
 
 **Latest Version:**
@@ -38,21 +38,22 @@ git clone https://github.com/TrendCraft/persistra-pcs-cts.git
 ## Quick Start (60 Seconds)
 
 ```bash
-# 1. Clone repository
-git clone --branch pcs-cts-v1.0.2 https://github.com/TrendCraft/persistra-pcs-cts.git
+# 1. Clone repository (use immutable tag)
+git clone --branch pcs-cts-v1.0.3 https://github.com/TrendCraft/persistra-pcs-cts.git
 cd persistra-pcs-cts
 
-# 2. Install dependencies
-npm install
+# 2. Install dependencies (use npm ci for reproducible builds)
+npm ci
 
 # 3. Configure environment
 cp .env.example .env
 # Edit .env and add ANTHROPIC_API_KEY
 
-# 4. Run conformance tests
+# 4. Run validation
+npm run preflight  # One-command validation (recommended)
+# OR run tests individually:
 npm run test:l1    # PCS-L1: Cross-session decision recall (~30 sec)
 npm run test:l2    # PCS-L2: Deterministic policy enforcement (~20 sec)
-npm test           # Run both tests
 ```
 
 ---

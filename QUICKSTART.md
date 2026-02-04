@@ -5,19 +5,19 @@
 ## 60-Second Execution
 
 ```bash
-# 1. Clone repository
-git clone --branch pcs-cts-v1.0.1 https://github.com/TrendCraft/persistra-pcs-cts.git
+# 1. Clone repository (use immutable tag)
+git clone --branch pcs-cts-v1.0.3 https://github.com/TrendCraft/persistra-pcs-cts.git
 cd persistra-pcs-cts
 
-# 2. Install dependencies
-npm install
+# 2. Install dependencies (use npm ci for reproducible builds)
+npm ci
 
 # 3. Configure environment
 cp .env.example .env
 # Edit .env and add your ANTHROPIC_API_KEY
 
-# 4. Run conformance tests
-npm run test:l1 && npm run test:l2
+# 4. Run validation
+npm run preflight
 ```
 
 ## Expected Results
@@ -34,11 +34,11 @@ npm run test:l1 && npm run test:l2
 
 ## Test Suite Version
 
-This package is frozen at tag: `pcs-cts-v1.0.2`
+This package is frozen at tag: `pcs-cts-v1.0.3`
 
 To use the exact validated version:
 ```bash
-git clone --branch pcs-cts-v1.0.2 https://github.com/TrendCraft/persistra-pcs-cts.git
+git clone --branch pcs-cts-v1.0.3 https://github.com/TrendCraft/persistra-pcs-cts.git
 ```
 
 ## Support
