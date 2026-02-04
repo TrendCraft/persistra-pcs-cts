@@ -5,6 +5,7 @@
   "private": true,
   "main": "leo2/validation/run-avs-1r.js",
   "scripts": {
+    "preflight": "node scripts/preflight.js",
     "test:l1": "node leo2/validation/run-avs-1r.js",
     "test:l2": "node leo2/validation/run-avs-2e.js",
     "test:comparison": "node leo2/validation/avs-1r-comparison.js",
