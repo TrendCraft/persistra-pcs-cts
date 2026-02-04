@@ -69,7 +69,7 @@ async function generate(messages, hints={}) {
       text: `[ClaudeLLMClient] Claude API error: ${error.message}`,
       __lpacStamp: {
         gateway: 'v1',
-        model: hints?.model || 'claude-3-haiku',
+        model: hints?.model || client.model,
         t: Date.now(),
         callCount: global.__LPAC_LLM_CALLS__,
         error: true
@@ -114,7 +114,7 @@ async function generate(messages, hints={}) {
     text: cleanOut,
     __lpacStamp: {
       gateway: 'v1',
-      model: hints?.model || 'claude-3-haiku',
+      model: hints?.model || client.model,
       t: Date.now(),
       callCount: global.__LPAC_LLM_CALLS__
     }
