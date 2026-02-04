@@ -14,19 +14,44 @@
 require('dotenv').config();
 
 const path = require('path');
+const fs = require('fs');
+
+// --- PCS-CTS run isolation (CRITICAL) ---
+// Set DATA_DIR BEFORE any core imports to prevent module-load-time capture
+const runId =
+  process.env.PCS_RUN_ID ||
+  new Date().toISOString().replace(/[:.]/g, '-'); // safe filename timestamp
+
+// Always use an absolute path to avoid cwd surprises
+const dataDir = path.resolve(__dirname, '..', 'validation_runs', runId, 'data');
+process.env.DATA_DIR = dataDir;
+
+// Ensure DATA_DIR exists
+fs.mkdirSync(process.env.DATA_DIR, { recursive: true });
+
+// Also make audit dir absolute & namespaced
+const auditDir = path.resolve(__dirname, 'audit', runId);
+fs.mkdirSync(auditDir, { recursive: true });
 
 async function runAVS1R() {
   console.log('=== AVS-1R: Cross-Session Recall Test ===\n');
+  console.log(`Run ID: ${runId}`);
+  console.log(`DATA_DIR: ${process.env.DATA_DIR}`);
+  console.log(`Audit Dir: ${auditDir}\n`);
   
   try {
     // Initialize orchestrator (same way the server does)
     console.log('1. Initializing orchestrator...');
     const { createDefaultLeoOrchestrator } = require('../core/orchestrator/orchestratorFactory');
     
+    // Use absolute paths for demo files to avoid cwd issues
+    const defaultChunks = path.resolve(__dirname, '..', 'demo', 'data', 'chunks.jsonl');
+    const defaultEmbeddings = path.resolve(__dirname, '..', 'demo', 'data', 'embeddings.jsonl');
+    
     const orchestrator = await createDefaultLeoOrchestrator({
       memoryGraphConfig: {
-        chunksFile: process.env.LEO_CHUNKS_FILE || './demo/data/chunks.jsonl',
-        embeddingsFile: process.env.LEO_EMBEDDINGS_FILE || './demo/data/embeddings.jsonl'
+        chunksFile: process.env.LEO_CHUNKS_FILE || defaultChunks,
+        embeddingsFile: process.env.LEO_EMBEDDINGS_FILE || defaultEmbeddings
       }
     });
     
@@ -38,7 +63,7 @@ async function runAVS1R() {
     const avs1rScenario = require('./scenarios/avs-1-cross-session-recall');
     
     const harness = new AVSHarness(orchestrator, {
-      auditDir: './validation/audit'
+      auditDir
     });
     
     console.log('✅ Harness loaded\n');
