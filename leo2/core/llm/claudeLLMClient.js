@@ -8,9 +8,9 @@ const { getAnthropicApiKey } = require('./anthropicProvider');
 const CLAUDE_API_URL = 'https://api.anthropic.com/v1/messages';
 
 // PCS-CTS: Pin model and temperature for deterministic validation
-// Model: claude-3-5-sonnet-20241022 (tested and validated)
+// Model: claude-sonnet-4-20250514 (current valid snapshot ID)
 // Temperature: 0 (deterministic responses)
-const CLAUDE_MODEL = process.env.CLAUDE_MODEL || 'claude-3-5-sonnet-20241022';
+const CLAUDE_MODEL = process.env.CLAUDE_MODEL || 'claude-sonnet-4-20250514';
 const CLAUDE_TEMPERATURE = 0;
 const CLAUDE_MAX_TOKENS = 4096;
 
